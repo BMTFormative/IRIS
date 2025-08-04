@@ -14,12 +14,15 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
 import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
+import { Route as LoginMuiImport } from './routes/login-mui'
 import { Route as LoginImport } from './routes/login'
+import { Route as LayoutMuiImport } from './routes/_layout-mui'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
+import { Route as LayoutMuiTestImport } from './routes/_layout-mui/test'
 
 // Create/Update Routes
 
@@ -38,8 +41,18 @@ const RecoverPasswordRoute = RecoverPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const LoginMuiRoute = LoginMuiImport.update({
+  path: '/login-mui',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const LoginRoute = LoginImport.update({
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutMuiRoute = LayoutMuiImport.update({
+  id: '/_layout-mui',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -68,6 +81,11 @@ const LayoutAdminRoute = LayoutAdminImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutMuiTestRoute = LayoutMuiTestImport.update({
+  path: '/test',
+  getParentRoute: () => LayoutMuiRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -76,8 +94,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
+    '/_layout-mui': {
+      preLoaderRoute: typeof LayoutMuiImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/login-mui': {
+      preLoaderRoute: typeof LoginMuiImport
       parentRoute: typeof rootRoute
     }
     '/recover-password': {
@@ -91,6 +117,10 @@ declare module '@tanstack/react-router' {
     '/signup': {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
+    }
+    '/_layout-mui/test': {
+      preLoaderRoute: typeof LayoutMuiTestImport
+      parentRoute: typeof LayoutMuiImport
     }
     '/_layout/admin': {
       preLoaderRoute: typeof LayoutAdminImport
@@ -120,7 +150,9 @@ export const routeTree = rootRoute.addChildren([
     LayoutSettingsRoute,
     LayoutIndexRoute,
   ]),
+  LayoutMuiRoute.addChildren([LayoutMuiTestRoute]),
   LoginRoute,
+  LoginMuiRoute,
   RecoverPasswordRoute,
   ResetPasswordRoute,
   SignupRoute,
