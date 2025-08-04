@@ -5,7 +5,7 @@ import {
   Typography,
   Link,
 } from "@mui/material"
-import { PersonOutline, LockOutlined } from "@mui/icons-material"
+import { PersonOutline, LockOutlined, Email as EmailIcon } from "@mui/icons-material"
 import {
   Link as RouterLink,
   createFileRoute,
@@ -106,15 +106,13 @@ function SignUp() {
             errorText={errors.full_name?.message}
           >
             <InputGroup
-              placeholder="Full Name"
               id="full_name"
-              type="text"
+              placeholder="Full Name"
+              startElement={<PersonOutline />}
               {...register("full_name", {
                 required: "Full Name is required",
               })}
-            >
-                <LockOutlined />
-                </InputGroup>
+            />
           </Field>
 
           {/* Email Field */}
@@ -123,36 +121,32 @@ function SignUp() {
             errorText={errors.email?.message}
           >
             <InputGroup
-              placeholder="Email"
               id="email"
-              type="email"
+              placeholder="Email"
+              startElement={<EmailIcon />}
               {...register("email", {
                 required: "Email is required",
                 pattern: emailPattern,
               })}
-            >
-                <PersonOutline />
-            </InputGroup>
+            />
           </Field>
 
           {/* Password Field */}
           <PasswordInput
             type="password"
             placeholder="Password"
+            startElement={<LockOutlined />}
             errors={errors}
             {...register("password", passwordRules())}
-          >
-            <LockOutlined />
-            </PasswordInput>
+          />
           {/* Confirm Password Field */}
           <PasswordInput
             type="confirm_password"
             placeholder="Confirm Password"
+            startElement={<LockOutlined />}
             errors={errors}
             {...register("confirm_password", confirmPasswordRules(getValues))}
-          >
-            <PersonOutline />
-        </PasswordInput>
+          />
           {/* Submit Button */}
           <Button
             type="submit"

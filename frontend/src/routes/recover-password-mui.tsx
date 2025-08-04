@@ -122,16 +122,15 @@ function RecoverPassword() {
             errorText={errors.email?.message}
           >
             <InputGroup
-              placeholder="Email"
               id="email"
+              placeholder="Email"
               type="email"
+              startElement={<EmailOutlined />}
               {...register("email", {
                 required: "Email is required",
                 pattern: emailPattern,
               })}
-            >
-                <EmailOutlined />
-                </InputGroup>
+            />
           </Field>
 
           {/* Submit Button */}
