@@ -26,7 +26,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog"
+} from "@/components/ui/dialog-mui"
 import { Field } from "../ui/field"
 
 interface EditUserProps {
