@@ -1,4 +1,4 @@
-// frontend/src/routes/_layout-mui.tsx
+// frontend/src/routes/_layout.tsx
 import React, { useState } from "react";
 import {
   Box,
@@ -11,8 +11,8 @@ import NavbarMUI from "@/components/Common/Navbar-mui";
 import SidebarMUI from "@/components/Common/Sidebar-mui";
 import { isLoggedIn } from "@/hooks/useAuth";
 
-export const Route = createFileRoute("/_layout-mui")({
-  component: LayoutMUI,
+export const Route = createFileRoute("/_layout")({
+  component: Layout,
   beforeLoad: async () => {
     if (!isLoggedIn()) {
       throw redirect({
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_layout-mui")({
   },
 });
 
-function LayoutMUI() {
+function Layout() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -70,4 +70,4 @@ function LayoutMUI() {
   );
 }
 
-export default LayoutMUI;
+export default Layout;

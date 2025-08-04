@@ -1,9 +1,26 @@
-// frontend/src/routes/_layout-mui/items.tsx
+// frontend/src/routes/_layout/items.tsx
+import React from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { Items, itemsSearchSchema } from "../_layout/items"
+import { Container, Box, Typography } from "@mui/material"
 
-// MUI-based items page route, reusing the existing Items component logic
-export const Route = createFileRoute("/_layout-mui/items")({
+// Simple Items Management page under MUI layout
+export const Route = createFileRoute("/_layout/items")({
   component: Items,
-  validateSearch: (search) => itemsSearchSchema.parse(search),
 })
+
+export function Items() {
+  return (
+    <Container maxWidth="lg">
+      <Box pt={8} mb={4}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Items Management
+        </Typography>
+      </Box>
+      <Typography variant="body1">
+        Items list coming soon!
+      </Typography>
+    </Container>
+  )
+}
+
+export default Items
