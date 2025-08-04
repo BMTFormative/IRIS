@@ -17,7 +17,7 @@ import Logo from "/assets/images/fastapi-logo.svg"
 import { emailPattern, passwordRules } from "../utils"
 
 export const Route = createFileRoute("/login")({
-  component: Login,
+  component: LoginMUI,
   beforeLoad: async () => {
     if (isLoggedIn()) {
       throw redirect({
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/login")({
   },
 })
 
-function Login() {
+function LoginMUI() {
   const { loginMutation, error, resetError } = useAuth()
   const {
     register,
