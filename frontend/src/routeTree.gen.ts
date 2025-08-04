@@ -20,13 +20,11 @@ import { Route as RecoverPasswordMuiImport } from './routes/recover-password-mui
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginMuiImport } from './routes/login-mui'
 import { Route as LoginImport } from './routes/login'
-import { Route as LayoutMuiImport } from './routes/_layout-mui'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
-import { Route as LayoutMuiTestImport } from './routes/_layout-mui/test'
 
 // Create/Update Routes
 
@@ -75,11 +73,6 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutMuiRoute = LayoutMuiImport.update({
-  id: '/_layout-mui',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
   getParentRoute: () => rootRoute,
@@ -105,10 +98,13 @@ const LayoutAdminRoute = LayoutAdminImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutMuiTestRoute = LayoutMuiTestImport.update({
-  path: '/test',
-  getParentRoute: () => LayoutMuiRoute,
-} as any)
+// No test route for MUI layout
+
+// Using settings under LayoutRoute
+
+// Using items under LayoutRoute
+
+// Using admin under LayoutRoute
 
 // Populate the FileRoutesByPath interface
 
@@ -116,10 +112,6 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_layout': {
       preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/_layout-mui': {
-      preLoaderRoute: typeof LayoutMuiImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -158,10 +150,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestMuiComponentsImport
       parentRoute: typeof rootRoute
     }
-    '/_layout-mui/test': {
-      preLoaderRoute: typeof LayoutMuiTestImport
-      parentRoute: typeof LayoutMuiImport
-    }
     '/_layout/admin': {
       preLoaderRoute: typeof LayoutAdminImport
       parentRoute: typeof LayoutImport
@@ -190,7 +178,6 @@ export const routeTree = rootRoute.addChildren([
     LayoutSettingsRoute,
     LayoutIndexRoute,
   ]),
-  LayoutMuiRoute.addChildren([LayoutMuiTestRoute]),
   LoginRoute,
   LoginMuiRoute,
   RecoverPasswordRoute,

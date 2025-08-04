@@ -145,11 +145,14 @@ frontend/src/
 │   ├── Common/
 │   │   ├── Sidebar-mui.tsx           # Migrated sidebar
 │   │   └── Navbar-mui.tsx            # Migrated navbar
-│   └── ui/
-│       ├── button-mui.tsx            # Custom button
-│       ├── field-mui.tsx             # Custom field
-│       ├── input-group-mui.tsx       # Custom input group
-│       └── password-input-mui.tsx    # Custom password input
+│   ├── ui/
+│   │   ├── button-mui.tsx            # Custom button
+│   │   ├── field-mui.tsx             # Custom field
+│   │   ├── input-group-mui.tsx       # Custom input group
+│   │   └── password-input-mui.tsx    # Custom password input
+│   └── Admin/
+│       ├── AddUser-mui.tsx           # Admin user creation form
+│       └── EditUser-mui.tsx          # Admin user editing form
 └── main.tsx                          # Updated with MUI providers
 ```
 
@@ -260,12 +263,12 @@ frontend/src/routes/
 ```
 frontend/src/components/
 ├── Items/
-│   ├── AddItem.tsx      # Uses: Button, Field, Input, Dialog
-│   └── EditItem.tsx     # Uses: Button, Field, Input, Dialog
+│   ├── AddItem-mui.tsx  # Migrated Item creation form
+│   └── EditItem-mui.tsx # Migrated Item editing form
 ├── Admin/
-│   ├── AddUser.tsx      # Uses: Button, Field, Input, Checkbox
-│   └── EditUser.tsx     # Uses: Button, Field, Input, Checkbox
-└── UserSettings/        # Various form components
+│   ├── AddUser-mui.tsx   # Migrated Admin user creation form
+│   └── EditUser-mui.tsx  # Migrated Admin user editing form
+└── UserSettings/         # Various form components (pending)
 ```
 
 #### 3. Create Missing MUI Components
@@ -289,6 +292,13 @@ frontend/src/components/ui/
 - Update all route files to use `_layout-mui` instead of `_layout`
 - Test all navigation flows
 - Ensure mobile responsiveness
+
+**Pages under `frontend/src/routes/_layout-mui/`:**
+```
+├── admin.tsx        # Uses existing Admin page under MUI layout ✅
+├── items.tsx        # Uses existing Items page under MUI layout ✅
+└── settings.tsx     # Uses existing Settings page under MUI layout ✅
+```
 
 #### 5. Update Main Components
 

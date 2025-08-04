@@ -130,20 +130,18 @@ function ResetPassword() {
           <PasswordInput
             type="new_password"
             placeholder="New Password"
+            startElement={<LockOutlined />}
             errors={errors}
             {...register("new_password", passwordRules())}
-          >
-            <LockOutlined />
-            </PasswordInput>
+          />
           {/* Confirm Password Field */}
           <PasswordInput
             type="confirm_password"
             placeholder="Confirm Password"
+            startElement={<LockOutlined />}
             errors={errors}
             {...register("confirm_password", confirmPasswordRules(getValues))}
-          >
-            <LockOutlined />
-            </PasswordInput>
+          />
           {/* Submit Button */}
           <Button
             type="submit"
