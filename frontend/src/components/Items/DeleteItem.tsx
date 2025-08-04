@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog-mui"
 import useCustomToast from "@/hooks/useCustomToast"
 
 const DeleteItem = ({ id }: { id: string }) => {

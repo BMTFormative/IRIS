@@ -12,8 +12,11 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TestMuiComponentsImport } from './routes/test-mui-components'
+import { Route as SignupMuiImport } from './routes/signup-mui'
 import { Route as SignupImport } from './routes/signup'
+import { Route as ResetPasswordMuiImport } from './routes/reset-password-mui'
 import { Route as ResetPasswordImport } from './routes/reset-password'
+import { Route as RecoverPasswordMuiImport } from './routes/recover-password-mui'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginMuiImport } from './routes/login-mui'
 import { Route as LoginImport } from './routes/login'
@@ -32,13 +35,28 @@ const TestMuiComponentsRoute = TestMuiComponentsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SignupMuiRoute = SignupMuiImport.update({
+  path: '/signup-mui',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const SignupRoute = SignupImport.update({
   path: '/signup',
   getParentRoute: () => rootRoute,
 } as any)
 
+const ResetPasswordMuiRoute = ResetPasswordMuiImport.update({
+  path: '/reset-password-mui',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ResetPasswordRoute = ResetPasswordImport.update({
   path: '/reset-password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RecoverPasswordMuiRoute = RecoverPasswordMuiImport.update({
+  path: '/recover-password-mui',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,12 +134,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecoverPasswordImport
       parentRoute: typeof rootRoute
     }
+    '/recover-password-mui': {
+      preLoaderRoute: typeof RecoverPasswordMuiImport
+      parentRoute: typeof rootRoute
+    }
     '/reset-password': {
       preLoaderRoute: typeof ResetPasswordImport
       parentRoute: typeof rootRoute
     }
+    '/reset-password-mui': {
+      preLoaderRoute: typeof ResetPasswordMuiImport
+      parentRoute: typeof rootRoute
+    }
     '/signup': {
       preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup-mui': {
+      preLoaderRoute: typeof SignupMuiImport
       parentRoute: typeof rootRoute
     }
     '/test-mui-components': {
@@ -164,8 +194,11 @@ export const routeTree = rootRoute.addChildren([
   LoginRoute,
   LoginMuiRoute,
   RecoverPasswordRoute,
+  RecoverPasswordMuiRoute,
   ResetPasswordRoute,
+  ResetPasswordMuiRoute,
   SignupRoute,
+  SignupMuiRoute,
   TestMuiComponentsRoute,
 ])
 

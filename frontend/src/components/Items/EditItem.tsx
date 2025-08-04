@@ -23,7 +23,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "@/components/ui/dialog-mui"
 import { Field } from "../ui/field"
 
 interface EditItemProps {

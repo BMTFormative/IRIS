@@ -25,7 +25,7 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTrigger,
-} from "../ui/dialog"
+} from "@/components/ui/dialog-mui"
 import { Field } from "../ui/field"
 
 interface UserCreateForm extends UserCreate {
