@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TestMuiComponentsImport } from './routes/test-mui-components'
 import { Route as SignupImport } from './routes/signup'
 import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
@@ -25,6 +26,11 @@ import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutMuiTestImport } from './routes/_layout-mui/test'
 
 // Create/Update Routes
+
+const TestMuiComponentsRoute = TestMuiComponentsImport.update({
+  path: '/test-mui-components',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const SignupRoute = SignupImport.update({
   path: '/signup',
@@ -118,6 +124,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/test-mui-components': {
+      preLoaderRoute: typeof TestMuiComponentsImport
+      parentRoute: typeof rootRoute
+    }
     '/_layout-mui/test': {
       preLoaderRoute: typeof LayoutMuiTestImport
       parentRoute: typeof LayoutMuiImport
@@ -156,6 +166,7 @@ export const routeTree = rootRoute.addChildren([
   RecoverPasswordRoute,
   ResetPasswordRoute,
   SignupRoute,
+  TestMuiComponentsRoute,
 ])
 
 /* prettier-ignore-end */
