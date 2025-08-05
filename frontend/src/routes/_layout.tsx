@@ -12,7 +12,7 @@ import MiniVariantDrawer from "@/components/Common/Sidebar-mui";
 import { isLoggedIn } from "@/hooks/useAuth";
 
 // Width of the sidebar when expanded (matches Sidebar-mui drawerWidth)
-const drawerWidth = 240;
+const drawerWidth = 80;
 const miniDrawerWidth = 64;
 
 const DrawerHeader = styled('div')(({ theme }) => ({

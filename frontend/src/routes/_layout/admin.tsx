@@ -11,11 +11,9 @@ import {
   Paper,
   TableContainer,
   Chip,
-  IconButton,
-  Stack,
   Alert,
   CircularProgress,
-  Badge,
+  Pagination,
 } from "@mui/material"
 import { MoreVert as MoreVertIcon, Person as PersonIcon } from "@mui/icons-material"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
@@ -181,46 +179,16 @@ function UsersTable() {
 
       {/* Pagination */}
       <Box display="flex" justifyContent="flex-end" mt={4}>
-        <Stack direction="row" spacing={1}>
-          <IconButton
-            onClick={() => setPage(page - 1)}
-            disabled={page <= 1}
-            size="small"
-          >
-            ←
-          </IconButton>
-          
-          {/* Page numbers */}
-          {Array.from({ length: Math.ceil(count / PER_PAGE) }, (_, i) => i + 1)
-            .filter(pageNum => 
-              pageNum === 1 || 
-              pageNum === Math.ceil(count / PER_PAGE) || 
-              Math.abs(pageNum - page) <= 1
-            )
-            .map((pageNum, index, arr) => (
-              <Box key={pageNum} display="flex" alignItems="center">
-                {index > 0 && arr[index - 1] !== pageNum - 1 && (
-                  <Typography variant="body2" sx={{ mx: 1 }}>...</Typography>
-                )}
-                <Chip
-                  label={pageNum}
-                  variant={pageNum === page ? "filled" : "outlined"}
-                  color={pageNum === page ? "primary" : "default"}
-                  size="small"
-                  onClick={() => setPage(pageNum)}
-                  sx={{ cursor: 'pointer' }}
-                />
-              </Box>
-            ))}
-          
-          <IconButton
-            onClick={() => setPage(page + 1)}
-            disabled={page >= Math.ceil(count / PER_PAGE)}
-            size="small"
-          >
-            →
-          </IconButton>
-        </Stack>
+        <Pagination
+          count={Math.ceil(count / PER_PAGE)}
+          page={page}
+          onChange={(event, value) => setPage(value)}
+          color="primary"
+          showFirstButton
+          showLastButton
+          siblingCount={1}
+          boundaryCount={1}
+        />
       </Box>
     </>
   )
@@ -230,8 +198,61 @@ function Admin() {
   return (
     <Container maxWidth="lg">
       <Box pt={8} mb={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography 
+          variant="h4" 
+          component="h1" 
+          gutterBottom
+          sx={{
+            fontWeight: 700,
+            color: '#1976D2',
+            position: 'relative',
+            display: 'inline-block',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: -4,
+              left: 0,
+              width: '100%',
+              height: 3,
+              background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+              borderRadius: '2px',
+              transform: 'scaleX(0)',
+              transformOrigin: 'left',
+              animation: 'slideIn 0.8s ease-out 0.2s forwards',
+            },
+            '@keyframes slideIn': {
+              '0%': {
+                transform: 'scaleX(0)',
+              },
+              '100%': {
+                transform: 'scaleX(1)',
+              },
+            },
+          }}
+        >
           Users Management
+        </Typography>
+        <Typography 
+          variant="body1" 
+          color="text.secondary"
+          sx={{ 
+            mt: 1,
+            fontSize: '1.1rem',
+            opacity: 0,
+            animation: 'fadeIn 0.6s ease-out 0.5s forwards',
+            '@keyframes fadeIn': {
+              '0%': {
+                opacity: 0,
+                transform: 'translateY(10px)',
+              },
+              '100%': {
+                opacity: 1,
+                transform: 'translateY(0)',
+              },
+            },
+          }}
+        >
+          Customize profiles
         </Typography>
       </Box>
       

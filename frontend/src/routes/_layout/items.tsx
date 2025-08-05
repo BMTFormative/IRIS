@@ -10,11 +10,9 @@ import {
   TableCell,
   Paper,
   TableContainer,
-  Chip,
-  IconButton,
-  Stack,
   Alert,
   CircularProgress,
+  Pagination,
 } from "@mui/material"
 import { Search as SearchIcon } from "@mui/icons-material"
 import { alpha } from "@mui/material/styles"
@@ -292,7 +290,7 @@ function ItemsTable() {
         </Table>
       </TableContainer>
 
-      {/* Modern Pagination */}
+      {/* Pagination */}
       <Box
         display="flex"
         justifyContent="flex-end"
@@ -305,87 +303,16 @@ function ItemsTable() {
           border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
         })}
       >
-        <Stack direction="row" spacing={1} alignItems="center">
-          <IconButton
-            onClick={() => setPage(page - 1)}
-            disabled={page <= 1}
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(33, 150, 243, 0.08)',
-              color: '#1976D2',
-              '&:hover': {
-                backgroundColor: '#2196F3',
-                color: '#ffffff',
-                transform: 'scale(1.05)',
-              },
-              '&:disabled': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                color: 'rgba(0, 0, 0, 0.26)',
-              },
-              transition: 'all 0.2s ease',
-            }}
-          >
-            ←
-          </IconButton>
-          
-          {/* Page numbers with modern styling */}
-          {Array.from({ length: Math.ceil(count / PER_PAGE) }, (_, i) => i + 1)
-            .filter(pageNum => 
-              pageNum === 1 || 
-              pageNum === Math.ceil(count / PER_PAGE) || 
-              Math.abs(pageNum - page) <= 1
-            )
-            .map((pageNum, index, arr) => (
-              <Box key={pageNum} display="flex" alignItems="center">
-                {index > 0 && arr[index - 1] !== pageNum - 1 && (
-                  <Typography variant="body2" sx={{ mx: 1, color: '#1976D2' }}>...</Typography>
-                )}
-                <Chip
-                  label={pageNum}
-                  variant={pageNum === page ? "filled" : "outlined"}
-                  color={pageNum === page ? "primary" : "default"}
-                  size="small"
-                  onClick={() => setPage(pageNum)}
-                  sx={{ 
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: pageNum === page 
-                        ? '0 6px 16px rgba(33, 150, 243, 0.4)'
-                        : '0 4px 12px rgba(33, 150, 243, 0.2)',
-                    },
-                    ...(pageNum === page && {
-                      background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
-                      boxShadow: '0 4px 12px rgba(33, 150, 243, 0.3)',
-                    }),
-                  }}
-                />
-              </Box>
-            ))}
-          
-          <IconButton
-            onClick={() => setPage(page + 1)}
-            disabled={page >= Math.ceil(count / PER_PAGE)}
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(33, 150, 243, 0.08)',
-              color: '#1976D2',
-              '&:hover': {
-                backgroundColor: '#2196F3',
-                color: '#ffffff',
-                transform: 'scale(1.05)',
-              },
-              '&:disabled': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                color: 'rgba(0, 0, 0, 0.26)',
-              },
-              transition: 'all 0.2s ease',
-            }}
-          >
-            →
-          </IconButton>
-        </Stack>
+        <Pagination
+          count={Math.ceil(count / PER_PAGE)}
+          page={page}
+          onChange={(event, value) => setPage(value)}
+          color="primary"
+          showFirstButton
+          showLastButton
+          siblingCount={1}
+          boundaryCount={1}
+        />
       </Box>
     </>
   )
@@ -406,23 +333,31 @@ function Items() {
           component="h1" 
           gutterBottom
           sx={{
-            background: 'linear-gradient(135deg, #1976D2 0%, #2196F3 100%)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
             fontWeight: 700,
+            color: '#1976D2',
             position: 'relative',
+            display: 'inline-block',
             '&::after': {
               content: '""',
               position: 'absolute',
-              bottom: -8,
-              left: { xs: '50%', md: 0 },
-              transform: { xs: 'translateX(-50%)', md: 'none' },
-              width: 60,
-              height: 4,
+              bottom: -4,
+              left: 0,
+              width: '100%',
+              height: 3,
               background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
               borderRadius: '2px',
-            }
+              transform: 'scaleX(0)',
+              transformOrigin: 'left',
+              animation: 'slideIn 0.8s ease-out 0.2s forwards',
+            },
+            '@keyframes slideIn': {
+              '0%': {
+                transform: 'scaleX(0)',
+              },
+              '100%': {
+                transform: 'scaleX(1)',
+              },
+            },
           }}
         >
           Items Management
@@ -430,7 +365,22 @@ function Items() {
         <Typography 
           variant="body1" 
           color="text.secondary"
-          sx={{ mt: 1 }}
+          sx={{ 
+            mt: 1,
+            fontSize: '1.1rem',
+            opacity: 0,
+            animation: 'fadeIn 0.6s ease-out 0.5s forwards',
+            '@keyframes fadeIn': {
+              '0%': {
+                opacity: 0,
+                transform: 'translateY(10px)',
+              },
+              '100%': {
+                opacity: 1,
+                transform: 'translateY(0)',
+              },
+            },
+          }}
         >
           Manage your items with powerful tools and modern interface
         </Typography>

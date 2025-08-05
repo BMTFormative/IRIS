@@ -80,7 +80,7 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
       ...openedMixin(theme),
       background:
         theme.palette.mode === "light"
-          ? "rgba(25, 118, 210, 0.08)"
+          ? "rgba(255, 255, 255, 1)"
           : theme.palette.background.paper,
       bgcolor: theme.palette.background.paper,
       boxShadow: theme.shadows[4],
@@ -98,7 +98,7 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
       ...closedMixin(theme),
       background:
         theme.palette.mode === "light"
-          ? "rgba(25, 118, 210, 0.08)"
+          ? "rgba(255, 255, 255, 1)"
           : theme.palette.background.paper,
       color:
         theme.palette.mode === "light"
@@ -195,18 +195,16 @@ const MiniVariantDrawer = ({
                       { duration: theme.transitions.duration.short }
                     ),
                     "&:hover": {
-                      backgroundColor: theme.palette.action.hover,
+                      backgroundColor: "rgba(33, 150, 243, 0.08)",
+                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
                       transform: "translateX(4px)",
-                      boxShadow: theme.shadows[2],
                     },
                     "&.Mui-selected": {
                       backgroundColor: theme.palette.action.selected,
                       boxShadow: theme.shadows[2],
                       "&:hover": {
-                        backgroundColor: alpha(
-                          theme.palette.action.selected,
-                          0.8
-                        ),
+                        backgroundColor: "rgba(33, 150, 243, 0.08)",
+                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
                         transform: "translateX(4px)",
                       },
                       "& .MuiListItemIcon-root": {
@@ -281,8 +279,8 @@ const MiniVariantDrawer = ({
                   ),
                   "&:hover": {
                     backgroundColor: alpha(theme.palette.error.main, 0.2),
-                    transform: "translateX(4px)",
                     boxShadow: theme.shadows[2],
+                    transform: "translateX(4px)",
                   },
                 })}
               >
