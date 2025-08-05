@@ -1,14 +1,13 @@
 // frontend/src/routes/_layout/items.tsx
-import React from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { Container, Box, Typography } from "@mui/material"
+import AddItem from "@/components/Items/AddItem-mui"  // ← This import!
 
-// Simple Items Management page under MUI layout
 export const Route = createFileRoute("/_layout/items")({
   component: Items,
 })
 
-export function Items() {
+function Items() {
   return (
     <Container maxWidth="lg">
       <Box pt={8} mb={4}>
@@ -16,9 +15,10 @@ export function Items() {
           Items Management
         </Typography>
       </Box>
-      <Typography variant="body1">
-        Items list coming soon!
-      </Typography>
+      
+      {/* 🎯 THIS IS THE KEY LINE - Add Item Button */}
+      <AddItem />
+      
     </Container>
   )
 }

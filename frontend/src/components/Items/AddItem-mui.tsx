@@ -1,31 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
-import { Box, Typography, TextField, Stack } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+// frontend/src/components/Items/AddItem-mui.tsx
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type SubmitHandler, useForm } from "react-hook-form"
+import { useState } from "react"
+import { 
+  Box, 
+  Typography, 
+  TextField, 
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material"
+import { Add as AddIcon } from "@mui/icons-material"
 
-import { type ItemCreate, ItemsService } from "../../client";
-import type { ApiError } from "../../client/core/ApiError";
-import useCustomToast from "../../hooks/useCustomToast";
-import { handleError } from "../../utils";
-import { Button } from "../ui/button-mui";
-import { Field } from "../ui/field-mui";
-import {
-  DialogRootMui as DialogRoot,
-  DialogTriggerMui as DialogTrigger,
-  DialogContentMui as DialogContent,
-  DialogHeaderMui as DialogHeader,
-  DialogTitleMui as DialogTitle,
-  DialogBodyMui as DialogBody,
-  DialogFooterMui as DialogFooter,
-  DialogActionTriggerMui as DialogActionTrigger,
-  DialogCloseTriggerMui as DialogCloseTrigger,
-} from "../ui/dialog-mui";
+import { type ItemCreate, ItemsService } from "../../client"
+import type { ApiError } from "../../client/core/ApiError"
+import useCustomToast from "../../hooks/useCustomToast"
+import { handleError } from "../../utils"
+import { Button } from "../ui/button-mui"
+import { Field } from "../ui/field-mui"
 
 const AddItem = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const { showSuccessToast } = useCustomToast();
+  const [isOpen, setIsOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const { showSuccessToast } = useCustomToast()
   const {
     register,
     handleSubmit,
@@ -38,52 +37,53 @@ const AddItem = () => {
       title: "",
       description: "",
     },
-  });
+  })
 
   const mutation = useMutation({
     mutationFn: (data: ItemCreate) =>
       ItemsService.createItem({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Item created successfully.");
-      reset();
-      setIsOpen(false);
+      showSuccessToast("Item created successfully.")
+      reset()
+      setIsOpen(false)
     },
     onError: (err: ApiError) => {
-      handleError(err);
+      handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ["items"] })
     },
-  });
+  })
 
   const onSubmit: SubmitHandler<ItemCreate> = (data) => {
-    mutation.mutate(data);
-  };
+    mutation.mutate(data)
+  }
 
   return (
-    <DialogRoot
-      size={{ base: "xs", md: "md" }}
-      placement="center"
-      open={isOpen}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
-      <DialogTrigger asChild>
-        <Button variant="contained" startIcon={<AddIcon />} sx={{ my: 2 }}>
-          Add Item
-        </Button>
-      </DialogTrigger>
+    <>
+      {/* Trigger Button */}
+      <Button 
+        variant="contained" 
+        startIcon={<AddIcon />} 
+        sx={{ my: 2 }}
+        onClick={() => setIsOpen(true)}
+      >
+        Add Item
+      </Button>
 
-      <DialogContent>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{ width: "100%" }}
-        >
-          <DialogHeader>
-            <DialogTitle>Add Item</DialogTitle>
-          </DialogHeader>
-
-          <DialogBody>
+      {/* Dialog */}
+      <Dialog 
+        open={isOpen} 
+        onClose={() => setIsOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle>
+            Add Item
+          </DialogTitle>
+          
+          <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Fill in the details to add a new item.
             </Typography>
@@ -123,18 +123,17 @@ const AddItem = () => {
                 />
               </Field>
             </Stack>
-          </DialogBody>
+          </DialogContent>
 
-          <DialogFooter gap={2}>
-            <DialogActionTrigger asChild>
-              <Button
-                variant="outlined"
-                color="inherit"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </DialogActionTrigger>
+          <DialogActions sx={{ p: 3, gap: 2 }}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
 
             <Button
               type="submit"
@@ -144,13 +143,11 @@ const AddItem = () => {
             >
               Save
             </Button>
-          </DialogFooter>
-
-          <DialogCloseTrigger />
+          </DialogActions>
         </Box>
-      </DialogContent>
-    </DialogRoot>
-  );
-};
+      </Dialog>
+    </>
+  )
+}
 
-export default AddItem;
+export default AddItem
