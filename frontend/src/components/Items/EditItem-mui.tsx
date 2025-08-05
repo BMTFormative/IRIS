@@ -1,7 +1,7 @@
 // frontend/src/components/Items/EditItem-mui.tsx
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { type SubmitHandler, useForm } from "react-hook-form"
-import { useState } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,28 +11,28 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material"
-import { Edit as EditIcon } from "@mui/icons-material"
+} from "@mui/material";
+import { Edit as EditIcon } from "@mui/icons-material";
 
-import { type ApiError, type ItemPublic, ItemsService } from "../../client"
-import useCustomToast from "../../hooks/useCustomToast"
-import { handleError } from "../../utils"
-import { Button } from "../ui/button-mui"
-import { Field } from "../ui/field-mui"
+import { type ApiError, type ItemPublic, ItemsService } from "../../client";
+import useCustomToast from "../../hooks/useCustomToast";
+import { handleError } from "../../utils";
+import Button from "@mui/material/Button";
+import { Field } from "../ui/field-mui";
 
 interface EditItemProps {
-  item: ItemPublic
+  item: ItemPublic;
 }
 
 interface ItemUpdateForm {
-  title: string
-  description?: string
+  title: string;
+  description?: string;
 }
 
 const EditItem = ({ item }: EditItemProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast } = useCustomToast()
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
   const {
     register,
     handleSubmit,
@@ -45,27 +45,27 @@ const EditItem = ({ item }: EditItemProps) => {
       ...item,
       description: item.description ?? undefined,
     },
-  })
+  });
 
   const mutation = useMutation({
     mutationFn: (data: ItemUpdateForm) =>
       ItemsService.updateItem({ id: item.id, requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Item updated successfully.")
-      reset()
-      setIsOpen(false)
+      showSuccessToast("Item updated successfully.");
+      reset();
+      setIsOpen(false);
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
+      queryClient.invalidateQueries({ queryKey: ["items"] });
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<ItemUpdateForm> = async (data) => {
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
     <>
@@ -79,34 +79,25 @@ const EditItem = ({ item }: EditItemProps) => {
       >
         Edit Item
       </Button>
-      
+
       {/* Dialog */}
-      <Dialog 
-        open={isOpen} 
+      <Dialog
+        open={isOpen}
         onClose={() => setIsOpen(false)}
         maxWidth="sm"
         fullWidth
       >
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>
-            Edit Item
-          </DialogTitle>
-          
+          <DialogTitle>Edit Item</DialogTitle>
+
           <DialogContent>
-            <Typography 
-              variant="body2" 
-              color="text.secondary" 
-              sx={{ mb: 3 }}
-            >
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Update the item details below.
             </Typography>
-            
+
             <Stack spacing={3}>
               {/* Title Field */}
-              <Field
-                invalid={!!errors.title}
-                errorText={errors.title?.message}
-              >
+              <Field invalid={!!errors.title} errorText={errors.title?.message}>
                 <TextField
                   id="title"
                   label="Title"
@@ -150,19 +141,15 @@ const EditItem = ({ item }: EditItemProps) => {
             >
               Cancel
             </Button>
-            
-            <Button
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
+
+            <Button type="submit" variant="contained" loading={isSubmitting}>
               Save
             </Button>
           </DialogActions>
         </Box>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default EditItem
+export default EditItem;

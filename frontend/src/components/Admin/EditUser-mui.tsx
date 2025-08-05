@@ -1,11 +1,11 @@
 // frontend/src/components/Admin/EditUser-mui.tsx
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Controller, type SubmitHandler, useForm } from "react-hook-form"
-import { useState } from "react"
-import { 
-  Box, 
-  Typography, 
-  TextField, 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
   Stack,
   FormControlLabel,
   Checkbox as MuiCheckbox,
@@ -13,28 +13,28 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material"
-import { Edit as EditIcon } from "@mui/icons-material"
+} from "@mui/material";
+import { Edit as EditIcon } from "@mui/icons-material";
 
-import { type UserPublic, type UserUpdate, UsersService } from "../../client"
-import type { ApiError } from "../../client/core/ApiError"
-import useCustomToast from "../../hooks/useCustomToast"
-import { emailPattern, handleError } from "../../utils"
-import { Button } from "../ui/button-mui"
-import { Field } from "../ui/field-mui"
+import { type UserPublic, type UserUpdate, UsersService } from "../../client";
+import type { ApiError } from "../../client/core/ApiError";
+import useCustomToast from "../../hooks/useCustomToast";
+import { emailPattern, handleError } from "../../utils";
+import Button from "@mui/material/Button";
+import { Field } from "../ui/field-mui";
 
 interface EditUserProps {
-  user: UserPublic
+  user: UserPublic;
 }
 
 interface UserUpdateForm extends UserUpdate {
-  confirm_password?: string
+  confirm_password?: string;
 }
 
 const EditUser = ({ user }: EditUserProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast } = useCustomToast()
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
   const {
     control,
     register,
@@ -50,40 +50,40 @@ const EditUser = ({ user }: EditUserProps) => {
       password: "",
       confirm_password: "",
     },
-  })
+  });
 
   const mutation = useMutation({
     mutationFn: (data: UserUpdateForm) =>
       UsersService.updateUser({ userId: user.id, requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("User updated successfully.")
-      reset()
-      setIsOpen(false)
+      showSuccessToast("User updated successfully.");
+      reset();
+      setIsOpen(false);
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<UserUpdateForm> = (data) => {
     // Remove empty password field
     if (data.password === "") {
-      delete data.password
-      delete data.confirm_password
+      delete data.password;
+      delete data.confirm_password;
     }
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
     <>
       {/* Trigger Button */}
-      <Button 
-        variant="text" 
-        startIcon={<EditIcon />} 
-        color="inherit" 
+      <Button
+        variant="text"
+        startIcon={<EditIcon />}
+        color="inherit"
         size="small"
         onClick={() => setIsOpen(true)}
       >
@@ -91,22 +91,20 @@ const EditUser = ({ user }: EditUserProps) => {
       </Button>
 
       {/* Dialog */}
-      <Dialog 
-        open={isOpen} 
+      <Dialog
+        open={isOpen}
         onClose={() => setIsOpen(false)}
         maxWidth="sm"
         fullWidth
       >
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>
-            Edit User
-          </DialogTitle>
-          
+          <DialogTitle>Edit User</DialogTitle>
+
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Update the user details below.
             </Typography>
-            
+
             <Stack spacing={3}>
               {/* Email Field */}
               <Field invalid={!!errors.email} errorText={errors.email?.message}>
@@ -125,7 +123,10 @@ const EditUser = ({ user }: EditUserProps) => {
               </Field>
 
               {/* Full Name Field */}
-              <Field invalid={!!errors.full_name} errorText={errors.full_name?.message}>
+              <Field
+                invalid={!!errors.full_name}
+                errorText={errors.full_name?.message}
+              >
                 <TextField
                   label="Full Name"
                   variant="outlined"
@@ -136,7 +137,10 @@ const EditUser = ({ user }: EditUserProps) => {
               </Field>
 
               {/* Password Field */}
-              <Field invalid={!!errors.password} errorText={errors.password?.message}>
+              <Field
+                invalid={!!errors.password}
+                errorText={errors.password?.message}
+              >
                 <TextField
                   label="Password (leave blank to keep current)"
                   type="password"
@@ -153,7 +157,10 @@ const EditUser = ({ user }: EditUserProps) => {
               </Field>
 
               {/* Confirm Password Field */}
-              <Field invalid={!!errors.confirm_password} errorText={errors.confirm_password?.message}>
+              <Field
+                invalid={!!errors.confirm_password}
+                errorText={errors.confirm_password?.message}
+              >
                 <TextField
                   label="Confirm Password"
                   type="password"
@@ -161,11 +168,11 @@ const EditUser = ({ user }: EditUserProps) => {
                   fullWidth
                   {...register("confirm_password", {
                     validate: (value) => {
-                      const password = getValues().password
+                      const password = getValues().password;
                       if (password && value !== password) {
-                        return "Passwords do not match"
+                        return "Passwords do not match";
                       }
-                      return true
+                      return true;
                     },
                   })}
                   error={!!errors.confirm_password}
@@ -177,7 +184,7 @@ const EditUser = ({ user }: EditUserProps) => {
                 <Typography variant="subtitle2" color="text.primary">
                   Permissions
                 </Typography>
-                
+
                 <Controller
                   control={control}
                   name="is_superuser"
@@ -193,7 +200,7 @@ const EditUser = ({ user }: EditUserProps) => {
                     />
                   )}
                 />
-                
+
                 <Controller
                   control={control}
                   name="is_active"
@@ -212,7 +219,7 @@ const EditUser = ({ user }: EditUserProps) => {
               </Stack>
             </Stack>
           </DialogContent>
-          
+
           <DialogActions sx={{ p: 3, gap: 2 }}>
             <Button
               variant="outlined"
@@ -222,19 +229,15 @@ const EditUser = ({ user }: EditUserProps) => {
             >
               Cancel
             </Button>
-            
-            <Button
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
+
+            <Button type="submit" variant="contained" loading={isSubmitting}>
               Save
             </Button>
           </DialogActions>
         </Box>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default EditUser
+export default EditUser;
