@@ -14,8 +14,8 @@ import { ApiError, OpenAPI } from "./client"
 import { CustomProvider } from "./components/ui/provider"
 import DynamicMuiThemeProvider from "./components/ui/DynamicMuiThemeProvider"
 
-// Import dark mode CSS
-import "./dark-mode.css"
+// Dark mode is handled via MUI CssBaseline and GlobalStyles
+// Removed manual dark-mode.css in favor of MUI theming
 
 // CRITICAL: Keep your OpenAPI configuration!
 OpenAPI.BASE = import.meta.env.VITE_API_URL

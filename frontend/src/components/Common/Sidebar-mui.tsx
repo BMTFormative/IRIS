@@ -14,6 +14,7 @@ import {
   useTheme,
   styled,
 } from "@mui/material";
+import { alpha } from '@mui/material/styles';
 import {
   Home as HomeIcon,
   Inventory as InventoryIcon,
@@ -77,18 +78,30 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
     ...openedMixin(theme),
     '& .MuiDrawer-paper': {
       ...openedMixin(theme),
-      background: '#3182ce',
-      boxShadow: '4px 0 20px rgba(33, 150, 243, 0.3)',
+      background: theme.palette.mode === 'light'
+        ? 'rgba(25, 118, 210, 0.08)'
+        : theme.palette.background.paper,
+        bgcolor: theme.palette.background.paper,
+      boxShadow: theme.shadows[4],
       border: 'none',
+      color: theme.palette.getContrastText(
+        theme.palette.mode === 'light'
+          ? theme.palette.primary.light
+          : theme.palette.background.paper
+      ),
     },
   }),
   ...(!open && {
     ...closedMixin(theme),
     '& .MuiDrawer-paper': {
       ...closedMixin(theme),
-      background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 50%, #1565C0 100%)',
-      color: '#ffffff',
-      boxShadow: '4px 0 20px rgba(33, 150, 243, 0.3)',
+      background: theme.palette.mode === 'light'
+        ? 'rgba(25, 118, 210, 0.08)'
+        : theme.palette.background.paper,
+      color: theme.palette.mode === 'light'
+        ? theme.palette.getContrastText(theme.palette.primary.main)
+        : theme.palette.text.primary,
+      boxShadow: theme.shadows[4],
       border: 'none',
     },
   }),
@@ -118,20 +131,22 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
 
   return (
     <StyledDrawer variant="permanent" open={open}>
-      <DrawerHeader sx={{ 
-        borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
-        '& .MuiIconButton-root': {
-          color: '#ffffff',
-          '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          }
-        }
-      }}>
+      <DrawerHeader
+        sx={(theme) => ({
+          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
+          '& .MuiIconButton-root': {
+            color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+          },
+        })}
+      >
         <IconButton onClick={handleDrawerToggle}>
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }} />
+      <Divider sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })} />
       
       <List>
         {finalItems.map((item) => {
@@ -157,52 +172,60 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                   component={RouterLink}
                   to={item.path}
                   selected={isActive}
-                  sx={{
+                  sx={(theme) => ({
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                     margin: '4px 8px',
                     borderRadius: '12px',
-                    color: '#ffffff',
-                    transition: 'all 0.2s ease-in-out',
+                    color: theme.palette.text.primary,
+                    transition: theme.transitions.create(
+                      ['background-color', 'transform', 'box-shadow'],
+                      { duration: theme.transitions.duration.short }
+                    ),
                     '&:hover': {
-                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                      backgroundColor: theme.palette.action.hover,
                       transform: 'translateX(4px)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                      boxShadow: theme.shadows[2],
                     },
                     '&.Mui-selected': {
-                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                      backgroundColor: theme.palette.action.selected,
+                      boxShadow: theme.shadows[2],
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                        backgroundColor: alpha(
+                          theme.palette.action.selected,
+                          0.8
+                        ),
                         transform: 'translateX(4px)',
                       },
                       '& .MuiListItemIcon-root': {
-                        color: '#ffffff',
+                        color: theme.palette.text.primary,
                       },
                     },
-                  }}
+                  })}
                 >
                   <ListItemIcon
-                    sx={{
+                    sx={(theme) => ({
                       minWidth: 0,
-                      mr: open ? 3 : 'auto',
+                      mr: open ? theme.spacing(3) : 'auto',
                       justifyContent: 'center',
-                      color: '#ffffff',
-                    }}
+                      color: theme.palette.text.primary,
+                    })}
                   >
                     <Icon />
                   </ListItemIcon>
-                  <ListItemText 
+                  <ListItemText
                     primary={item.title}
-                    sx={{ 
+                    sx={(theme) => ({
                       opacity: open ? 1 : 0,
                       '& .MuiListItemText-primary': {
                         fontSize: '0.875rem',
-                        fontWeight: isActive ? 600 : 400,
-                        color: '#ffffff',
-                      }
-                    }}
+                        fontWeight: isActive
+                          ? theme.typography.fontWeightBold
+                          : theme.typography.fontWeightRegular,
+                        color: theme.palette.text.primary,
+                      },
+                    })}
                   />
                 </ListItemButton>
               </Tooltip>
@@ -211,61 +234,64 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
         })}
       </List>
       
-      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }} />
+      <Divider sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })} />
       
       {/* Logout at bottom */}
       <Box sx={{ mt: 'auto' }}>
         <List>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <Tooltip 
-              title={!open ? "Logout" : ""} 
+            <Tooltip
+              title={!open ? 'Logout' : ''}
               placement="right"
               componentsProps={{
                 tooltip: {
                   sx: {
-                    bgcolor: 'rgba(0, 0, 0, 0.9)',
+                    bgcolor: alpha(theme.palette.background.paper, 0.9),
                     fontSize: '0.75rem',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                  }
-                }
+                    boxShadow: theme.shadows[2],
+                  },
+                },
               }}
             >
               <ListItemButton
                 onClick={handleLogout}
-                sx={{
+                sx={(theme) => ({
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                   margin: '4px 8px',
                   borderRadius: '12px',
-                  color: '#ffffff',
-                  transition: 'all 0.2s ease-in-out',
+                  color: theme.palette.text.primary,
+                  transition: theme.transitions.create(
+                    ['background-color', 'transform', 'box-shadow'],
+                    { duration: theme.transitions.duration.short }
+                  ),
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 82, 82, 0.2)',
+                    backgroundColor: alpha(theme.palette.error.main, 0.2),
                     transform: 'translateX(4px)',
-                    boxShadow: '0 4px 12px rgba(255, 82, 82, 0.3)',
+                    boxShadow: theme.shadows[2],
                   },
-                }}
+                })}
               >
                 <ListItemIcon
-                  sx={{
+                  sx={(theme) => ({
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
+                    mr: open ? theme.spacing(3) : 'auto',
                     justifyContent: 'center',
-                    color: '#ffffff',
-                  }}
+                    color: theme.palette.text.primary,
+                  })}
                 >
                   <LogoutIcon />
                 </ListItemIcon>
-                <ListItemText 
+                <ListItemText
                   primary="Logout"
-                  sx={{ 
+                  sx={(theme) => ({
                     opacity: open ? 1 : 0,
                     '& .MuiListItemText-primary': {
                       fontSize: '0.875rem',
-                      color: '#ffffff',
-                    }
-                  }}
+                      color: theme.palette.text.primary,
+                    },
+                  })}
                 />
               </ListItemButton>
             </Tooltip>

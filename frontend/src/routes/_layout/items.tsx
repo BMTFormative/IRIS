@@ -17,6 +17,7 @@ import {
   CircularProgress,
 } from "@mui/material"
 import { Search as SearchIcon } from "@mui/icons-material"
+import { alpha } from "@mui/material/styles"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
@@ -79,33 +80,38 @@ function ItemsTable() {
 
   if (items.length === 0) {
     return (
-      <Box 
-        display="flex" 
-        flexDirection="column" 
-        alignItems="center" 
-        justifyContent="center" 
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
         minHeight="400px"
         textAlign="center"
-        sx={{
-          background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.03) 0%, rgba(25, 118, 210, 0.03) 100%)',
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.paper,
           borderRadius: '20px',
-          border: '2px dashed rgba(33, 150, 243, 0.2)',
+          border: `2px dashed ${alpha(theme.palette.primary.main, 0.2)}`,
           mt: 3,
           p: 4,
-        }}
+        })}
       >
         <Box
-          sx={{
+          sx={(theme) => ({
             width: 80,
             height: 80,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)',
+            background: theme.palette.mode === 'light'
+              ? 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)'
+              : undefined,
+            backgroundColor: theme.palette.mode === 'dark'
+              ? alpha(theme.palette.primary.main, 0.2)
+              : undefined,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             mb: 3,
-            boxShadow: '0 8px 24px rgba(33, 150, 243, 0.2)',
-          }}
+            boxShadow: `0 8px 24px ${alpha(theme.palette.primary.main, 0.2)}`,
+          })}
         >
           <SearchIcon sx={{ fontSize: 40, color: '#1976D2' }} />
         </Box>
@@ -119,13 +125,13 @@ function ItemsTable() {
         >
           No Items Found
         </Typography>
-        <Typography 
-          variant="body1" 
-          sx={{ 
-            color: '#546E7A',
+        <Typography
+          variant="body1"
+          sx={(theme) => ({
+            color: theme.palette.text.secondary,
             mb: 3,
             maxWidth: '300px',
-          }}
+          })}
         >
           You don't have any items yet. Create your first item to get started!
         </Typography>
@@ -177,18 +183,30 @@ function ItemsTable() {
           </TableHead>
           <TableBody>
             {items?.map((item, index) => (
-              <TableRow 
-                key={item.id} 
-                sx={{ 
-                  opacity: isPlaceholderData ? 0.5 : 1,
-                  backgroundColor: index % 2 === 0 ? 'rgba(33, 150, 243, 0.02)' : '#ffffff',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: 'rgba(33, 150, 243, 0.08)',
-                    transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(33, 150, 243, 0.15)',
-                  },
-                  '&:last-child td': { border: 0 }
+              <TableRow
+                key={item.id}
+                sx={(theme) => {
+                  const isDark = theme.palette.mode === 'dark';
+                  return {
+                    opacity: isPlaceholderData ? 0.5 : 1,
+                    backgroundColor: index % 2 === 0
+                      ? alpha(theme.palette.primary.main, isDark ? 0.08 : 0.02)
+                      : theme.palette.background.paper,
+                    transition: theme.transitions.create(
+                      ['background-color', 'transform', 'box-shadow'], {
+                        duration: theme.transitions.duration.standard,
+                      }
+                    ),
+                    '&:hover': {
+                      backgroundColor: theme.palette.action.hover,
+                      transform: 'translateY(-1px)',
+                      boxShadow: `0 4px 12px ${alpha(
+                        theme.palette.primary.main,
+                        0.15
+                      )}`,
+                    },
+                    '&:last-child td': { border: 0 },
+                  };
                 }}
               >
                 <TableCell 
@@ -249,16 +267,18 @@ function ItemsTable() {
                     py: 2,
                   }}
                 >
-                  <Typography 
-                    variant="body2" 
-                    sx={{
-                      color: !item.description ? "text.secondary" : "#546E7A",
+                  <Typography
+                    variant="body2"
+                    sx={(theme) => ({
+                      color: theme.palette.text.secondary,
                       fontStyle: !item.description ? 'italic' : 'normal',
-                      backgroundColor: !item.description ? 'transparent' : 'rgba(33, 150, 243, 0.04)',
-                      padding: !item.description ? 0 : '4px 8px',
+                      backgroundColor: !item.description
+                        ? 'transparent'
+                        : theme.palette.action.selected,
+                      padding: !item.description ? 0 : theme.spacing(0.5, 1),
                       borderRadius: '6px',
                       display: 'inline-block',
-                    }}
+                    })}
                   >
                     {item.description || "No description"}
                   </Typography>
@@ -273,17 +293,17 @@ function ItemsTable() {
       </TableContainer>
 
       {/* Modern Pagination */}
-      <Box 
-        display="flex" 
-        justifyContent="flex-end" 
+      <Box
+        display="flex"
+        justifyContent="flex-end"
         alignItems="center"
         mt={4}
-        sx={{
-          background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.02) 0%, rgba(25, 118, 210, 0.02) 100%)',
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.paper,
           borderRadius: '12px',
           p: 2,
-          border: '1px solid rgba(33, 150, 243, 0.08)',
-        }}
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+        })}
       >
         <Stack direction="row" spacing={1} alignItems="center">
           <IconButton
