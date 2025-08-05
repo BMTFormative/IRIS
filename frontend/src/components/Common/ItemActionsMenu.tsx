@@ -1,95 +1,106 @@
-// frontend/src/components/Common/ItemActionsMenu-mui.tsx
+// frontend/src/components/Common/ItemActionsMenu.tsx
 import { useState } from "react"
 import { 
   IconButton, 
-  Menu, 
-  MenuItem, 
-  ListItemIcon, 
-  ListItemText 
+  Stack,
+  Tooltip,
 } from "@mui/material"
 import { 
-  MoreVert as MoreVertIcon, 
   Edit as EditIcon, 
   Delete as DeleteIcon 
 } from "@mui/icons-material"
 
 import type { ItemPublic } from "@/client"
-import EditItem from "@/Items/EditItem"
-import DeleteItem from "@/Items/DeleteItem"
+import EditItem from "@/components/Items/EditItem"
+import DeleteItem from "@/components/Items/DeleteItem"
 
 interface ItemActionsMenuProps {
   item: ItemPublic
 }
 
 export const ItemActionsMenu = ({ item }: ItemActionsMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
-  
-  const open = Boolean(anchorEl)
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
 
   const handleEdit = () => {
-    // EditItem component manages its own dialog state
-    handleClose()
+    setEditOpen(true)
   }
 
   const handleDelete = () => {
     setDeleteOpen(true)
-    handleClose()
   }
 
   return (
     <>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-        size="small"
-      >
-        <MoreVertIcon />
-      </IconButton>
-      
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            minWidth: '120px',
-          },
-        }}
-      >
-        <MenuItem onClick={handleEdit}>
-          <ListItemIcon>
+      <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+        {/* Edit Button */}
+        <Tooltip title="Edit Item" placement="top">
+          <IconButton
+            color="inherit"
+            onClick={handleEdit}
+            size="small"
+            sx={{
+              color: '#1976D2',
+              backgroundColor: 'rgba(33, 150, 243, 0.08)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              borderRadius: '10px',
+              width: 36,
+              height: 36,
+              border: '1px solid rgba(33, 150, 243, 0.2)',
+              '&:hover': {
+                backgroundColor: '#2196F3',
+                color: '#ffffff',
+                transform: 'translateY(-2px) scale(1.05)',
+                boxShadow: '0 8px 20px rgba(33, 150, 243, 0.4)',
+                borderColor: '#2196F3',
+              },
+              '&:active': {
+                transform: 'translateY(0) scale(0.98)',
+              },
+            }}
+          >
             <EditIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Edit</ListItemText>
-        </MenuItem>
-        
-        <MenuItem onClick={handleDelete}>
-          <ListItemIcon>
-            <DeleteIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Delete</ListItemText>
-        </MenuItem>
-      </Menu>
+          </IconButton>
+        </Tooltip>
 
-      {/* Edit Dialog - Uses existing MUI component API */}
-      <EditItem item={item} />
+        {/* Delete Button */}
+        <Tooltip title="Delete Item" placement="top">
+          <IconButton
+            color="inherit"
+            onClick={handleDelete}
+            size="small"
+            sx={{
+              color: '#d32f2f',
+              backgroundColor: 'rgba(244, 67, 54, 0.08)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              borderRadius: '10px',
+              width: 36,
+              height: 36,
+              border: '1px solid rgba(244, 67, 54, 0.2)',
+              '&:hover': {
+                backgroundColor: '#f44336',
+                color: '#ffffff',
+                transform: 'translateY(-2px) scale(1.05)',
+                boxShadow: '0 8px 20px rgba(244, 67, 54, 0.4)',
+                borderColor: '#f44336',
+              },
+              '&:active': {
+                transform: 'translateY(0) scale(0.98)',
+              },
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+
+      {/* Edit Dialog - Controlled externally, no trigger button */}
+      <EditItem 
+        item={item} 
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        hideButton={true}
+      />
       
       {/* Delete Dialog */}
       <DeleteItem 
