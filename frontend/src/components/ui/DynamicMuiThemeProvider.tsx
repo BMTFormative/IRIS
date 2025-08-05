@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import GlobalStyles from '@mui/material/GlobalStyles'
 import { useTheme } from 'next-themes'
 
 interface DynamicMuiThemeProviderProps {
@@ -32,14 +33,14 @@ const createBaseTheme = (mode: 'light' | 'dark') => createTheme({
         paper: '#f8fafc',
       },
       text: {
-        primary: '#1a202c',
-        secondary: '#4a5568',
+        primary: '#3182ce',
+        secondary: '#685a4aff',
       },
     } : {
       // Dark mode colors
       background: {
-        default: '#0f1419',
-        paper: '#1a202c',
+        default: '#19140fff',
+        paper: '#2c1f1aff',
       },
       text: {
         primary: '#f7fafc',
@@ -183,6 +184,26 @@ export const DynamicMuiThemeProvider: React.FC<DynamicMuiThemeProviderProps> = (
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyles
+        styles={{
+          html: {
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            transition: theme.transitions.create(['background-color', 'color'], {
+              duration: theme.transitions.duration.standard,
+            }),
+          },
+          body: {
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+          },
+          '*': {
+            transition: theme.transitions.create(['background-color', 'color', 'border-color'], {
+              duration: theme.transitions.duration.standard,
+            }),
+          },
+        }}
+      />
       {children}
     </MuiThemeProvider>
   )

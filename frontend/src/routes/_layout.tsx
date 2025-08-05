@@ -35,8 +35,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
   marginLeft: miniDrawerWidth,
   minHeight: '100vh',
-  backgroundColor: '#fafafa', // Changed from light blue to white
-  backgroundImage: 'none', // Removed blue dot pattern
+  backgroundColor: theme.palette.background.default,
+  backgroundImage: 'none',
   backgroundSize: '20px 20px',
   ...(open && {
     transition: theme.transitions.create('margin', {
@@ -84,14 +84,16 @@ function Layout() {
       {/* Main content */}
       <Main open={open}>
         <DrawerHeader />
-        <Box sx={{ 
-          backgroundColor: '#fafafa',
-          borderRadius: '16px',
-          boxShadow: '0 4px 20px rgba(33, 150, 243, 0.08)',
-          border: '1px solid rgba(33, 150, 243, 0.05)',
-          p: 3,
-          minHeight: 'calc(100vh - 120px)',
-        }}>
+        <Box
+          sx={(theme) => ({
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: '16px',
+            boxShadow: theme.shadows[1],
+            border: `1px solid ${theme.palette.divider}`,
+            p: 3,
+            minHeight: 'calc(100vh - 120px)',
+          })}
+        >
           <Outlet />
         </Box>
       </Main>
