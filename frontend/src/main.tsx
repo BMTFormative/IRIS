@@ -1,4 +1,4 @@
-// frontend/src/main.tsx - Update your main.tsx file
+// frontend/src/main.tsx - Updated with Dynamic Theme Provider
 import {
   MutationCache,
   QueryCache,
@@ -8,13 +8,14 @@ import {
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import React, { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
 import { routeTree } from "./routeTree.gen"
 
 import { ApiError, OpenAPI } from "./client"
 import { CustomProvider } from "./components/ui/provider"
-import { muiTheme } from './theme/muiTheme'
+import DynamicMuiThemeProvider from "./components/ui/DynamicMuiThemeProvider"
+
+// Import dark mode CSS
+import "./dark-mode.css"
 
 // CRITICAL: Keep your OpenAPI configuration!
 OpenAPI.BASE = import.meta.env.VITE_API_URL
@@ -48,31 +49,14 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* Material UI Theme Provider */}
-    <MuiThemeProvider theme={muiTheme}>
-      <CssBaseline /> {/* Provides consistent CSS baseline */}
-      
-      {/* Keep Chakra UI Provider for existing components */}
-      <CustomProvider>
+    {/* Chakra UI Provider with next-themes ColorModeProvider */}
+    <CustomProvider>
+      {/* Dynamic Material UI Theme Provider that responds to next-themes */}
+      <DynamicMuiThemeProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
-      </CustomProvider>
-    </MuiThemeProvider>
+      </DynamicMuiThemeProvider>
+    </CustomProvider>
   </StrictMode>,
 )
-
-// Alternative: If you want to test MUI-only setup
-// You can temporarily remove the Chakra Provider to test pure MUI components
-/*
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <MuiThemeProvider theme={muiTheme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </MuiThemeProvider>
-    </QueryClientProvider>
-  </React.StrictMode>,
-)
-*/
