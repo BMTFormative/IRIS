@@ -11,7 +11,8 @@ import ModernNavbar from "@/components/Common/Navbar-mui";
 import MiniVariantDrawer from "@/components/Common/Sidebar-mui";
 import { isLoggedIn } from "@/hooks/useAuth";
 
-const drawerWidth = 30;
+// Width of the sidebar when expanded (matches Sidebar-mui drawerWidth)
+const drawerWidth = 240;
 const miniDrawerWidth = 64;
 
 const DrawerHeader = styled('div')(({ theme }) => ({

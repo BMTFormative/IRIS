@@ -14,7 +14,7 @@ import {
   useTheme,
   styled,
 } from "@mui/material";
-import { alpha } from '@mui/material/styles';
+import { alpha } from "@mui/material/styles";
 import {
   Home as HomeIcon,
   Inventory as InventoryIcon,
@@ -39,10 +39,10 @@ const menuItems = [
   { icon: SettingsIcon, title: "User Settings", path: "/settings" },
 ];
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -50,21 +50,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const openedMixin = (theme: any) => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: any) => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: miniDrawerWidth,
   },
 });
@@ -72,20 +72,21 @@ const closedMixin = (theme: any) => ({
 const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
   width: drawerWidth,
   flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
   ...(open && {
     ...openedMixin(theme),
-    '& .MuiDrawer-paper': {
+    "& .MuiDrawer-paper": {
       ...openedMixin(theme),
-      background: theme.palette.mode === 'light'
-        ? 'rgba(25, 118, 210, 0.08)'
-        : theme.palette.background.paper,
-        bgcolor: theme.palette.background.paper,
+      background:
+        theme.palette.mode === "light"
+          ? "rgba(25, 118, 210, 0.08)"
+          : theme.palette.background.paper,
+      bgcolor: theme.palette.background.paper,
       boxShadow: theme.shadows[4],
-      border: 'none',
+      border: "none",
       color: theme.palette.getContrastText(
-        theme.palette.mode === 'light'
+        theme.palette.mode === "light"
           ? theme.palette.primary.light
           : theme.palette.background.paper
       ),
@@ -93,16 +94,18 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
   }),
   ...(!open && {
     ...closedMixin(theme),
-    '& .MuiDrawer-paper': {
+    "& .MuiDrawer-paper": {
       ...closedMixin(theme),
-      background: theme.palette.mode === 'light'
-        ? 'rgba(25, 118, 210, 0.08)'
-        : theme.palette.background.paper,
-      color: theme.palette.mode === 'light'
-        ? theme.palette.getContrastText(theme.palette.primary.main)
-        : theme.palette.text.primary,
+      background:
+        theme.palette.mode === "light"
+          ? "rgba(25, 118, 210, 0.08)"
+          : theme.palette.background.paper,
+      color:
+        theme.palette.mode === "light"
+          ? theme.palette.getContrastText(theme.palette.primary.main)
+          : theme.palette.text.primary,
       boxShadow: theme.shadows[4],
-      border: 'none',
+      border: "none",
     },
   }),
 }));
@@ -112,7 +115,10 @@ interface MiniVariantDrawerProps {
   handleDrawerToggle: () => void;
 }
 
-const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps) => {
+const MiniVariantDrawer = ({
+  open,
+  handleDrawerToggle,
+}: MiniVariantDrawerProps) => {
   const theme = useTheme();
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"]);
@@ -134,9 +140,9 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
       <DrawerHeader
         sx={(theme) => ({
           borderBottom: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
-          '& .MuiIconButton-root': {
+          "& .MuiIconButton-root": {
             color: theme.palette.text.primary,
-            '&:hover': {
+            "&:hover": {
               backgroundColor: theme.palette.action.hover,
             },
           },
@@ -146,26 +152,31 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })} />
-      
+      <Divider
+        sx={(theme) => ({
+          borderColor: alpha(theme.palette.divider, 0.12),
+          marginTop: "10px",
+        })}
+      />
+
       <List>
         {finalItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentPath === item.path;
-          
+
           return (
-            <ListItem key={item.title} disablePadding sx={{ display: 'block' }}>
-              <Tooltip 
-                title={!open ? item.title : ""} 
+            <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
+              <Tooltip
+                title={!open ? item.title : ""}
                 placement="right"
                 componentsProps={{
                   tooltip: {
                     sx: {
-                      bgcolor: 'rgba(0, 0, 0, 0.9)',
-                      fontSize: '0.75rem',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    }
-                  }
+                      bgcolor: "rgba(0, 0, 0, 0.9)",
+                      fontSize: "0.75rem",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                    },
+                  },
                 }}
               >
                 <ListItemButton
@@ -174,31 +185,31 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                   selected={isActive}
                   sx={(theme) => ({
                     minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
+                    justifyContent: open ? "initial" : "center",
                     px: 2.5,
-                    margin: '4px 8px',
-                    borderRadius: '12px',
+                    margin: "16px 8px",
+                    borderRadius: "12px",
                     color: theme.palette.text.primary,
                     transition: theme.transitions.create(
-                      ['background-color', 'transform', 'box-shadow'],
+                      ["background-color", "transform", "box-shadow"],
                       { duration: theme.transitions.duration.short }
                     ),
-                    '&:hover': {
+                    "&:hover": {
                       backgroundColor: theme.palette.action.hover,
-                      transform: 'translateX(4px)',
+                      transform: "translateX(4px)",
                       boxShadow: theme.shadows[2],
                     },
-                    '&.Mui-selected': {
+                    "&.Mui-selected": {
                       backgroundColor: theme.palette.action.selected,
                       boxShadow: theme.shadows[2],
-                      '&:hover': {
+                      "&:hover": {
                         backgroundColor: alpha(
                           theme.palette.action.selected,
                           0.8
                         ),
-                        transform: 'translateX(4px)',
+                        transform: "translateX(4px)",
                       },
-                      '& .MuiListItemIcon-root': {
+                      "& .MuiListItemIcon-root": {
                         color: theme.palette.text.primary,
                       },
                     },
@@ -207,8 +218,8 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                   <ListItemIcon
                     sx={(theme) => ({
                       minWidth: 0,
-                      mr: open ? theme.spacing(3) : 'auto',
-                      justifyContent: 'center',
+                      mr: open ? theme.spacing(3) : "auto",
+                      justifyContent: "center",
                       color: theme.palette.text.primary,
                     })}
                   >
@@ -218,8 +229,8 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                     primary={item.title}
                     sx={(theme) => ({
                       opacity: open ? 1 : 0,
-                      '& .MuiListItemText-primary': {
-                        fontSize: '0.875rem',
+                      "& .MuiListItemText-primary": {
+                        fontSize: "0.875rem",
                         fontWeight: isActive
                           ? theme.typography.fontWeightBold
                           : theme.typography.fontWeightRegular,
@@ -233,21 +244,23 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
           );
         })}
       </List>
-      
-      <Divider sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })} />
-      
+
+      <Divider
+        sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })}
+      />
+
       {/* Logout at bottom */}
-      <Box sx={{ mt: 'auto' }}>
+      <Box sx={{ mt: "auto" }}>
         <List>
-          <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItem disablePadding sx={{ display: "block" }}>
             <Tooltip
-              title={!open ? 'Logout' : ''}
+              title={!open ? "Logout" : ""}
               placement="right"
               componentsProps={{
                 tooltip: {
                   sx: {
                     bgcolor: alpha(theme.palette.background.paper, 0.9),
-                    fontSize: '0.75rem',
+                    fontSize: "0.75rem",
                     boxShadow: theme.shadows[2],
                   },
                 },
@@ -257,18 +270,18 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                 onClick={handleLogout}
                 sx={(theme) => ({
                   minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
+                  justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  margin: '4px 8px',
-                  borderRadius: '12px',
+                  margin: "4px 8px",
+                  borderRadius: "12px",
                   color: theme.palette.text.primary,
                   transition: theme.transitions.create(
-                    ['background-color', 'transform', 'box-shadow'],
+                    ["background-color", "transform", "box-shadow"],
                     { duration: theme.transitions.duration.short }
                   ),
-                  '&:hover': {
+                  "&:hover": {
                     backgroundColor: alpha(theme.palette.error.main, 0.2),
-                    transform: 'translateX(4px)',
+                    transform: "translateX(4px)",
                     boxShadow: theme.shadows[2],
                   },
                 })}
@@ -276,8 +289,8 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                 <ListItemIcon
                   sx={(theme) => ({
                     minWidth: 0,
-                    mr: open ? theme.spacing(3) : 'auto',
-                    justifyContent: 'center',
+                    mr: open ? theme.spacing(3) : "auto",
+                    justifyContent: "center",
                     color: theme.palette.text.primary,
                   })}
                 >
@@ -287,8 +300,8 @@ const MiniVariantDrawer = ({ open, handleDrawerToggle }: MiniVariantDrawerProps)
                   primary="Logout"
                   sx={(theme) => ({
                     opacity: open ? 1 : 0,
-                    '& .MuiListItemText-primary': {
-                      fontSize: '0.875rem',
+                    "& .MuiListItemText-primary": {
+                      fontSize: "0.875rem",
                       color: theme.palette.text.primary,
                     },
                   })}
