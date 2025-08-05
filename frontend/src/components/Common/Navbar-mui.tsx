@@ -16,8 +16,8 @@ import { Link } from "@tanstack/react-router";
 import Logo from "/assets/images/logoT.png";
 import UserMenuMUI from "./UserMenu-mui";
 
-const drawerWidth = 260;
-const miniDrawerWidth = 64;
+const drawerWidth = 1;
+const miniDrawerWidth = 1;
 
 const StyledAppBar = styled(AppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -57,6 +57,7 @@ const ModernNavbar = ({ open, handleDrawerToggle }: ModernNavbarProps) => {
           boxShadow: theme.shadows[4],
           borderBottom: `1px solid ${theme.palette.divider}`,
           backdropFilter: 'blur(8px)',
+          borderRadius: 0,
         })}
     >
       <Toolbar>
