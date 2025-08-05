@@ -18,15 +18,11 @@ import { Route as ResetPasswordMuiImport } from './routes/reset-password-mui'
 import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordMuiImport } from './routes/recover-password-mui'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
-import { Route as LoginMuiImport } from './routes/login-mui'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTestImport } from './routes/_layout/test'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
-import { Route as LayoutOldsettingImport } from './routes/_layout/old_setting'
-import { Route as LayoutOlditemsImport } from './routes/_layout/old_items'
-import { Route as LayoutOldadminImport } from './routes/_layout/old_admin'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 
@@ -67,11 +63,6 @@ const RecoverPasswordRoute = RecoverPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LoginMuiRoute = LoginMuiImport.update({
-  path: '/login-mui',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LoginRoute = LoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
@@ -97,21 +88,6 @@ const LayoutSettingsRoute = LayoutSettingsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutOldsettingRoute = LayoutOldsettingImport.update({
-  path: '/old_setting',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutOlditemsRoute = LayoutOlditemsImport.update({
-  path: '/old_items',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutOldadminRoute = LayoutOldadminImport.update({
-  path: '/old_admin',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutItemsRoute = LayoutItemsImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
@@ -132,10 +108,6 @@ declare module '@tanstack/react-router' {
     }
     '/login': {
       preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/login-mui': {
-      preLoaderRoute: typeof LoginMuiImport
       parentRoute: typeof rootRoute
     }
     '/recover-password': {
@@ -174,18 +146,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutItemsImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/old_admin': {
-      preLoaderRoute: typeof LayoutOldadminImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/old_items': {
-      preLoaderRoute: typeof LayoutOlditemsImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/old_setting': {
-      preLoaderRoute: typeof LayoutOldsettingImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/settings': {
       preLoaderRoute: typeof LayoutSettingsImport
       parentRoute: typeof LayoutImport
@@ -207,15 +167,11 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
     LayoutItemsRoute,
-    LayoutOldadminRoute,
-    LayoutOlditemsRoute,
-    LayoutOldsettingRoute,
     LayoutSettingsRoute,
     LayoutTestRoute,
     LayoutIndexRoute,
   ]),
   LoginRoute,
-  LoginMuiRoute,
   RecoverPasswordRoute,
   RecoverPasswordMuiRoute,
   ResetPasswordRoute,

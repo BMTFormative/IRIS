@@ -1,40 +1,85 @@
-// frontend/src/components/Common/Navbar-mui.tsx
+// frontend/src/components/Common/Navbar-mui.tsx (With User Menu on Right)
 import React from "react";
 import {
   AppBar,
-  Toolbar,
   Box,
-  useTheme,
-  useMediaQuery,
+  IconButton,
+  Toolbar,
+  Typography,
+  styled,
 } from "@mui/material";
+import {
+  Menu as MenuIcon,
+} from "@mui/icons-material";
 import { Link } from "@tanstack/react-router";
 
-import Logo from "/assets/images/fastapi-logo.svg";
-import UserMenu from "./UserMenu"; // Keep original for now
+import Logo from "/assets/images/logoT.png";
+import UserMenuMUI from "./UserMenu-mui";
 
-function NavbarMUI() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+const drawerWidth = 240;
+const miniDrawerWidth = 64;
 
+const StyledAppBar = styled(AppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<{ open?: boolean }>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+  ...(!open && {
+    marginLeft: miniDrawerWidth,
+    width: `calc(100% - ${miniDrawerWidth}px)`,
+  }),
+}));
+
+interface ModernNavbarProps {
+  open: boolean;
+  handleDrawerToggle: () => void;
+}
+
+const ModernNavbar = ({ open, handleDrawerToggle }: ModernNavbarProps) => {
   return (
-    <AppBar 
-      position="sticky" 
-      elevation={1}
+    <StyledAppBar 
+      position="fixed" 
+      open={open}
       sx={{
-        backgroundColor: 'background.paper',
+        bgcolor: '#ffffff',
         color: 'text.primary',
-        borderBottom: 1,
-        borderColor: 'divider',
-        // Hide on mobile to give more space
-        display: isMobile ? 'none' : 'flex',
+        boxShadow: '0 4px 20px rgba(33, 150, 243, 0.15)',
+        borderBottom: '1px solid rgba(33, 150, 243, 0.1)',
+        backdropFilter: 'blur(8px)',
       }}
     >
-      <Toolbar 
-        sx={{ 
-          justifyContent: 'space-between',
-          minHeight: { xs: 56, sm: 64 },
-        }}
-      >
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerToggle}
+          edge="start"
+          sx={{
+            marginRight: 5,
+            color: '#2196F3',
+            transition: 'all 0.2s ease-in-out',
+            '&:hover': {
+              backgroundColor: 'rgba(33, 150, 243, 0.1)',
+              color: '#1976D2',
+              transform: 'scale(1.05)',
+              boxShadow: '0 4px 12px rgba(33, 150, 243, 0.2)',
+            },
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+        
         {/* Logo */}
         <Box
           component={Link}
@@ -43,27 +88,53 @@ function NavbarMUI() {
             display: 'flex',
             alignItems: 'center',
             textDecoration: 'none',
+            mr: 2,
+            transition: 'all 0.2s ease-in-out',
+            borderRadius: '8px',
+            padding: '8px',
+            '&:hover': {
+              backgroundColor: 'rgba(33, 150, 243, 0.08)',
+              boxShadow: '0 4px 12px rgba(33, 150, 243, 0.15)',
+              transform: 'translateY(-1px)',
+            },
           }}
         >
           <Box
             component="img"
             src={Logo}
-            alt="FastAPI logo"
             sx={{
-              height: 40,
+              height: 60,
               width: 'auto',
-              maxWidth: 120,
+              filter: 'hue-rotate(200deg) saturate(1.2)',
             }}
           />
         </Box>
 
-        {/* User Menu */}
+        {/* Page Title */}
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{
+            flexGrow: 1,
+            fontWeight: 600,
+            color: '#1976D2',
+            background: 'linear-gradient(135deg, #2196F3, #1976D2)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          Dashboard
+        </Typography>
+
+        {/* User Menu on Right */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <UserMenu />
+          <UserMenuMUI />
         </Box>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
-}
+};
 
-export default NavbarMUI;
+export default ModernNavbar;
