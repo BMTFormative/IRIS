@@ -1,36 +1,36 @@
 // frontend/src/components/Admin/AddUser-mui.tsx
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Controller, type SubmitHandler, useForm } from "react-hook-form"
-import { useState } from "react"
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Stack, 
-  FormControlLabel, 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Stack,
+  FormControlLabel,
   Checkbox as MuiCheckbox,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material"
-import { Add as AddIcon } from "@mui/icons-material"
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 
-import { type UserCreate, UsersService } from "../../client"
-import type { ApiError } from "../../client/core/ApiError"
-import useCustomToast from "../../hooks/useCustomToast"
-import { emailPattern, handleError } from "../../utils"
-import { Button } from "../ui/button-mui"
-import { Field } from "../ui/field-mui"
+import { type UserCreate, UsersService } from "../../client";
+import type { ApiError } from "../../client/core/ApiError";
+import useCustomToast from "../../hooks/useCustomToast";
+import { emailPattern, handleError } from "../../utils";
+import Button from "@mui/material/Button";
+import { Field } from "../ui/field-mui";
 
 interface UserCreateForm extends UserCreate {
-  confirm_password: string
+  confirm_password: string;
 }
 
 const AddUser = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast } = useCustomToast()
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
   const {
     control,
     register,
@@ -49,33 +49,34 @@ const AddUser = () => {
       is_superuser: false,
       is_active: false,
     },
-  })
+  });
 
   const mutation = useMutation({
-    mutationFn: (data: UserCreate) => UsersService.createUser({ requestBody: data }),
+    mutationFn: (data: UserCreate) =>
+      UsersService.createUser({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("User created successfully.")
-      reset()
-      setIsOpen(false)
+      showSuccessToast("User created successfully.");
+      reset();
+      setIsOpen(false);
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<UserCreateForm> = (data) => {
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
     <>
       {/* Trigger Button */}
-      <Button 
-        variant="contained" 
-        startIcon={<AddIcon />} 
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
         sx={{ my: 2 }}
         onClick={() => setIsOpen(true)}
       >
@@ -83,16 +84,14 @@ const AddUser = () => {
       </Button>
 
       {/* Dialog */}
-      <Dialog 
-        open={isOpen} 
+      <Dialog
+        open={isOpen}
         onClose={() => setIsOpen(false)}
         maxWidth="sm"
         fullWidth
       >
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>
-            Add User
-          </DialogTitle>
+          <DialogTitle>Add User</DialogTitle>
 
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -117,7 +116,10 @@ const AddUser = () => {
               </Field>
 
               {/* Full Name Field */}
-              <Field invalid={!!errors.full_name} errorText={errors.full_name?.message}>
+              <Field
+                invalid={!!errors.full_name}
+                errorText={errors.full_name?.message}
+              >
                 <TextField
                   label="Full Name"
                   variant="outlined"
@@ -128,7 +130,10 @@ const AddUser = () => {
               </Field>
 
               {/* Password Field */}
-              <Field invalid={!!errors.password} errorText={errors.password?.message}>
+              <Field
+                invalid={!!errors.password}
+                errorText={errors.password?.message}
+              >
                 <TextField
                   label="Password"
                   type="password"
@@ -147,7 +152,10 @@ const AddUser = () => {
               </Field>
 
               {/* Confirm Password Field */}
-              <Field invalid={!!errors.confirm_password} errorText={errors.confirm_password?.message}>
+              <Field
+                invalid={!!errors.confirm_password}
+                errorText={errors.confirm_password?.message}
+              >
                 <TextField
                   label="Confirm Password"
                   type="password"
@@ -157,11 +165,11 @@ const AddUser = () => {
                   {...register("confirm_password", {
                     required: "Please confirm your password",
                     validate: (value) => {
-                      const password = getValues().password
+                      const password = getValues().password;
                       if (value !== password) {
-                        return "Passwords do not match"
+                        return "Passwords do not match";
                       }
-                      return true
+                      return true;
                     },
                   })}
                   error={!!errors.confirm_password}
@@ -174,7 +182,7 @@ const AddUser = () => {
               <Typography variant="subtitle2" color="text.primary">
                 Permissions
               </Typography>
-              
+
               <Controller
                 control={control}
                 name="is_superuser"
@@ -190,7 +198,7 @@ const AddUser = () => {
                   />
                 )}
               />
-              
+
               <Controller
                 control={control}
                 name="is_active"
@@ -218,7 +226,7 @@ const AddUser = () => {
             >
               Cancel
             </Button>
-            
+
             <Button
               type="submit"
               variant="contained"
@@ -231,7 +239,7 @@ const AddUser = () => {
         </Box>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default AddUser
+export default AddUser;

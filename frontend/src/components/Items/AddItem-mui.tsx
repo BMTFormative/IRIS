@@ -1,30 +1,30 @@
 // frontend/src/components/Items/AddItem-mui.tsx
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { type SubmitHandler, useForm } from "react-hook-form"
-import { useState } from "react"
-import { 
-  Box, 
-  Typography, 
-  TextField, 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
   Stack,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material"
-import { Add as AddIcon } from "@mui/icons-material"
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 
-import { type ItemCreate, ItemsService } from "../../client"
-import type { ApiError } from "../../client/core/ApiError"
-import useCustomToast from "../../hooks/useCustomToast"
-import { handleError } from "../../utils"
-import { Button } from "../ui/button-mui"
-import { Field } from "../ui/field-mui"
+import { type ItemCreate, ItemsService } from "../../client";
+import type { ApiError } from "../../client/core/ApiError";
+import useCustomToast from "../../hooks/useCustomToast";
+import { handleError } from "../../utils";
+import Button from "@mui/material/Button";
+import { Field } from "../ui/field-mui";
 
 const AddItem = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast } = useCustomToast()
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
   const {
     register,
     handleSubmit,
@@ -37,34 +37,34 @@ const AddItem = () => {
       title: "",
       description: "",
     },
-  })
+  });
 
   const mutation = useMutation({
     mutationFn: (data: ItemCreate) =>
       ItemsService.createItem({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Item created successfully.")
-      reset()
-      setIsOpen(false)
+      showSuccessToast("Item created successfully.");
+      reset();
+      setIsOpen(false);
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
+      queryClient.invalidateQueries({ queryKey: ["items"] });
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<ItemCreate> = (data) => {
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
     <>
       {/* Trigger Button */}
-      <Button 
-        variant="contained" 
-        startIcon={<AddIcon />} 
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
         sx={{ my: 2 }}
         onClick={() => setIsOpen(true)}
       >
@@ -72,17 +72,15 @@ const AddItem = () => {
       </Button>
 
       {/* Dialog */}
-      <Dialog 
-        open={isOpen} 
+      <Dialog
+        open={isOpen}
         onClose={() => setIsOpen(false)}
         maxWidth="sm"
         fullWidth
       >
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>
-            Add Item
-          </DialogTitle>
-          
+          <DialogTitle>Add Item</DialogTitle>
+
           <DialogContent>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
               Fill in the details to add a new item.
@@ -147,7 +145,7 @@ const AddItem = () => {
         </Box>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default AddItem
+export default AddItem;
