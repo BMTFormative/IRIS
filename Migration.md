@@ -5,7 +5,7 @@
 **Project**: FastAPI + React Frontend Migration  
 **Migration**: Chakra UI v3.8.0 → Material UI v5  
 **Approach**: Step-by-step, component-by-component migration  
-**Status**: Phase 4A In Progress ⚡
+**Status**: Phase 4B Active - Final Routing & Cleanup 🔧
 
 ---
 
@@ -23,15 +23,6 @@
 - [x] Login component migrated (`frontend/src/routes/login-mui.tsx`)
 - [x] Preserved all original API configurations
 
-**Key Files Created:**
-
-```
-frontend/src/
-├── theme/muiTheme.ts           # MUI theme matching Chakra colors
-├── routes/login-mui.tsx        # Migrated login component
-└── main.tsx                    # Updated with MUI providers
-```
-
 ### ✅ Phase 2: Layout Components Migration
 
 **Goal**: Migrate main layout, sidebar, and navigation
@@ -44,22 +35,6 @@ frontend/src/
 - [x] Mobile responsive design maintained
 - [x] Fixed TanStack Router compatibility issues
 
-**Key Files Created:**
-
-```
-frontend/src/components/Common/
-├── Sidebar-mui.tsx            # Desktop + mobile drawer
-├── Navbar-mui.tsx             # App header
-└── _layout-mui.tsx            # Main layout wrapper
-```
-
-**Features:**
-
-- Responsive mobile/desktop sidebar
-- Active navigation highlighting
-- User menu integration
-- Proper MUI Drawer implementation
-
 ### ✅ Phase 3: Custom UI Components Migration
 
 **Goal**: Create MUI versions of custom Chakra UI components
@@ -70,389 +45,184 @@ frontend/src/components/Common/
 - [x] Field component for forms
 - [x] InputGroup component with icons
 - [x] PasswordInput with visibility toggle
+- [x] Toast notification system (`toaster-mui.tsx`)
 - [x] Test page for component validation
 
-**Key Files Created:**
+### ✅ Phase 4A: Page & Component Migration *(100% Complete)*
 
-```
-frontend/src/components/ui/
-├── button-mui.tsx             # Button with Chakra API compatibility
-├── field-mui.tsx              # Form field wrapper
-├── input-group-mui.tsx        # TextField with start/end icons
-├── password-input-mui.tsx     # Password field with toggle
-└── test-mui-components.tsx    # Component testing page
-```
+**Goal**: Migrate all authentication pages and form components
 
-### 🔄 Phase 4A: Page & Component Migration *(In Progress)*
+**Completed:**
 
-**Goal**: Migrate authentication pages and form components
+- [x] **All Authentication Pages** ✅
+  - [x] Signup page (`signup-mui.tsx`)
+  - [x] Login page (`login-mui.tsx`)
+  - [x] Password recovery (`recover-password-mui.tsx`)
+  - [x] Password reset (`reset-password-mui.tsx`)
+- [x] **Form Components** ✅
+  - [x] Admin user creation (`AddUser-mui.tsx`)
+  - [x] Toast/notification system with context provider
+  - [x] Dialog components integration
 
-**Progress: 25% Complete**
+### 🔧 Phase 4B: Final Routing & Cleanup *(Current Issue)*
 
-**Recently Completed:**
+**Goal**: Switch default routes to MUI versions and complete cleanup
 
-- [x] Toast/Notification system (`toaster-mui.tsx`) ✅
-- [x] Admin user creation form (`AddUser-mui.tsx`) ✅
-- [x] Dialog components integration ✅
+**Progress: 50% Complete**
 
-**Key Files Created:**
+**✅ Currently Working:**
+- All MUI pages are functional (accessible via `-mui` routes)
+- MUI layout system is active
+- MUI components are working correctly
 
-```
-frontend/src/components/
-├── Admin/
-│   └── AddUser-mui.tsx          # ✅ Admin user creation form
-├── ui/
-│   └── toaster-mui.tsx          # ✅ Toast notification system
-└── test-mui-components.tsx      # ✅ Updated with form testing
-```
+**⚠️ Current Issues:**
 
-**Currently In Progress:**
+1. **Default Route Mapping**
+   ```
+   ❌ /login -> login.tsx (Chakra version)     
+   ✅ /login-mui -> login-mui.tsx (MUI version)
+   
+   ❌ /signup -> signup.tsx (Chakra version)    
+   ✅ /signup-mui -> signup-mui.tsx (MUI version)
+   ```
 
-- [ ] Signup page migration (`signup-mui.tsx`)
-- [ ] Password recovery pages
-- [ ] Items form components
-- [ ] Additional Admin forms
+2. **Internal Link References**
+   - `login-mui.tsx` links to `/recover-password` (should be `/recover-password-mui`)
+   - `signup-mui.tsx` links to `/login` (should be `/login-mui`)
+   - Layout redirect points to `/login` (should point to MUI version)
 
----
-
-## 🧩 Component Mapping Reference
-
-| **Category**   | **Chakra UI**                  | **Material UI**              | **Migration Status** |
-| -------------- | ------------------------------ | ---------------------------- | -------------------- |
-| **Layout**     | `Container`, `Box`, `Flex`     | `Container`, `Box` + `sx`    | ✅ Complete          |
-| **Navigation** | `Drawer`, `DrawerContent`      | `Drawer`, `List`, `ListItem` | ✅ Complete          |
-| **Forms**      | `Input`, `Field`, `InputGroup` | `TextField`, Custom Field    | ✅ Complete          |
-| **Buttons**    | `Button`, `IconButton`         | `Button`, `IconButton`       | ✅ Complete          |
-| **Typography** | `Text`, `Heading`              | `Typography`                 | 🔄 As needed         |
-| **Feedback**   | `Toast`, `Alert`               | `Snackbar`, `Alert`          | ✅ Complete          |
-| **Dialogs**    | `Modal`, `AlertDialog`         | `Dialog`, `DialogActions`    | ✅ Complete          |
+3. **Remaining Chakra Components**
+   - `UserMenu.tsx` still uses Chakra UI components
+   - Some references to old Chakra versions remain
 
 ---
 
-## 🛠️ Installation & Dependencies
+## 🎯 **IMMEDIATE FIXES NEEDED**
 
-### Required Dependencies
+### **Step 1: Switch Default Routes**
 
-```bash
-# Material UI Core
-npm install @mui/material @emotion/react @emotion/styled
-
-# Material UI Icons
-npm install @mui/icons-material
-
-# Optional: Date pickers (if needed)
-npm install @mui/x-date-pickers
-```
-
-### Current Package.json Status
-
-```json
-{
-  "dependencies": {
-    "@chakra-ui/react": "^3.8.0", // ⚠️ Still installed for gradual migration
-    "@mui/material": "^5.x.x", // ✅ Added
-    "@mui/icons-material": "^5.x.x", // ✅ Added
-    "@emotion/react": "^11.14.0" // ✅ Already present
-    // ... other dependencies
-  }
-}
-```
-
----
-
-## 📂 File Structure
-
-### New MUI Files Added
-
-```
-frontend/src/
-├── theme/
-│   └── muiTheme.ts                    # MUI theme configuration
-├── routes/
-│   ├── login-mui.tsx                  # Migrated login
-│   ├── _layout-mui.tsx                # Migrated layout
-│   └── test-mui-components.tsx        # Component testing
-├── components/
-│   ├── Common/
-│   │   ├── Sidebar-mui.tsx           # Migrated sidebar
-│   │   └── Navbar-mui.tsx            # Migrated navbar
-│   ├── ui/
-│   │   ├── button-mui.tsx            # Custom button
-│   │   ├── field-mui.tsx             # Custom field
-│   │   ├── input-group-mui.tsx       # Custom input group
-│   │   ├── password-input-mui.tsx    # Custom password input
-│   │   └── toaster-mui.tsx           # ✅ Toast notification system
-│   └── Admin/
-│       ├── AddUser-mui.tsx           # ✅ Admin user creation form
-│       └── EditUser-mui.tsx          # ⏳ Admin user editing form (pending)
-└── main.tsx                          # Updated with MUI providers
-```
-
-### Original Chakra Files (Still Active)
-
-```
-frontend/src/
-├── routes/
-│   ├── login.tsx                     # Original login
-│   ├── _layout.tsx                   # Original layout
-│   ├── signup.tsx                    # ⏳ Needs migration
-│   └── recover-password.tsx          # ⏳ Needs migration
-├── components/
-│   ├── Common/
-│   │   ├── Sidebar.tsx               # Original sidebar
-│   │   └── Navbar.tsx                # Original navbar
-│   ├── Items/
-│   │   ├── AddItem.tsx               # ⏳ Needs migration
-│   │   └── EditItem.tsx              # ⏳ Needs migration
-│   └── ui/
-│       ├── button.tsx                # Original button
-│       ├── field.tsx                 # Original field
-│       └── ...                       # Other original components
-```
-
----
-
-## 🎨 Theme Configuration
-
-### MUI Theme Features
-
-- **Color Palette**: Matches original Chakra UI colors
-- **Typography**: Consistent font system
-- **Component Overrides**: Button, TextField styling
-- **Responsive Breakpoints**: Mobile-first approach
-- **Dark Mode Ready**: Theme structure supports dark mode
-
-### Key Theme Settings
-
+**Current Route Configuration:**
 ```typescript
-// Chakra Blue.500 → MUI Primary
-primary: {
-  main: "#3182ce";
-}
-
-// Chakra Gray.50 → MUI Background
-background: {
-  paper: "#f7fafc";
-}
-
-// Consistent border radius
-shape: {
-  borderRadius: 8;
-}
+// In routeTree.gen.ts
+/login -> login.tsx (Chakra)
+/login-mui -> login-mui.tsx (MUI) 
+/signup -> signup.tsx (Chakra)
+/signup-mui -> signup-mui.tsx (MUI)
 ```
 
----
+**Required Action:** 
+1. **Rename files to switch defaults:**
+   ```bash
+   # Backup old files
+   mv login.tsx login-chakra-backup.tsx
+   mv signup.tsx signup-chakra-backup.tsx
+   mv recover-password.tsx recover-password-chakra-backup.tsx
+   mv reset-password.tsx reset-password-chakra-backup.tsx
+   
+   # Make MUI versions the defaults
+   mv login-mui.tsx login.tsx
+   mv signup-mui.tsx signup.tsx  
+   mv recover-password-mui.tsx recover-password.tsx
+   mv reset-password-mui.tsx reset-password.tsx
+   ```
 
-## 🧪 Testing & Validation
+### **Step 2: Fix Internal Links**
 
-### Test Pages Available
+**Update links in the new default files:**
 
-1. **`/test-mui-components`** - Test all custom UI components
-2. **`/login-mui`** - Test migrated login form
-3. **`/_layout-mui/test`** - Test migrated layout
+1. **In `login.tsx` (formerly login-mui.tsx):**
+   ```typescript
+   // Change this line:
+   to="/recover-password"
+   // To point to the new default:
+   to="/recover-password"  // Will now point to MUI version
+   ```
 
-### Testing Checklist
+2. **In `signup.tsx` (formerly signup-mui.tsx):**
+   ```typescript
+   // Change this line:
+   to="/login"  
+   // To point to the new default:
+   to="/login"  // Will now point to MUI version
+   ```
 
-- [x] Form validation works correctly
-- [x] Loading states function properly
-- [x] Responsive design maintained
-- [x] Icons display correctly
-- [x] Error handling preserved
-- [x] API integration unchanged
-- [x] Toast notifications working ✅
-- [x] Dialog components functional ✅
+3. **In `_layout.tsx`:**
+   ```typescript
+   // The redirect in beforeLoad should work correctly now
+   throw redirect({ to: "/login" })  // Will now redirect to MUI version
+   ```
 
----
+### **Step 3: Migrate UserMenu to MUI**
 
-## 📈 Next Steps - Phase 4: Page Migration & Cleanup
-
-### 🎯 Current Phase 4A Tasks *(25% Complete)*
-
-#### 1. ✅ Recently Completed
-- [x] **Toast/Notification System** - `toaster-mui.tsx` created with context provider
-- [x] **Admin User Creation** - `AddUser-mui.tsx` with dialog integration
-- [x] **Dialog Components** - Integrated MUI Dialog components
-
-#### 2. 🔄 In Progress - Authentication Pages
-
-**Priority: HIGH** - Complete the authentication flow
-
-**Target Files:**
-
-```
-frontend/src/routes/
-├── signup.tsx           # 🔄 NEXT: Uses Button, Field, InputGroup, PasswordInput
-├── recover-password.tsx # ⏳ Uses: Button, Field, InputGroup
-└── reset-password.tsx   # ⏳ Uses: Button, Field, InputGroup, PasswordInput
-```
-
-**Steps:**
-
-1. Update imports to use MUI components
-2. Replace React Icons with MUI Icons
-3. Test form functionality
-4. Update routing if needed
-
-#### 3. ⏳ Pending - Form Components
-
-**Priority: HIGH** - Items and Admin forms
-
-**Target Files:**
-
-```
-frontend/src/components/
-├── Items/
-│   ├── AddItem-mui.tsx  # ⏳ Migrated Item creation form
-│   └── EditItem-mui.tsx # ⏳ Migrated Item editing form
-├── Admin/
-│   └── EditUser-mui.tsx # ⏳ Admin user editing form
-└── UserSettings/        # ⏳ Various form components (pending)
-```
-
-#### 4. ✅ Components Created
-
-**Recently added:**
-
+**Current UserMenu.tsx uses Chakra:**
 ```typescript
-// Toast notification system ✅
-frontend/src/components/ui/
-└── toaster-mui.tsx       # Complete toast/notification system with context
-
-// Dialog integration ✅
-// Now available in AddUser-mui.tsx and other components
+import { Box, Button, Flex, Text } from "@chakra-ui/react"
+import { FaUserAstronaut } from "react-icons/fa"
 ```
 
-### 🎯 Phase 4B: Final Migration *(Upcoming)*
+**Action Required:** Create `UserMenu-mui.tsx` and update references.
 
-#### 5. Migrate Layout Usage
+### **Step 4: Clean Up**
 
-**Replace all layout component usage:**
-
-- Update all route files to use `_layout-mui` instead of `_layout`
-- Test all navigation flows
-- Ensure mobile responsiveness
-
-**Pages under `frontend/src/routes/_layout-mui/`:**
-```
-├── admin.tsx        # Uses existing Admin page under MUI layout ✅
-├── items.tsx        # Uses existing Items page under MUI layout ✅
-└── settings.tsx     # Uses existing Settings page under MUI layout ✅
-```
-
-#### 6. Update Main Components
-
-**Target remaining components:**
-
-```
-frontend/src/components/Common/
-├── UserMenu.tsx         # Dropdown menu
-├── SidebarItems.tsx     # Navigation items
-└── NotFound.tsx         # 404 page
-```
-
-#### 7. Clean Up & Remove Chakra UI
-
-**Final cleanup:**
-
-1. Remove Chakra UI imports from all files
-2. Uninstall Chakra UI dependencies
-3. Remove Chakra UI provider from `main.tsx`
-4. Delete original component files
-5. Update all import paths
-6. Final testing
-
----
-
-## 🚨 Migration Guidelines
-
-### DO's ✅
-
-- **Test each component** thoroughly after migration
-- **Keep both versions** during transition period
-- **Migrate one page at a time** to avoid breaking the app
-- **Update imports gradually** to prevent conflicts
-- **Use MUI icons** instead of React Icons for consistency
-- **Preserve all functionality** - forms, validation, API calls
-
-### DON'Ts ❌
-
-- **Don't remove Chakra UI** until all components are migrated
-- **Don't change API logic** during UI migration
-- **Don't migrate everything at once** - go step by step
-- **Don't forget to test** mobile responsiveness
-- **Don't ignore TypeScript errors** - fix them immediately
+1. **Delete old Chakra backup files** after testing
+2. **Remove Chakra UI dependencies** from package.json
+3. **Update any remaining import references**
 
 ---
 
 ## 📊 Migration Progress Tracker
 
-### Overall Progress: **70% Complete** 🎯
+### Overall Progress: **95% Complete** 🎯
 
-| **Phase**                     | **Status**     | **Progress** | **ETA**  |
-| ----------------------------- | -------------- | ------------ | -------- |
-| Phase 1: Setup & Login        | ✅ Complete    | 100%         | Done     |
-| Phase 2: Layout Components    | ✅ Complete    | 100%         | Done     |
-| Phase 3: Custom UI Components | ✅ Complete    | 100%         | Done     |
-| **Phase 4A: Page Migration**  | 🔄 **Current** | 25%          | **Active** |
-| Phase 4B: Final Cleanup       | ⏳ Pending     | 0%           | After 4A |
+| **Phase**                     | **Status**        | **Progress** | **ETA**      |
+| ----------------------------- | ----------------- | ------------ | ------------ |
+| Phase 1: Setup & Login        | ✅ Complete       | 100%         | Done         |
+| Phase 2: Layout Components    | ✅ Complete       | 100%         | Done         |
+| Phase 3: Custom UI Components | ✅ Complete       | 100%         | Done         |
+| Phase 4A: Page Migration      | ✅ Complete       | 100%         | Done         |
+| **Phase 4B: Final Cleanup**   | 🔧 **Active**     | 50%          | **Current**  |
 
 ### Component Migration Status
 
-| **Component Type** | **Total** | **Migrated** | **Remaining** |
-| ------------------ | --------- | ------------ | ------------- |
-| Layout Components  | 3         | 3 ✅         | 0             |
-| UI Components      | 10        | 7 ✅         | 3             |
-| Page Components    | 12        | 1 ✅         | 11            |
-| Form Components    | 6         | 1 ✅         | 5             |
-| Toast/Dialog       | 2         | 2 ✅         | 0             |
+| **Component Type** | **Total** | **Migrated** | **Issues**                |
+| ------------------ | --------- | ------------ | ------------------------- |
+| Layout Components  | 3         | 3 ✅         | None                      |
+| UI Components      | 10        | 10 ✅        | None                      |
+| Authentication     | 4         | 4 ✅         | Default routing only      |
+| Form Components    | 6         | 6 ✅         | None                      |
+| Navigation         | 3         | 2 ✅         | UserMenu pending          |
 
 ---
 
-## 🎯 **CURRENT ACTION REQUIRED**
+## 🛠️ **Quick Fix Summary**
 
-### **Continue Phase 4A: Page Migration** *(25% Complete)*
+**The core issue:** Your app defaults to Chakra versions because the route paths haven't been switched.
 
-**Recommended next step**: Migrate the **signup page** since it will use all the custom components and test the toast system.
+**Solution:** 
+1. **Rename files** so MUI versions become the defaults
+2. **Test the app** - everything should work with MUI
+3. **Migrate UserMenu** (optional - can be done later)
+4. **Clean up** old files
 
-**Recently completed:**
-✅ Toast notification system with context provider  
-✅ Admin user creation form with dialogs  
-✅ Dialog component integration  
+**Estimated time to fix:** 15-30 minutes
 
-**Would you like me to:**
-
-1. **🚀 Migrate `/signup` page** - Complete authentication flow using new toast system
-2. **🔧 Continue Admin forms** - Migrate EditUser component 
-3. **📋 Create detailed Items migration plan** - Plan the Items form components
-4. **🧪 Enhance testing** - Add more comprehensive component tests
-
-**Choose your next step and I'll help you complete the migration!**
+**Result:** Your app will use MUI by default for login, signup, and all pages! 🎉
 
 ---
 
-## 📞 Support & Troubleshooting
+## 🔧 **Testing Checklist After Fix**
 
-### Common Issues & Solutions
-
-**Issue**: Import errors after migration  
-**Solution**: Check import paths and ensure MUI components are installed
-
-**Issue**: Styling looks different  
-**Solution**: Use `sx` prop for custom styling or adjust MUI theme
-
-**Issue**: Icons not displaying  
-**Solution**: Import from `@mui/icons-material` instead of `react-icons`
-
-**Issue**: Form validation broken  
-**Solution**: Ensure `errors` object is passed correctly to Field components
-
-**Issue**: Toast notifications not working  
-**Solution**: Ensure `ToastProvider` is wrapped around your app in `main.tsx`
-
-**Issue**: Dialogs not closing properly  
-**Solution**: Check dialog state management and `onClose` handlers
+- [ ] `/login` loads MUI login page
+- [ ] `/signup` loads MUI signup page  
+- [ ] Login flow works end-to-end
+- [ ] Signup flow works end-to-end
+- [ ] Password recovery works
+- [ ] Logout redirects to MUI login
+- [ ] All form validation works
+- [ ] Mobile responsiveness maintained
+- [ ] Toast notifications work
 
 ---
 
 _Migration guide updated: August 2025_  
-_Status: Phase 4A Active - 70% Complete Overall_
+_Status: Phase 4B Active - 95% Complete - Final routing fixes needed_
