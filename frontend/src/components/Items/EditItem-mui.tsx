@@ -1,3 +1,4 @@
+// frontend/src/components/Items/EditItem-mui.tsx
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { useState } from "react"
@@ -6,6 +7,10 @@ import {
   Typography,
   TextField,
   Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material"
 import { Edit as EditIcon } from "@mui/icons-material"
 
@@ -14,17 +19,6 @@ import useCustomToast from "../../hooks/useCustomToast"
 import { handleError } from "../../utils"
 import { Button } from "../ui/button-mui"
 import { Field } from "../ui/field-mui"
-import {
-  DialogRootMui as DialogRoot,
-  DialogTriggerMui as DialogTrigger,
-  DialogContentMui as DialogContent,
-  DialogHeaderMui as DialogHeader,
-  DialogTitleMui as DialogTitle,
-  DialogBodyMui as DialogBody,
-  DialogFooterMui as DialogFooter,
-  DialogActionTriggerMui as DialogActionTrigger,
-  DialogCloseTriggerMui as DialogCloseTrigger,
-} from "../ui/dialog-mui"
 
 interface EditItemProps {
   item: ItemPublic
@@ -74,34 +68,31 @@ const EditItem = ({ item }: EditItemProps) => {
   }
 
   return (
-    <DialogRoot
-      size={{ base: "xs", md: "md" }}
-      placement="center"
-      open={isOpen}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
-      <DialogTrigger asChild>
-        <Button
-          variant="text"
-          startIcon={<EditIcon />}
-          color="inherit"
-          size="small"
-        >
-          Edit Item
-        </Button>
-      </DialogTrigger>
+    <>
+      {/* Trigger Button */}
+      <Button
+        variant="text"
+        startIcon={<EditIcon />}
+        color="inherit"
+        size="small"
+        onClick={() => setIsOpen(true)}
+      >
+        Edit Item
+      </Button>
       
-      <DialogContent>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{ width: "100%" }}
-        >
-          <DialogHeader>
-            <DialogTitle>Edit Item</DialogTitle>
-          </DialogHeader>
+      {/* Dialog */}
+      <Dialog 
+        open={isOpen} 
+        onClose={() => setIsOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle>
+            Edit Item
+          </DialogTitle>
           
-          <DialogBody>
+          <DialogContent>
             <Typography 
               variant="body2" 
               color="text.secondary" 
@@ -148,18 +139,17 @@ const EditItem = ({ item }: EditItemProps) => {
                 />
               </Field>
             </Stack>
-          </DialogBody>
+          </DialogContent>
 
-          <DialogFooter gap={2}>
-            <DialogActionTrigger asChild>
-              <Button
-                variant="outlined"
-                color="inherit"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </DialogActionTrigger>
+          <DialogActions sx={{ p: 3, gap: 2 }}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
             
             <Button
               type="submit"
@@ -168,12 +158,10 @@ const EditItem = ({ item }: EditItemProps) => {
             >
               Save
             </Button>
-          </DialogFooter>
-          
-          <DialogCloseTrigger />
+          </DialogActions>
         </Box>
-      </DialogContent>
-    </DialogRoot>
+      </Dialog>
+    </>
   )
 }
 
