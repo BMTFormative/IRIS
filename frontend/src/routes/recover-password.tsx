@@ -1,13 +1,18 @@
-import { Container, Heading, Input, Text } from "@chakra-ui/react"
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+} from "@mui/material"
+import { EmailOutlined } from "@mui/icons-material"
 import { useMutation } from "@tanstack/react-query"
 import { createFileRoute, redirect } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { FiMail } from "react-icons/fi"
 
 import { type ApiError, LoginService } from "@/client"
-import { Button } from "@/components/ui/button"
-import { Field } from "@/components/ui/field"
-import { InputGroup } from "@/components/ui/input-group"
+import { Button } from "@/components/ui/button-mui"
+import { Field } from "@/components/ui/field-mui"
+import { InputGroup } from "@/components/ui/input-group-mui"
 import { isLoggedIn } from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
 import { emailPattern, handleError } from "@/utils"
@@ -58,38 +63,92 @@ function RecoverPassword() {
   }
 
   return (
-    <Container
-      as="form"
-      onSubmit={handleSubmit(onSubmit)}
-      h="100vh"
-      maxW="sm"
-      alignItems="stretch"
-      justifyContent="center"
-      gap={4}
-      centerContent
+    <Container 
+      maxWidth="sm" 
+      sx={{ 
+        minHeight: "100vh", 
+        display: "flex", 
+        alignItems: "center",
+        justifyContent: "center",
+        py: 4,
+      }}
     >
-      <Heading size="xl" color="ui.main" textAlign="center" mb={2}>
-        Password Recovery
-      </Heading>
-      <Text textAlign="center">
-        A password recovery email will be sent to the registered account.
-      </Text>
-      <Field invalid={!!errors.email} errorText={errors.email?.message}>
-        <InputGroup w="100%" startElement={<FiMail />}>
-          <Input
-            id="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: emailPattern,
-            })}
-            placeholder="Email"
-            type="email"
-          />
-        </InputGroup>
-      </Field>
-      <Button variant="solid" type="submit" loading={isSubmitting}>
-        Continue
-      </Button>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          width: "100%",
+          borderRadius: 2,
+        }}
+      >
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          {/* Title */}
+          <Typography 
+            variant="h4" 
+            component="h1"
+            sx={{
+              textAlign: "center",
+              mb: 2,
+              color: "primary.main",
+              fontWeight: "bold",
+            }}
+          >
+            Password Recovery
+          </Typography>
+
+          {/* Description */}
+          <Typography 
+            variant="body1" 
+            sx={{
+              textAlign: "center",
+              color: "text.secondary",
+              mb: 2,
+            }}
+          >
+            A password recovery email will be sent to the registered account.
+          </Typography>
+
+          {/* Email Field */}
+          <Field
+            invalid={!!errors.email}
+            errorText={errors.email?.message}
+          >
+            <InputGroup
+              id="email"
+              placeholder="Email"
+              type="email"
+              startElement={<EmailOutlined />}
+              {...register("email", {
+                required: "Email is required",
+                pattern: emailPattern,
+              })}
+            />
+          </Field>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            size="large"
+            loading={isSubmitting}
+            sx={{
+              mt: 2,
+              py: 1.5,
+            }}
+          >
+            Continue
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   )
 }
