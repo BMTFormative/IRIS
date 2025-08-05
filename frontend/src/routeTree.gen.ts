@@ -16,11 +16,11 @@ import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as LayoutOlditemImport } from './routes/_layout/old_item'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTestImport } from './routes/_layout/test'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutOldsettingImport } from './routes/_layout/old_setting'
-import { Route as LayoutOlditemImport } from './routes/_layout/old_item'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 
@@ -51,6 +51,11 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const LayoutOlditemRoute = LayoutOlditemImport.update({
+  path: '/old_item',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutIndexRoute = LayoutIndexImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
@@ -68,11 +73,6 @@ const LayoutSettingsRoute = LayoutSettingsImport.update({
 
 const LayoutOldsettingRoute = LayoutOldsettingImport.update({
   path: '/old_setting',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutOlditemRoute = LayoutOlditemImport.update({
-  path: '/old_item',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -118,10 +118,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutItemsImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/old_item': {
-      preLoaderRoute: typeof LayoutOlditemImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/old_setting': {
       preLoaderRoute: typeof LayoutOldsettingImport
       parentRoute: typeof LayoutImport
@@ -138,6 +134,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/old_item': {
+      preLoaderRoute: typeof LayoutOlditemImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -147,11 +147,11 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
     LayoutItemsRoute,
-    LayoutOlditemRoute,
     LayoutOldsettingRoute,
     LayoutSettingsRoute,
     LayoutTestRoute,
     LayoutIndexRoute,
+    LayoutOlditemRoute,
   ]),
   LoginRoute,
   RecoverPasswordRoute,
