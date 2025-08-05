@@ -29,11 +29,11 @@ const createBaseTheme = (mode: 'light' | 'dark') => createTheme({
     ...(mode === 'light' ? {
       // Light mode colors
       background: {
-        default: '#ffffff',
+        default: '#f1edecff',
         paper: '#f8fafc',
       },
       text: {
-        primary: '#3182ce',
+        primary: '#1976D2',
         secondary: '#685a4aff',
       },
     } : {

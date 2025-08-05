@@ -52,7 +52,7 @@ const ModernNavbar = ({ open, handleDrawerToggle }: ModernNavbarProps) => {
         position="fixed"
         open={open}
         sx={(theme) => ({
-          bgcolor: 'rgba(25, 118, 210, 0.08)',
+          bgcolor: 'rgba(252, 253, 253, 0.08)',
           color: theme.palette.text.primary,
           boxShadow: theme.shadows[4],
           borderBottom: `1px solid ${theme.palette.divider}`,
