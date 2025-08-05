@@ -11,50 +11,28 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestMuiComponentsImport } from './routes/test-mui-components'
-import { Route as SignupMuiImport } from './routes/signup-mui'
 import { Route as SignupImport } from './routes/signup'
-import { Route as ResetPasswordMuiImport } from './routes/reset-password-mui'
 import { Route as ResetPasswordImport } from './routes/reset-password'
-import { Route as RecoverPasswordMuiImport } from './routes/recover-password-mui'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutTestImport } from './routes/_layout/test'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
+import { Route as LayoutOldsettingImport } from './routes/_layout/old_setting'
+import { Route as LayoutOlditemImport } from './routes/_layout/old_item'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 
 // Create/Update Routes
-
-const TestMuiComponentsRoute = TestMuiComponentsImport.update({
-  path: '/test-mui-components',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SignupMuiRoute = SignupMuiImport.update({
-  path: '/signup-mui',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const SignupRoute = SignupImport.update({
   path: '/signup',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ResetPasswordMuiRoute = ResetPasswordMuiImport.update({
-  path: '/reset-password-mui',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ResetPasswordRoute = ResetPasswordImport.update({
   path: '/reset-password',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RecoverPasswordMuiRoute = RecoverPasswordMuiImport.update({
-  path: '/recover-password-mui',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,6 +66,16 @@ const LayoutSettingsRoute = LayoutSettingsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutOldsettingRoute = LayoutOldsettingImport.update({
+  path: '/old_setting',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutOlditemRoute = LayoutOlditemImport.update({
+  path: '/old_item',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutItemsRoute = LayoutItemsImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
@@ -114,28 +102,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecoverPasswordImport
       parentRoute: typeof rootRoute
     }
-    '/recover-password-mui': {
-      preLoaderRoute: typeof RecoverPasswordMuiImport
-      parentRoute: typeof rootRoute
-    }
     '/reset-password': {
       preLoaderRoute: typeof ResetPasswordImport
       parentRoute: typeof rootRoute
     }
-    '/reset-password-mui': {
-      preLoaderRoute: typeof ResetPasswordMuiImport
-      parentRoute: typeof rootRoute
-    }
     '/signup': {
       preLoaderRoute: typeof SignupImport
-      parentRoute: typeof rootRoute
-    }
-    '/signup-mui': {
-      preLoaderRoute: typeof SignupMuiImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-mui-components': {
-      preLoaderRoute: typeof TestMuiComponentsImport
       parentRoute: typeof rootRoute
     }
     '/_layout/admin': {
@@ -144,6 +116,14 @@ declare module '@tanstack/react-router' {
     }
     '/_layout/items': {
       preLoaderRoute: typeof LayoutItemsImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/old_item': {
+      preLoaderRoute: typeof LayoutOlditemImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/old_setting': {
+      preLoaderRoute: typeof LayoutOldsettingImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/settings': {
@@ -167,18 +147,16 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
     LayoutItemsRoute,
+    LayoutOlditemRoute,
+    LayoutOldsettingRoute,
     LayoutSettingsRoute,
     LayoutTestRoute,
     LayoutIndexRoute,
   ]),
   LoginRoute,
   RecoverPasswordRoute,
-  RecoverPasswordMuiRoute,
   ResetPasswordRoute,
-  ResetPasswordMuiRoute,
   SignupRoute,
-  SignupMuiRoute,
-  TestMuiComponentsRoute,
 ])
 
 /* prettier-ignore-end */

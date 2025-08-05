@@ -1,12 +1,17 @@
-import { Container, Heading, Text } from "@chakra-ui/react"
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+} from "@mui/material"
+import { LockOutlined } from "@mui/icons-material"
 import { useMutation } from "@tanstack/react-query"
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { FiLock } from "react-icons/fi"
 
 import { type ApiError, LoginService, type NewPassword } from "@/client"
-import { Button } from "@/components/ui/button"
-import { PasswordInput } from "@/components/ui/password-input"
+import { Button } from "@/components/ui/button-mui"
+import { PasswordInput } from "@/components/ui/password-input-mui"
 import { isLoggedIn } from "@/hooks/useAuth"
 import useCustomToast from "@/hooks/useCustomToast"
 import { confirmPasswordRules, handleError, passwordRules } from "@/utils"
@@ -68,39 +73,91 @@ function ResetPassword() {
   }
 
   return (
-    <Container
-      as="form"
-      onSubmit={handleSubmit(onSubmit)}
-      h="100vh"
-      maxW="sm"
-      alignItems="stretch"
-      justifyContent="center"
-      gap={4}
-      centerContent
+    <Container 
+      maxWidth="sm" 
+      sx={{ 
+        minHeight: "100vh", 
+        display: "flex", 
+        alignItems: "center",
+        justifyContent: "center",
+        py: 4,
+      }}
     >
-      <Heading size="xl" color="ui.main" textAlign="center" mb={2}>
-        Reset Password
-      </Heading>
-      <Text textAlign="center">
-        Please enter your new password and confirm it to reset your password.
-      </Text>
-      <PasswordInput
-        startElement={<FiLock />}
-        type="new_password"
-        errors={errors}
-        {...register("new_password", passwordRules())}
-        placeholder="New Password"
-      />
-      <PasswordInput
-        startElement={<FiLock />}
-        type="confirm_password"
-        errors={errors}
-        {...register("confirm_password", confirmPasswordRules(getValues))}
-        placeholder="Confirm Password"
-      />
-      <Button variant="solid" type="submit">
-        Reset Password
-      </Button>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          width: "100%",
+          borderRadius: 2,
+        }}
+      >
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          {/* Title */}
+          <Typography 
+            variant="h4" 
+            component="h1"
+            sx={{
+              textAlign: "center",
+              mb: 2,
+              color: "primary.main",
+              fontWeight: "bold",
+            }}
+          >
+            Reset Password
+          </Typography>
+
+          {/* Description */}
+          <Typography 
+            variant="body1" 
+            sx={{
+              textAlign: "center",
+              color: "text.secondary",
+              mb: 2,
+            }}
+          >
+            Please enter your new password and confirm it to reset your password.
+          </Typography>
+
+          {/* New Password Field */}
+          <PasswordInput
+            type="new_password"
+            placeholder="New Password"
+            startElement={<LockOutlined />}
+            errors={errors}
+            {...register("new_password", passwordRules())}
+          />
+          {/* Confirm Password Field */}
+          <PasswordInput
+            type="confirm_password"
+            placeholder="Confirm Password"
+            startElement={<LockOutlined />}
+            errors={errors}
+            {...register("confirm_password", confirmPasswordRules(getValues))}
+          />
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            size="large"
+            loading={mutation.isPending}
+            sx={{
+              mt: 2,
+              py: 1.5,
+            }}
+          >
+            Reset Password
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   )
 }

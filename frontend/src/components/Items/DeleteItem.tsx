@@ -1,104 +1,88 @@
-import { Button, DialogTitle, Text } from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { FiTrash2 } from "react-icons/fi"
-
-import { ItemsService } from "@/client"
+// frontend/src/components/Items/DeleteItem-mui.tsx
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  DialogActionTrigger,
-  DialogBody,
-  DialogCloseTrigger,
+  Dialog,
+  DialogTitle,
   DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTrigger,
-} from "@/components/ui/dialog-mui"
-import useCustomToast from "@/hooks/useCustomToast"
+  DialogActions,
+  Typography,
+} from "@mui/material";
 
-const DeleteItem = ({ id }: { id: string }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast, showErrorToast } = useCustomToast()
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm()
+import { ItemsService } from "@/client";
+import type { ApiError } from "@/client/core/ApiError";
+import useCustomToast from "@/hooks/useCustomToast";
+import { handleError } from "@/utils";
+import Button from "@mui/material/Button";
 
-  const deleteItem = async (id: string) => {
-    await ItemsService.deleteItem({ id: id })
-  }
-
-  const mutation = useMutation({
-    mutationFn: deleteItem,
-    onSuccess: () => {
-      showSuccessToast("The item was deleted successfully")
-      setIsOpen(false)
-    },
-    onError: () => {
-      showErrorToast("An error occurred while deleting the item")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries()
-    },
-  })
-
-  const onSubmit = async () => {
-    mutation.mutate(id)
-  }
-
-  return (
-    <DialogRoot
-      size={{ base: "xs", md: "md" }}
-      placement="center"
-      role="alertdialog"
-      open={isOpen}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" colorPalette="red">
-          <FiTrash2 fontSize="16px" />
-          Delete Item
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogCloseTrigger />
-          <DialogHeader>
-            <DialogTitle>Delete Item</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <Text mb={4}>
-              This item will be permanently deleted. Are you sure? You will not
-              be able to undo this action.
-            </Text>
-          </DialogBody>
-
-          <DialogFooter gap={2}>
-            <DialogActionTrigger asChild>
-              <Button
-                variant="subtle"
-                colorPalette="gray"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </DialogActionTrigger>
-            <Button
-              variant="solid"
-              colorPalette="red"
-              type="submit"
-              loading={isSubmitting}
-            >
-              Delete
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </DialogRoot>
-  )
+interface DeleteItemProps {
+  id: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default DeleteItem
+const DeleteItem = ({ id, open, onOpenChange }: DeleteItemProps) => {
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const deleteItemMutation = useMutation({
+    mutationFn: (id: string) => ItemsService.deleteItem({ id }),
+    onSuccess: () => {
+      showSuccessToast("Item deleted successfully");
+      onOpenChange(false);
+    },
+    onError: (err: ApiError) => {
+      handleError(err);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      setIsDeleting(false);
+    },
+  });
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    deleteItemMutation.mutate(id);
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={() => onOpenChange(false)}
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>Delete Item</DialogTitle>
+
+      <DialogContent>
+        <Typography variant="body1" color="text.secondary">
+          Are you sure you want to delete this item? This action cannot be
+          undone.
+        </Typography>
+      </DialogContent>
+
+      <DialogActions sx={{ p: 3, gap: 2 }}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => onOpenChange(false)}
+          disabled={isDeleting}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleDelete}
+          loading={isDeleting}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default DeleteItem;
