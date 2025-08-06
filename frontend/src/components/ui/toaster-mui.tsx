@@ -184,5 +184,5 @@ export const Toaster: React.FC = () => {
 }
 
 // Export types and components
+// Export types
 export type { ToastOptions, ToastType }
-export { ToastProvider }
