@@ -21,8 +21,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
 
 import { type UserPublic, UsersService } from "@/client"
-import AddUser from "@/components/Admin/AddUser-mui"
-import { UserActionsMenu } from "@/components/Common/UserActionsMenu-mui"
+import AddUser from "@/components/Admin/AddUser"
+import { UserActionsMenu } from "@/components/Common/UserActionsMenu"
 
 const usersSearchSchema = z.object({
   page: z.number().catch(1),

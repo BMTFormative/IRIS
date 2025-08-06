@@ -1,25 +1,23 @@
+import { Box, Container, Paper, Typography, Link } from "@mui/material";
 import {
-  Box,
-  Container,
-  Paper,
-  Typography,
-  Link,
-} from "@mui/material"
-import { PersonOutline, LockOutlined, Email as EmailIcon } from "@mui/icons-material"
+  PersonOutline,
+  LockOutlined,
+  Email as EmailIcon,
+} from "@mui/icons-material";
 import {
   Link as RouterLink,
   createFileRoute,
   redirect,
-} from "@tanstack/react-router"
-import { type SubmitHandler, useForm } from "react-hook-form"
+} from "@tanstack/react-router";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
-import type { UserRegister } from "@/client"
-import { Button } from "@/components/ui/button-mui"
-import { Field } from "@/components/ui/field-mui"
-import { InputGroup } from "@/components/ui/input-group-mui"
-import { PasswordInput } from "@/components/ui/password-input-mui"
-import useAuth, { isLoggedIn } from "@/hooks/useAuth"
-import { confirmPasswordRules, emailPattern, passwordRules } from "@/utils"
+import type { UserRegister } from "@/client";
+import Button from "@mui/material/Button";
+import { Field } from "@/components/ui/field-mui";
+import { InputGroup } from "@/components/ui/input-group-mui";
+import { PasswordInput } from "@/components/ui/password-input-mui";
+import useAuth, { isLoggedIn } from "@/hooks/useAuth";
+import { confirmPasswordRules, emailPattern, passwordRules } from "@/utils";
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -27,17 +25,17 @@ export const Route = createFileRoute("/signup")({
     if (isLoggedIn()) {
       throw redirect({
         to: "/",
-      })
+      });
     }
   },
-})
+});
 
 interface UserRegisterForm extends UserRegister {
-  confirm_password: string
+  confirm_password: string;
 }
 
 function SignUp() {
-  const { signUpMutation } = useAuth()
+  const { signUpMutation } = useAuth();
   const {
     register,
     handleSubmit,
@@ -52,18 +50,18 @@ function SignUp() {
       password: "",
       confirm_password: "",
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<UserRegisterForm> = (data) => {
-    signUpMutation.mutate(data)
-  }
+    signUpMutation.mutate(data);
+  };
 
   return (
-    <Container 
-      maxWidth="sm" 
-      sx={{ 
-        minHeight: "100vh", 
-        display: "flex", 
+    <Container
+      maxWidth="sm"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
         py: 4,
@@ -87,8 +85,8 @@ function SignUp() {
           }}
         >
           {/* Title */}
-          <Typography 
-            variant="h4" 
+          <Typography
+            variant="h4"
             component="h1"
             sx={{
               textAlign: "center",
@@ -116,10 +114,7 @@ function SignUp() {
           </Field>
 
           {/* Email Field */}
-          <Field
-            invalid={!!errors.email}
-            errorText={errors.email?.message}
-          >
+          <Field invalid={!!errors.email} errorText={errors.email?.message}>
             <InputGroup
               id="email"
               placeholder="Email"
@@ -180,7 +175,7 @@ function SignUp() {
         </Box>
       </Paper>
     </Container>
-  )
+  );
 }
 
-export default SignUp
+export default SignUp;

@@ -11,7 +11,7 @@ import ReactDOM from "react-dom/client"
 import { routeTree } from "./routeTree.gen"
 
 import { ApiError, OpenAPI } from "./client"
-import { CustomProvider } from "./components/ui/provider"
+import { ThemeProvider } from "next-themes"
 import DynamicMuiThemeProvider from "./components/ui/DynamicMuiThemeProvider"
 
 // Dark mode is handled via MUI CssBaseline and GlobalStyles
@@ -49,14 +49,14 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* Chakra UI Provider with next-themes ColorModeProvider */}
-    <CustomProvider>
+    {/* Next-themes provider for color mode */}
+    <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
       {/* Dynamic Material UI Theme Provider that responds to next-themes */}
       <DynamicMuiThemeProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
       </DynamicMuiThemeProvider>
-    </CustomProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

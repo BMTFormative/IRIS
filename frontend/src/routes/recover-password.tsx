@@ -1,24 +1,19 @@
-import {
-  Box,
-  Container,
-  Paper,
-  Typography,
-} from "@mui/material"
-import { EmailOutlined } from "@mui/icons-material"
-import { useMutation } from "@tanstack/react-query"
-import { createFileRoute, redirect } from "@tanstack/react-router"
-import { type SubmitHandler, useForm } from "react-hook-form"
+import { Box, Container, Paper, Typography } from "@mui/material";
+import { EmailOutlined } from "@mui/icons-material";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { type ApiError, LoginService } from "@/client"
-import { Button } from "@/components/ui/button-mui"
-import { Field } from "@/components/ui/field-mui"
-import { InputGroup } from "@/components/ui/input-group-mui"
-import { isLoggedIn } from "@/hooks/useAuth"
-import useCustomToast from "@/hooks/useCustomToast"
-import { emailPattern, handleError } from "@/utils"
+import { type ApiError, LoginService } from "@/client";
+import Button from "@mui/material/Button";
+import { Field } from "@/components/ui/field-mui";
+import { InputGroup } from "@/components/ui/input-group-mui";
+import { isLoggedIn } from "@/hooks/useAuth";
+import useCustomToast from "@/hooks/useCustomToast";
+import { emailPattern, handleError } from "@/utils";
 
 interface FormData {
-  email: string
+  email: string;
 }
 
 export const Route = createFileRoute("/recover-password")({
@@ -27,10 +22,10 @@ export const Route = createFileRoute("/recover-password")({
     if (isLoggedIn()) {
       throw redirect({
         to: "/",
-      })
+      });
     }
   },
-})
+});
 
 function RecoverPassword() {
   const {
@@ -38,36 +33,36 @@ function RecoverPassword() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>()
-  const { showSuccessToast } = useCustomToast()
+  } = useForm<FormData>();
+  const { showSuccessToast } = useCustomToast();
 
   const recoverPassword = async (data: FormData) => {
     await LoginService.recoverPassword({
       email: data.email,
-    })
-  }
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: recoverPassword,
     onSuccess: () => {
-      showSuccessToast("Password recovery email sent successfully.")
-      reset()
+      showSuccessToast("Password recovery email sent successfully.");
+      reset();
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
-    <Container 
-      maxWidth="sm" 
-      sx={{ 
-        minHeight: "100vh", 
-        display: "flex", 
+    <Container
+      maxWidth="sm"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
         py: 4,
@@ -91,8 +86,8 @@ function RecoverPassword() {
           }}
         >
           {/* Title */}
-          <Typography 
-            variant="h4" 
+          <Typography
+            variant="h4"
             component="h1"
             sx={{
               textAlign: "center",
@@ -105,8 +100,8 @@ function RecoverPassword() {
           </Typography>
 
           {/* Description */}
-          <Typography 
-            variant="body1" 
+          <Typography
+            variant="body1"
             sx={{
               textAlign: "center",
               color: "text.secondary",
@@ -117,10 +112,7 @@ function RecoverPassword() {
           </Typography>
 
           {/* Email Field */}
-          <Field
-            invalid={!!errors.email}
-            errorText={errors.email?.message}
-          >
+          <Field invalid={!!errors.email} errorText={errors.email?.message}>
             <InputGroup
               id="email"
               placeholder="Email"
@@ -150,5 +142,5 @@ function RecoverPassword() {
         </Box>
       </Paper>
     </Container>
-  )
+  );
 }
