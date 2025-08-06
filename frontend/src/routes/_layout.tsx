@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 
-import ModernNavbar from "@/components/Common/Navbar-mui";
-import MiniVariantDrawer from "@/components/Common/Sidebar-mui";
+import ModernNavbar from "@/components/Common/Navbar";
+import MiniVariantDrawer from "@/components/Common/Sidebar";
 import { isLoggedIn } from "@/hooks/useAuth";
 
 // Width of the sidebar when expanded (matches Sidebar-mui drawerWidth)

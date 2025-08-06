@@ -1,23 +1,18 @@
-import {
-  Box,
-  Container,
-  Paper,
-  Typography,
-} from "@mui/material"
-import { LockOutlined } from "@mui/icons-material"
-import { useMutation } from "@tanstack/react-query"
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router"
-import { type SubmitHandler, useForm } from "react-hook-form"
+import { Box, Container, Paper, Typography } from "@mui/material";
+import { LockOutlined } from "@mui/icons-material";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { type ApiError, LoginService, type NewPassword } from "@/client"
-import { Button } from "@/components/ui/button-mui"
-import { PasswordInput } from "@/components/ui/password-input-mui"
-import { isLoggedIn } from "@/hooks/useAuth"
-import useCustomToast from "@/hooks/useCustomToast"
-import { confirmPasswordRules, handleError, passwordRules } from "@/utils"
+import { type ApiError, LoginService, type NewPassword } from "@/client";
+import Button from "@mui/material/Button";
+import { PasswordInput } from "@/components/ui/password-input-mui";
+import { isLoggedIn } from "@/hooks/useAuth";
+import useCustomToast from "@/hooks/useCustomToast";
+import { confirmPasswordRules, handleError, passwordRules } from "@/utils";
 
 interface NewPasswordForm extends NewPassword {
-  confirm_password: string
+  confirm_password: string;
 }
 
 export const Route = createFileRoute("/reset-password")({
@@ -26,10 +21,10 @@ export const Route = createFileRoute("/reset-password")({
     if (isLoggedIn()) {
       throw redirect({
         to: "/",
-      })
+      });
     }
   },
-})
+});
 
 function ResetPassword() {
   const {
@@ -44,40 +39,40 @@ function ResetPassword() {
     defaultValues: {
       new_password: "",
     },
-  })
-  const { showSuccessToast } = useCustomToast()
-  const navigate = useNavigate()
+  });
+  const { showSuccessToast } = useCustomToast();
+  const navigate = useNavigate();
 
   const resetPassword = async (data: NewPassword) => {
-    const token = new URLSearchParams(window.location.search).get("token")
-    if (!token) return
+    const token = new URLSearchParams(window.location.search).get("token");
+    if (!token) return;
     await LoginService.resetPassword({
       requestBody: { new_password: data.new_password, token: token },
-    })
-  }
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: resetPassword,
     onSuccess: () => {
-      showSuccessToast("Password updated successfully.")
-      reset()
-      navigate({ to: "/login" })
+      showSuccessToast("Password updated successfully.");
+      reset();
+      navigate({ to: "/login" });
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
-  })
+  });
 
   const onSubmit: SubmitHandler<NewPasswordForm> = async (data) => {
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
-    <Container 
-      maxWidth="sm" 
-      sx={{ 
-        minHeight: "100vh", 
-        display: "flex", 
+    <Container
+      maxWidth="sm"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
         py: 4,
@@ -101,8 +96,8 @@ function ResetPassword() {
           }}
         >
           {/* Title */}
-          <Typography 
-            variant="h4" 
+          <Typography
+            variant="h4"
             component="h1"
             sx={{
               textAlign: "center",
@@ -115,15 +110,16 @@ function ResetPassword() {
           </Typography>
 
           {/* Description */}
-          <Typography 
-            variant="body1" 
+          <Typography
+            variant="body1"
             sx={{
               textAlign: "center",
               color: "text.secondary",
               mb: 2,
             }}
           >
-            Please enter your new password and confirm it to reset your password.
+            Please enter your new password and confirm it to reset your
+            password.
           </Typography>
 
           {/* New Password Field */}
@@ -159,5 +155,5 @@ function ResetPassword() {
         </Box>
       </Paper>
     </Container>
-  )
+  );
 }

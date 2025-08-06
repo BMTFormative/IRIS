@@ -1,46 +1,40 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Controller, type SubmitHandler, useForm } from "react-hook-form"
-
+// frontend/src/components/Admin/EditUser-mui.tsx
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
 import {
-  Button,
-  DialogActionTrigger,
-  DialogRoot,
-  DialogTrigger,
-  Flex,
-  Input,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
-import { useState } from "react"
-import { FaExchangeAlt } from "react-icons/fa"
-
-import { type UserPublic, type UserUpdate, UsersService } from "@/client"
-import type { ApiError } from "@/client/core/ApiError"
-import useCustomToast from "@/hooks/useCustomToast"
-import { emailPattern, handleError } from "@/utils"
-import { Checkbox } from "../ui/checkbox"
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
+  Box,
+  Typography,
+  TextField,
+  Stack,
+  FormControlLabel,
+  Checkbox as MuiCheckbox,
+  Dialog,
   DialogTitle,
-} from "@/components/ui/dialog-mui"
-import { Field } from "../ui/field"
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { Edit as EditIcon } from "@mui/icons-material";
+
+import { type UserPublic, type UserUpdate, UsersService } from "@/client";
+import type { ApiError } from "@/client/core/ApiError";
+import useCustomToast from "@/hooks/useCustomToast";
+import { emailPattern, handleError } from "@/utils";
+import Button from "@mui/material/Button";
+import { Field } from "../ui/field-mui";
 
 interface EditUserProps {
-  user: UserPublic
+  user: UserPublic;
 }
 
 interface UserUpdateForm extends UserUpdate {
-  confirm_password?: string
+  confirm_password?: string;
 }
 
 const EditUser = ({ user }: EditUserProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast } = useCustomToast()
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
   const {
     control,
     register,
@@ -51,170 +45,199 @@ const EditUser = ({ user }: EditUserProps) => {
   } = useForm<UserUpdateForm>({
     mode: "onBlur",
     criteriaMode: "all",
-    defaultValues: user,
-  })
+    defaultValues: {
+      ...user,
+      password: "",
+      confirm_password: "",
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: (data: UserUpdateForm) =>
       UsersService.updateUser({ userId: user.id, requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("User updated successfully.")
-      reset()
-      setIsOpen(false)
+      showSuccessToast("User updated successfully.");
+      reset();
+      setIsOpen(false);
     },
     onError: (err: ApiError) => {
-      handleError(err)
+      handleError(err);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-  })
+  });
 
-  const onSubmit: SubmitHandler<UserUpdateForm> = async (data) => {
+  const onSubmit: SubmitHandler<UserUpdateForm> = (data) => {
+    // Remove empty password field
     if (data.password === "") {
-      data.password = undefined
+      delete data.password;
+      delete data.confirm_password;
     }
-    mutation.mutate(data)
-  }
+    mutation.mutate(data);
+  };
 
   return (
-    <DialogRoot
-      size={{ base: "xs", md: "md" }}
-      placement="center"
-      open={isOpen}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <FaExchangeAlt fontSize="16px" />
-          Edit User
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <Text mb={4}>Update the user details below.</Text>
-            <VStack gap={4}>
-              <Field
-                required
-                invalid={!!errors.email}
-                errorText={errors.email?.message}
-                label="Email"
-              >
-                <Input
-                  id="email"
+    <>
+      {/* Trigger Button */}
+      <Button
+        variant="text"
+        startIcon={<EditIcon />}
+        color="inherit"
+        size="small"
+        onClick={() => setIsOpen(true)}
+      >
+        Edit User
+      </Button>
+
+      {/* Dialog */}
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle>Edit User</DialogTitle>
+
+          <DialogContent>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Update the user details below.
+            </Typography>
+
+            <Stack spacing={3}>
+              {/* Email Field */}
+              <Field invalid={!!errors.email} errorText={errors.email?.message}>
+                <TextField
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                  required
                   {...register("email", {
                     required: "Email is required",
                     pattern: emailPattern,
                   })}
-                  placeholder="Email"
-                  type="email"
+                  error={!!errors.email}
                 />
               </Field>
 
+              {/* Full Name Field */}
               <Field
                 invalid={!!errors.full_name}
                 errorText={errors.full_name?.message}
-                label="Full Name"
               >
-                <Input
-                  id="name"
+                <TextField
+                  label="Full Name"
+                  variant="outlined"
+                  fullWidth
                   {...register("full_name")}
-                  placeholder="Full name"
-                  type="text"
+                  error={!!errors.full_name}
                 />
               </Field>
 
+              {/* Password Field */}
               <Field
                 invalid={!!errors.password}
                 errorText={errors.password?.message}
-                label="Set Password"
               >
-                <Input
-                  id="password"
+                <TextField
+                  label="Password (leave blank to keep current)"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
                   {...register("password", {
                     minLength: {
                       value: 8,
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  placeholder="Password"
-                  type="password"
+                  error={!!errors.password}
                 />
               </Field>
 
+              {/* Confirm Password Field */}
               <Field
                 invalid={!!errors.confirm_password}
                 errorText={errors.confirm_password?.message}
-                label="Confirm Password"
               >
-                <Input
-                  id="confirm_password"
-                  {...register("confirm_password", {
-                    validate: (value) =>
-                      value === getValues().password ||
-                      "The passwords do not match",
-                  })}
-                  placeholder="Password"
+                <TextField
+                  label="Confirm Password"
                   type="password"
+                  variant="outlined"
+                  fullWidth
+                  {...register("confirm_password", {
+                    validate: (value) => {
+                      const password = getValues().password;
+                      if (password && value !== password) {
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  error={!!errors.confirm_password}
                 />
               </Field>
-            </VStack>
 
-            <Flex mt={4} direction="column" gap={4}>
-              <Controller
-                control={control}
-                name="is_superuser"
-                render={({ field }) => (
-                  <Field disabled={field.disabled} colorPalette="teal">
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={({ checked }) => field.onChange(checked)}
-                    >
-                      Is superuser?
-                    </Checkbox>
-                  </Field>
-                )}
-              />
-              <Controller
-                control={control}
-                name="is_active"
-                render={({ field }) => (
-                  <Field disabled={field.disabled} colorPalette="teal">
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={({ checked }) => field.onChange(checked)}
-                    >
-                      Is active?
-                    </Checkbox>
-                  </Field>
-                )}
-              />
-            </Flex>
-          </DialogBody>
+              {/* Permissions */}
+              <Stack spacing={2} sx={{ mt: 2 }}>
+                <Typography variant="subtitle2" color="text.primary">
+                  Permissions
+                </Typography>
 
-          <DialogFooter gap={2}>
-            <DialogActionTrigger asChild>
-              <Button
-                variant="subtle"
-                colorPalette="gray"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </DialogActionTrigger>
-            <Button variant="solid" type="submit" loading={isSubmitting}>
+                <Controller
+                  control={control}
+                  name="is_superuser"
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={
+                        <MuiCheckbox
+                          checked={field.value || false}
+                          onChange={(e) => field.onChange(e.target.checked)}
+                        />
+                      }
+                      label="Is superuser?"
+                    />
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name="is_active"
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={
+                        <MuiCheckbox
+                          checked={field.value || false}
+                          onChange={(e) => field.onChange(e.target.checked)}
+                        />
+                      }
+                      label="Is active?"
+                    />
+                  )}
+                />
+              </Stack>
+            </Stack>
+          </DialogContent>
+
+          <DialogActions sx={{ p: 3, gap: 2 }}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+
+            <Button type="submit" variant="contained" loading={isSubmitting}>
               Save
             </Button>
-          </DialogFooter>
-          <DialogCloseTrigger />
-        </form>
-      </DialogContent>
-    </DialogRoot>
-  )
-}
+          </DialogActions>
+        </Box>
+      </Dialog>
+    </>
+  );
+};
 
-export default EditUser
+export default EditUser;

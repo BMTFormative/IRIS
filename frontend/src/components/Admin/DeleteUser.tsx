@@ -1,104 +1,91 @@
-import { Button, DialogTitle, Text } from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { FiTrash2 } from "react-icons/fi"
-
-import { UsersService } from "@/client"
+// frontend/src/components/Admin/DeleteUser-mui.tsx
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  DialogActionTrigger,
-  DialogBody,
-  DialogCloseTrigger,
+  Dialog,
+  DialogTitle,
   DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTrigger,
-} from "@/components/ui/dialog-mui"
-import useCustomToast from "@/hooks/useCustomToast"
+  DialogActions,
+  Typography,
+} from "@mui/material";
 
-const DeleteUser = ({ id }: { id: string }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { showSuccessToast, showErrorToast } = useCustomToast()
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm()
+import { UsersService } from "@/client";
+import type { ApiError } from "@/client/core/ApiError";
+import useCustomToast from "@/hooks/useCustomToast";
+import { handleError } from "@/utils";
+import Button from "@mui/material/Button";
 
-  const deleteUser = async (id: string) => {
-    await UsersService.deleteUser({ userId: id })
-  }
-
-  const mutation = useMutation({
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      showSuccessToast("The user was deleted successfully")
-      setIsOpen(false)
-    },
-    onError: () => {
-      showErrorToast("An error occurred while deleting the user")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries()
-    },
-  })
-
-  const onSubmit = async () => {
-    mutation.mutate(id)
-  }
-
-  return (
-    <DialogRoot
-      size={{ base: "xs", md: "md" }}
-      placement="center"
-      role="alertdialog"
-      open={isOpen}
-      onOpenChange={({ open }) => setIsOpen(open)}
-    >
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" colorPalette="red">
-          <FiTrash2 fontSize="16px" />
-          Delete User
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Delete User</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <Text mb={4}>
-              All items associated with this user will also be{" "}
-              <strong>permanently deleted.</strong> Are you sure? You will not
-              be able to undo this action.
-            </Text>
-          </DialogBody>
-
-          <DialogFooter gap={2}>
-            <DialogActionTrigger asChild>
-              <Button
-                variant="subtle"
-                colorPalette="gray"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </DialogActionTrigger>
-            <Button
-              variant="solid"
-              colorPalette="red"
-              type="submit"
-              loading={isSubmitting}
-            >
-              Delete
-            </Button>
-          </DialogFooter>
-          <DialogCloseTrigger />
-        </form>
-      </DialogContent>
-    </DialogRoot>
-  )
+interface DeleteUserProps {
+  id: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default DeleteUser
+const DeleteUser = ({ id, open, onOpenChange }: DeleteUserProps) => {
+  const queryClient = useQueryClient();
+  const { showSuccessToast } = useCustomToast();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const deleteUserMutation = useMutation({
+    mutationFn: (id: string) => UsersService.deleteUser({ userId: id }),
+    onSuccess: () => {
+      showSuccessToast("User deleted successfully");
+      onOpenChange(false);
+    },
+    onError: (err: ApiError) => {
+      handleError(err);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      setIsDeleting(false);
+    },
+  });
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    deleteUserMutation.mutate(id);
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={() => onOpenChange(false)}
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>Delete User</DialogTitle>
+
+      <DialogContent>
+        <Typography variant="body1" gutterBottom>
+          All items associated with this user will also be{" "}
+          <strong>permanently deleted.</strong>
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Are you sure? You will not be able to undo this action.
+        </Typography>
+      </DialogContent>
+
+      <DialogActions sx={{ p: 3, gap: 2 }}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => onOpenChange(false)}
+          disabled={isDeleting}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleDelete}
+          loading={isDeleting}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default DeleteUser;
