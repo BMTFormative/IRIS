@@ -12,7 +12,8 @@ import { routeTree } from "./routeTree.gen"
 
 import { ApiError, OpenAPI } from "./client"
 import { ThemeProvider } from "next-themes"
-import DynamicMuiThemeProvider from "./components/ui/DynamicMuiThemeProvider"
+import DynamicMuiThemeProvider from "./theme/DynamicMuiThemeProvider"
+import { ToastProvider } from "./components/ui/toaster-mui"
 
 // Dark mode is handled via MUI CssBaseline and GlobalStyles
 // Removed manual dark-mode.css in favor of MUI theming
@@ -54,7 +55,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       {/* Dynamic Material UI Theme Provider that responds to next-themes */}
       <DynamicMuiThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <ToastProvider>
+            <RouterProvider router={router} />
+          </ToastProvider>
         </QueryClientProvider>
       </DynamicMuiThemeProvider>
     </ThemeProvider>

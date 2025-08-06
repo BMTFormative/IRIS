@@ -1,25 +1,5 @@
 "use client"
 
-import { toaster } from "@/components/ui/toaster"
+import { useCustomToast as useMuiCustomToast } from "@/components/ui/toaster-mui"
 
-const useCustomToast = () => {
-  const showSuccessToast = (description: string) => {
-    toaster.create({
-      title: "Success!",
-      description,
-      type: "success",
-    })
-  }
-
-  const showErrorToast = (description: string) => {
-    toaster.create({
-      title: "Something went wrong!",
-      description,
-      type: "error",
-    })
-  }
-
-  return { showSuccessToast, showErrorToast }
-}
-
-export default useCustomToast
+export default useMuiCustomToast
