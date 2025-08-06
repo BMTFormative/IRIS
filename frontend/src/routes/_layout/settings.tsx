@@ -8,6 +8,7 @@ import {
   Tab,
   Paper,
 } from "@mui/material"
+import { alpha } from "@mui/material/styles"
 import { createFileRoute } from "@tanstack/react-router"
 
 import Appearance from "@/components/UserSettings/Appearance"
@@ -84,13 +85,13 @@ function UserSettings() {
           position: 'relative',
         }}
       >
-        <Typography 
-          variant="h4" 
-          component="h1" 
+        <Typography
+          variant="h4"
+          component="h1"
           gutterBottom
-          sx={{
+          sx={(theme) => ({
             fontWeight: 700,
-            color: '#1976D2',
+            color: theme.palette.primary.main,
             position: 'relative',
             display: 'inline-block',
             '&::after': {
@@ -100,21 +101,17 @@ function UserSettings() {
               left: 0,
               width: '100%',
               height: 3,
-              background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+              background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
               borderRadius: '2px',
               transform: 'scaleX(0)',
               transformOrigin: 'left',
               animation: 'slideIn 0.8s ease-out 0.2s forwards',
             },
             '@keyframes slideIn': {
-              '0%': {
-                transform: 'scaleX(0)',
-              },
-              '100%': {
-                transform: 'scaleX(1)',
-              },
+              '0%': { transform: 'scaleX(0)' },
+              '100%': { transform: 'scaleX(1)' },
             },
-          }}
+          })}
         >
           User Settings
         </Typography>
@@ -143,14 +140,14 @@ function UserSettings() {
         
         {/* Decorative element */}
         <Box
-          sx={{
+          sx={(theme) => ({
             position: 'absolute',
             top: 0,
             right: 0,
             width: 80,
             height: 80,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(25, 118, 210, 0.05) 100%)',
+            background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0.05)} 100%)`,
             display: { xs: 'none', md: 'block' },
             '&::before': {
               content: '""',
@@ -161,28 +158,28 @@ function UserSettings() {
               width: 40,
               height: 40,
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+              background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
               opacity: 0.8,
             },
-          }}
+          })}
         />
       </Box>
 
-      <Paper 
-        elevation={0} 
-        sx={{ 
+      <Paper
+        elevation={0}
+        sx={(theme) => ({
           overflow: 'hidden',
           borderRadius: '16px',
-          backgroundColor: '#ffffff',
-          border: '1px solid rgba(33, 150, 243, 0.12)',
-          boxShadow: '0 4px 20px rgba(33, 150, 243, 0.08)',
-        }}
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+          boxShadow: `0 4px 20px ${alpha(theme.palette.primary.main, 0.08)}`,
+        })}
       >
-        <Box 
-          sx={{ 
-            borderBottom: '1px solid rgba(33, 150, 243, 0.12)',
-            backgroundColor: 'rgba(33, 150, 243, 0.02)',
-          }}
+        <Box
+          sx={(theme) => ({
+            borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+            backgroundColor: alpha(theme.palette.primary.main, 0.02),
+          })}
         >
           <Tabs
             value={tabValue}
@@ -190,16 +187,16 @@ function UserSettings() {
             aria-label="user settings tabs"
             variant="scrollable"
             scrollButtons="auto"
-            sx={{
+            sx={(theme) => ({
               minHeight: 56,
               '& .MuiTabs-indicator': {
                 height: 3,
                 borderRadius: '2px 2px 0 0',
-                backgroundColor: '#2196F3',
-                boxShadow: '0 2px 8px rgba(33, 150, 243, 0.3)',
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.3)}`,
               },
               '& .MuiTabs-scrollButtons': {
-                color: '#2196F3',
+                color: theme.palette.primary.main,
                 '&.Mui-disabled': {
                   opacity: 0.3,
                 },
@@ -211,7 +208,7 @@ function UserSettings() {
                 minHeight: 56,
                 minWidth: 120,
                 px: 3,
-                color: '#546E7A',
+                color: theme.palette.text.secondary,
                 transition: 'all 0.2s ease-in-out',
                 position: 'relative',
                 '&::after': {
@@ -222,26 +219,26 @@ function UserSettings() {
                   transform: 'translateX(-50%)',
                   width: 0,
                   height: 2,
-                  backgroundColor: '#2196F3',
+                  backgroundColor: theme.palette.primary.main,
                   transition: 'width 0.2s ease-in-out',
                 },
                 '&:hover': {
-                  color: '#2196F3',
-                  backgroundColor: 'rgba(33, 150, 243, 0.04)',
+                  color: theme.palette.primary.main,
+                  backgroundColor: alpha(theme.palette.primary.main, 0.04),
                   '&::after': {
                     width: '60%',
                   },
                 },
                 '&.Mui-selected': {
-                  color: '#1976D2',
+                  color: theme.palette.primary.main,
                   fontWeight: 600,
-                  backgroundColor: 'rgba(33, 150, 243, 0.08)',
+                  backgroundColor: alpha(theme.palette.primary.main, 0.08),
                   '&::after': {
                     width: '80%',
                   },
                 },
               },
-            }}
+            })}
           >
             {finalTabs.map((tab) => (
               <Tab
@@ -257,9 +254,9 @@ function UserSettings() {
         {finalTabs.map((tab) => (
           <TabPanel key={tab.value} value={tabValue} index={tab.value}>
             <Box
-              sx={{
+              sx={(theme) => ({
                 p: 4,
-                backgroundColor: '#ffffff',
+                backgroundColor: theme.palette.background.paper,
                 position: 'relative',
                 '&::before': {
                   content: '""',
@@ -268,7 +265,7 @@ function UserSettings() {
                   left: 0,
                   right: 0,
                   height: '1px',
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(33, 150, 243, 0.2) 50%, transparent 100%)',
+                  background: `linear-gradient(90deg, transparent 0%, ${alpha(theme.palette.primary.main, 0.2)} 50%, transparent 100%)`,
                 },
                 '& .MuiButton-root': {
                   borderRadius: '10px',
@@ -278,29 +275,29 @@ function UserSettings() {
                   py: 1.5,
                   boxShadow: 'none',
                   '&.MuiButton-contained': {
-                    background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
-                    color: '#ffffff',
+                    background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+                    color: theme.palette.getContrastText(theme.palette.primary.main),
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #1976D2 0%, #1565C0 100%)',
-                      boxShadow: '0 4px 12px rgba(33, 150, 243, 0.3)',
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                      boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.3)}`,
                       transform: 'translateY(-1px)',
                     },
                   },
                   '&.MuiButton-outlined': {
-                    borderColor: '#2196F3',
-                    color: '#2196F3',
+                    borderColor: theme.palette.primary.main,
+                    color: theme.palette.primary.main,
                     '&:hover': {
-                      backgroundColor: 'rgba(33, 150, 243, 0.08)',
-                      borderColor: '#1976D2',
-                      color: '#1976D2',
+                      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                      borderColor: theme.palette.primary.dark,
+                      color: theme.palette.primary.main,
                       transform: 'translateY(-1px)',
                     },
                   },
                   '&.MuiButton-text': {
-                    color: '#2196F3',
+                    color: theme.palette.primary.main,
                     '&:hover': {
-                      backgroundColor: 'rgba(33, 150, 243, 0.08)',
-                      color: '#1976D2',
+                      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                      color: theme.palette.primary.main,
                     },
                   },
                 },
@@ -308,32 +305,32 @@ function UserSettings() {
                   '& .MuiOutlinedInput-root': {
                     borderRadius: '12px',
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#2196F3',
+                      borderColor: theme.palette.primary.main,
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#1976D2',
+                      borderColor: theme.palette.primary.main,
                       borderWidth: '2px',
                     },
                   },
                   '& .MuiInputLabel-root.Mui-focused': {
-                    color: '#1976D2',
+                    color: theme.palette.primary.main,
                   },
                 },
                 '& .MuiFormControlLabel-root': {
                   '& .MuiCheckbox-root': {
-                    color: '#2196F3',
+                    color: theme.palette.primary.main,
                     '&.Mui-checked': {
-                      color: '#1976D2',
+                      color: theme.palette.primary.dark,
                     },
                   },
                   '& .MuiRadio-root': {
-                    color: '#2196F3',
+                    color: theme.palette.primary.main,
                     '&.Mui-checked': {
-                      color: '#1976D2',
+                      color: theme.palette.primary.dark,
                     },
                   },
                 },
-              }}
+              })}
             >
               <tab.component />
             </Box>
