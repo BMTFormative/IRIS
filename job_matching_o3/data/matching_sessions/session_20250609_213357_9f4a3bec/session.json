@@ -1,0 +1,367 @@
+{
+  "session_id": "session_20250609_213357_9f4a3bec",
+  "job_posting": {
+    "job_id": "job_20250609_213357",
+    "title": "Senior Machine Learning Engineer - AI Platform Architecture",
+    "company": "",
+    "department": null,
+    "location": null,
+    "employment_type": null,
+    "experience_level": null,
+    "required_skills": [],
+    "preferred_skills": [],
+    "description": "Senior Machine Learning Engineer - AI Platform Architecture\n\nTechStart | FinTech Scale-up | San Francisco, CA (Hybrid)\n\nAbout TechStart\n\nTechStart is a rapidly growing FinTech scale-up revolutionizing financial services through cutting-edge AI technology. With 150 passionate employees, we're building the future of intelligent financial systems that serve millions of users globally. Our mission is to democratize access to sophisticated financial tools through innovative machine learning solutions.\n\nThe Opportunity\n\nWe're seeking an exceptional Senior Machine Learning Engineer to lead the development of our next-generation AI platform architecture. This role combines cutting-edge research in artificial intelligence with practical implementation of scalable machine learning systems. You'll be instrumental in designing advanced ML algorithms, building robust data pipelines, and creating innovative solutions that push the boundaries of what's possible in AI-powered financial technology.\n\nYour Impact\n\nAs a Senior ML Engineer, you'll join our AI Research and Development Division—a dynamic team of 45 world-class machine learning engineers, research scientists, and data architects. Our team has published over 150 papers in top-tier conferences, holds 80+ patents, and has been recognized with multiple industry awards for innovation.\n\nKey Responsibilities\n\n• Design and implement scalable machine learning architectures capable of handling petabyte-scale datasets with sub-second inference times\n\n• Lead research initiatives in advanced AI domains including large language models, multimodal learning, and federated machine learning systems\n\n• Develop and optimize deep learning models using PyTorch, TensorFlow, and JAX frameworks for production deployment\n\n• Architect and maintain MLOps pipelines using Kubernetes, Docker, Apache Airflow, and MLflow for automated model training and deployment\n\n• Collaborate with product teams to translate complex AI research into practical applications that enhance user experience\n\n• Mentor junior engineers through code reviews, pair programming sessions, and technical guidance\n\n• Conduct performance analysis and optimization of ML models for latency reduction and computational efficiency\n\n• Establish best practices for model governance, bias detection, and responsible AI implementation\n\n• Design A/B testing frameworks and analyze experimental results to drive data-driven decisions\n\n• Stay current with latest ML research and implement cutting-edge techniques in production systems\n\nWhat We're Looking For\n\nRequired Qualifications\n\n• Master's or PhD in Computer Science, Machine Learning, Mathematics, Statistics, or related quantitative field\n\n• 7+ years of hands-on experience in machine learning engineering with proven track record of deploying ML systems at scale\n\n• Expert-level proficiency in Python and ML libraries (PyTorch, TensorFlow, scikit-learn, NumPy, Pandas)\n\n• Deep understanding of ML algorithms including deep neural networks, transformer architectures, and ensemble methods\n\n• Production experience with cloud platforms (AWS, GCP, Azure) and distributed computing frameworks\n\n• Strong software engineering practices including version control, CI/CD pipelines, and documentation\n\n• Experience with containerization technologies (Docker, Kubernetes) and microservices architecture\n\n• Proficiency in SQL and NoSQL databases for large-scale data management\n\n• Strong mathematical foundation in linear algebra, calculus, probability theory, and statistical inference\n\nPreferred Qualifications\n\n• PhD with dissertation research in machine learning, deep learning, or artificial intelligence\n\n• Published papers in top-tier conferences (NeurIPS, ICML, ICLR, AAAI)\n\n• Experience leading teams of 3-8 engineers with technical mentorship\n\n• AWS Certified Machine Learning Specialty or equivalent cloud certifications\n\n• Background in financial technology or quantitative finance applications\n\n• Open-source contributions to major ML frameworks\n\nWhat We Offer\n\nCompensation Package\n\n• Base salary: $180,000 - $280,000 (commensurate with experience)\n\n• Equity compensation: 0.15% - 0.35% stock options with 4-year vesting\n\n• Annual performance bonus: 15-25% of base salary\n\n• Total compensation potential exceeding $350,000 for top performers\n\nComprehensive Benefits\n\n• 100% premium coverage for health, dental, and vision insurance (80% for dependents)\n\n• Unlimited PTO with mandatory minimum 3 weeks off annually\n\n• $8,000 annual professional development budget for conferences and certifications\n\n• 16 weeks paid parental leave for primary caregivers\n\n• Mental health support including therapy coverage and wellness programs\n\n• $15,000 relocation assistance for Bay Area moves\n\nWork Environment & Perks\n\n• Hybrid schedule: 3 days in office, 2 days remote with flexible hours\n\n• Top-tier hardware: MacBook Pro M3 Max plus $2,000 home office allowance\n\n• Access to cutting-edge GPU clusters for personal research projects\n\n• On-site gourmet meals and snacks at San Francisco headquarters\n\n• Annual company retreats and regular team building activities\n\n• Opportunity to publish research and present at conferences with full sponsorship\n\n• Mentorship programs connecting you with industry leaders\n\n• Sabbatical opportunities after 4 years of service\n\nOur Culture\n\nWe foster a collaborative environment where experimentation and knowledge sharing thrive. Weekly tech talks, cross-functional pod structures, and a commitment to continuous learning create an atmosphere where innovation flourishes. Team members from leading tech companies and top universities work together to solve complex challenges in AI and finance.\n\nLocation & Work Arrangement\n\nSan Francisco, CA headquarters with a hybrid work model. Core collaboration hours are 10 AM - 3 PM Pacific Time to accommodate our global teams in London, Tokyo, and Berlin. Occasional international travel opportunities to collaborate with our worldwide offices.\n\nReady to Shape the Future of AI in FinTech?\n\nJoin TechStart and be part of a team that's revolutionizing financial services through artificial intelligence. We're committed to building diverse, inclusive teams and encourage applications from candidates of all backgrounds.\n\nApply today and help us build the next generation of AI-powered financial solutions that impact millions of users worldwide.\n\nTechStart is an equal opportunity employer committed to building a diverse and inclusive team. We provide reasonable accommodations to qualified individuals with disabilities.",
+    "requirements": null,
+    "responsibilities": null,
+    "education_requirements": null,
+    "salary_range": null,
+    "benefits": null,
+    "created_at": "2025-06-09T21:33:57.431283"
+  },
+  "uploaded_files": [
+    "data\\cvs\\pending\\4112b281c372431a8c37f8aa0e5947f0_Suraiyaa Zabeen.txt",
+    "data\\cvs\\pending\\dd86fd65649c49f4b0a09c661703ba68_Jack Townsend.txt",
+    "data\\cvs\\pending\\473de580c39f46acabc883191e8ea109_Neethu Muraleedharan.txt",
+    "data\\cvs\\pending\\7144202858b74537beb375df4afabe98_Taiyu Xie.txt",
+    "data\\cvs\\pending\\6166ea92e9ec4a8a81460891303eccd6_Gül Çetin.txt",
+    "data\\cvs\\pending\\8ac440a365374bfb846c532cd0281869_Sahil Hussain.txt",
+    "data\\cvs\\pending\\a3a835302f0a4d02bc41ef577df22f98_Sharaf M.txt",
+    "data\\cvs\\pending\\20ad15b56ade453d958337a9a5c7eea1_Siddhesh Sathe.txt",
+    "data\\cvs\\pending\\8050e1581d3e48ddb23f5431ba0166fe_Saad LAOUADI.txt"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "4112b281c372431a8c37_20250609_213400_57d7612f",
+      "file_name": "4112b281c372431a8c37f8aa0e5947f0_Suraiyaa Zabeen.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/\nsuraiyazabeen (LinkedIn)\nTop Skills\nCommunication\nSoftware Development\nMaterials Science\nLanguages\nEnglish (Full Professional)\nArabic (Limited Working)\nHindi (Professional Working)\nCertifications\nNeural Networks and Deep Learning\nThe Neuroscience of Learning\nDatabases and SQL for Data\nScience\nProblem Solving Techniques\nAdvanced Machine Learning and\nSignal Processing\nHonors-Awards\nAssociate Fellow of the Higher\nEducation Academy\nLloyd's Register Educational Trust\nScholarship\nPublications\nPolymetallic nodule mining:\nInnovative concepts for\ncommercialisation\nResidual stresses caused by headon\nand 45° foreign object damage\nfor a laser shock peened Ti–6Al–4V\nalloy aerofoil\nEffect of texture on the residual\nstress response from laser peening\nof an aluminium-lithium alloy\nMachine Learning-Based Prediction\nand Optimisation System for Laser\nShock Peening\nDr. Suraiyaa Zabeen\nData Scientist | Materials Science\nLondon, England, United Kingdom\nSummary\nI have 12 years of experience working in research and development\nof aerospace materials. In 2014, I founded Trustworthy foundation,\na mental health charity for furthering children's mental health\neducation, to raise awareness about learning disability and to\nsupport staff at all educational levels.\nExperience\nAgilance Property\nData Scientist\nSeptember 2023 - Present (1 year 10 months)\nTrustworthy Foundation UK\nFounder\n2014 - April 2024 (10 years)\nDhaka, Bangladesh\nWe provide unique, training on stress management, anxiety, resilience, and\nemotional intelligence that will help your people perform better\nOur Specialization:\n• Emotional Intelligence\n• Performance under Stress\n• Employee Wellbeing\n• Leadership Development\n• Conflict resolution\n• Stress and Anxiety Management\n• Recovery Support Program for high achievers\nBank of America\nSoftware Engineer\nOctober 2022 - September 2023 (1 year)\nLondon, England, United Kingdom\nFlourishing-Life Ai\nData Science and Machine Learning Educator\nPage 1 of 5\nEFFECT OF PRESSURE ONTHE RESIDUAL STRESSDEVELOPMENT IN THE LINEARFRICTION WELDED Ti6246\nNovember 2018 - January 2023 (4 years 3 months)\nLondon, England, United Kingdom\nCoventry University\n3 years 9 months\nSenior Research Scientist\nSeptember 2016 - January 2018 (1 year 5 months)\nCoventry, United Kingdom\nKey Accountabilities1. Tasked with leading, planning and executing a range of research projects inrespect of the structural integrity of aerospace components including preparingproposals and completing individual and collaborative research projects2. Supervised research students.3. Instrumental in collating, conceptualising and publishing research findingsin journal articles and successfully contributed to the development andenhancement of new and existing research proposals and ideas4. Trained and coached staff, Technician, PhD, MSc and undergraduatestudents.5. Developed and managed relationships with external partners, academicsand industrial partners6. Provided technical assistance to colleagues and laboratory staff regardingproduct use7. Delivered training and supervision to students during their research topics8. Updated records, prepared technical papers and made technicalpresentations to develop publications9. Played a pivotal role in supporting the University’s contract proposal to theESA (European Space Agency) as key facilitatorKey Projects at Coventry University1. Effect of selective laser melting scanning strategy on the residual stressand texture of Ti-6Al-4V material (Funded by Coventry University FacultyResearch Centre in collaboration with Birmingham University)2. Residual Stress Characterization in Friction Stir Welded LaunchersStructures after Laser Shock Peening to enhance Stress-Corrosion Crackingand Fatigue Resistance (Funded by European Space Agency)\nSenior Research Scientist\nMay 2014 - September 2016 (2 years 5 months)\nCoventry, United Kingdom\nPage 2 of 5\nKey Accountabilities1. Primarily accountable for collating, reviewing and publishing researchfindings in journal articles for the project2. Played a key role in defining and developing new and existing researchproposals, grants and funding applications to external bodes for project/research funding and contractual requirements3. Built, managed and maintained effective relationships with industrialpartners and academics to support projects4. Managed and coordinated laboratory functions including purchasing,inventory management, health and safety, and training and development ofstudents, staff and external delegates5. Identified, planned and managed small scale research activities and devisednew research methodologies6. Instrumental in contributing to teaching and learning programs includingassessing students, supervising MSc and BSc research projects, developingstudent research skills and providing one-to-one tuition Key Projects1. Effect of crystallographic texture on the residual stress generation bylaser shock peening in Aluminium-Lithium alloy (Funded by Air Force Officeof Scientific Research, Air Force Material Command, USAF, under grant noFA8655-12-1-2084)\nThe Open University\nPost Doctoral Research Associate\nJanuary 2013 - May 2014 (1 year 5 months)\nMilton Keynes, United Kingdom\nProject: “The effect of laser shock peening on the hardening and residualstress response in Al 2624 alloy”1. Conducted literature review on the subject that involved around 200technical papers2. Conducted scientific experiments using high-energy Synchrotron X-ray andNeutron Diffraction. 3. Carried out data analysis using a combination of scientific software. 4. Presented research outcomes in the national and international conferences5. Conducted investigation using light microscopy, FEGSEM, Vickers hardnesstesting, instrumented indentation, tensile testing.6. Published results in the top quartile (Q1) scientific journals.\nPage 3 of 5\nUniversity of Southampton\nLloyd's Register Educational Trust Research Collegium\nJuly 2012 - September 2012 (3 months)\nSouthampton, United Kingdom\nAttended Llyds' register educational trust research collegium\nThe University of Manchester\nResearch Consultant\nJanuary 2011 - March 2012 (1 year 3 months)\nManchester\n1. Project: “Characterization of residual stresses in laser shock peenedTi-6Al-4V discs by Contour method’’ 2. Project: ‘’Investigation of residual stresses in laser shock peened doubleedge notched Al 7050 alloy’’\nHolcim Bangladesh Ltd.\nChemical Analyst and Design Engineer\nJune 2005 - June 2006 (1 year 1 month)\n• Performed chemical analysis (routine and non-routine) analysis of productsusing standard operating procedures• Conceptualised, produced and executed chemical testing procedures andensured documentation was updated• Operated a range of laboratory equipment safely, evaluated and reportedtest results to managers, and recorded all test data in respect of chemicaladditions, purifications and dump cycles• Tasked with maintaining, monitoring and updating the inventory of chemicalsand supplies• Liaised with production department to ensure quality • Handled customer complaints• Maintained products certification by getting them tested by externalcertification bodies such as BSTI and BUET\nEducation\nAiCore\nData Science/Machine Learning · (2020 - 2021)\nThe University of Manchester\nPhD, Aerospace Materials · (2007 - 2011)\nPage 4 of 5\nThe University of Manchester\nMSc, Advanced Engineering Materials · (2006 - 2007)\nBangladesh University of Engineering and Technology\nBSc Engg., Materials and Metallurgical Engg. · (1999 - 2004)\nPage 5 of 5",
+      "parsed_at": "2025-06-09T21:34:00.976069",
+      "file_path": "data\\cvs\\processed\\4112b281c372431a8c37_20250609_213400_57d7612f_4112b281c372431a8c37f8aa0e5947f0_Suraiyaa Zabeen.txt"
+    },
+    {
+      "candidate_id": "dd86fd65649c49f4b0a0_20250609_213401_2d002635",
+      "file_name": "dd86fd65649c49f4b0a09c661703ba68_Jack Townsend.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/jack-townsend-3b14a5163 (LinkedIn)\nTop Skills\nArtificial Intelligence (AI)\nPyTorch\nCluster Analysis\nJack Townsend\nData Scientist at GEOLYTIX\nLondon, England, United Kingdom\nExperience\nGEOLYTIX\nData Scientist\nApril 2021 - Present (4 years 3 months)\nLondon, England, United Kingdom\nCACI Ltd\nLocation Analyst\nSeptember 2017 - April 2021 (3 years 8 months)\nEducation\nUniversity of Birmingham\nBachelor's degree, Mathematics · (2014 - 2017)\nPage 1 of 1",
+      "parsed_at": "2025-06-09T21:34:01.167945",
+      "file_path": "data\\cvs\\processed\\dd86fd65649c49f4b0a0_20250609_213401_2d002635_dd86fd65649c49f4b0a09c661703ba68_Jack Townsend.txt"
+    },
+    {
+      "candidate_id": "473de580c39f46acabc8_20250609_213434_9951cf5f",
+      "file_name": "473de580c39f46acabc883191e8ea109_Neethu Muraleedharan.txt",
+      "full_name": "Neethu Muraleedharan",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": "London, England, United Kingdom",
+        "linkedin": "www.linkedin.com/in/neethu-muraleedharan",
+        "github": null
+      },
+      "summary": "Neethu is a passionate Data Scientist dedicated to unravelling the narratives hidden within data. With a Master's degree in Data Science from Lancaster University and proficiency in Python, SQL, and machine learning, she excels at merging data insights with strategic business goals. Throughout her career, Neethu has orchestrated complex data strategies, led stakeholder engagements, and developed automated dashboards to drive informed decisions. Her expertise spans regression, classification, clustering, and more, enabling her to uncover actionable patterns and trends that propel organisational success. Beyond her professional pursuits, she finds inspiration in music and art—singing and drawing serve as her creative outlets. In all her endeavours, whether crafting predictive models or creating art, she brings creativity, curiosity, and a commitment to excellence.",
+      "skills": [
+        "Artificial Intelligence (AI)",
+        "Text Mining",
+        "Crystal Reports",
+        "Python",
+        "SQL",
+        "Machine Learning",
+        "Regression",
+        "Classification",
+        "Clustering",
+        "Data Analysis",
+        "Predictive Modelling",
+        "Data Visualization",
+        "Power BI",
+        "Google Analytics",
+        "Meta Business Suite",
+        "SEO",
+        "Dashboard Development",
+        "Stakeholder Engagement"
+      ],
+      "experience": [
+        {
+          "title": "Data Scientist",
+          "company": "Career Connect",
+          "start_date": "07/2023",
+          "end_date": "12/2024",
+          "duration_months": 18,
+          "description": "At Career Connect, I focus on analyzing data to develop predictive models that assess the risk of young individuals becoming NEET (Not in Education, Employment, or Training). By examining historical trends and key factors such as demographics, education, and socio-economic conditions, I identify patterns that inform early intervention strategies to reduce NEET rates and promote youth engagement. My role involves collaborating with teams to collect and refine data, ensuring that analyses are accurate and actionable. The insights I generate support evidence-based policy-making and program design. Additionally, I streamline reporting processes, build dashboards, and provide strategic insights to advance Career Connect's mission. Through data-driven analytics, I aim to enhance educational, employment, and training outcomes, helping young people achieve long-term success.",
+          "achievements": [
+            "Developed predictive models for NEET risk assessment",
+            "Streamlined reporting processes",
+            "Built dashboards for strategic insights",
+            "Supported evidence-based policy-making"
+          ]
+        },
+        {
+          "title": "Data Science Intern",
+          "company": "Lancashire County Council",
+          "start_date": "06/2022",
+          "end_date": "09/2022",
+          "duration_months": 4,
+          "description": "I've played a pivotal role in revolutionising healthcare services through data-driven insights and innovative solutions. From aggregating and structuring complex datasets to developing predictive models for attendance forecasting, my journey as a Data Science Intern at LCC has been marked by a relentless pursuit of efficiency and excellence. Leveraging advanced analytics tools like Python and Power BI, I've unearthed actionable insights that have not only optimised NHS health check services but also empowered decision-makers with invaluable information. My collaborative spirit and effective communication have fostered a dynamic team environment, where sharing insights and ideas is paramount to success. My passion for making a tangible impact in healthcare, combined with a diverse skill set encompassing data analysis, predictive modelling, and visualisation, continues to drive me towards shaping a brighter future for healthcare delivery.",
+          "achievements": [
+            "Developed predictive models for attendance forecasting",
+            "Optimised NHS health check services",
+            "Aggregated and structured complex healthcare datasets"
+          ]
+        },
+        {
+          "title": "Business Analyst",
+          "company": "Evoke Frames By Sarath Santhan",
+          "start_date": "01/2019",
+          "end_date": "10/2021",
+          "duration_months": 34,
+          "description": "My role at Evoke Frames encompasses a diverse array of responsibilities crucial to the company's growth and client acquisition. Key highlights include building strong client relationships, developing sales and marketing strategies, identifying and mitigating business risks, and utilising data insights for informed decision-making. By leveraging tools like Google Analytics and Meta Business Suite, I've spearheaded web analysis and implemented SEO-focused content strategies, resulting in significant reductions in bounce rates and notable sales increases. My multifaceted contributions at the intersection of client relations, data analysis, and strategic decision-making have been instrumental in elevating Evoke Frame's market presence and driving substantial growth.",
+          "achievements": [
+            "Significant reduction in bounce rates",
+            "Notable sales increases",
+            "Implemented SEO-focused content strategies",
+            "Built strong client relationships"
+          ]
+        },
+        {
+          "title": "IT Engineer",
+          "company": "Wipro Technologies",
+          "start_date": "01/2015",
+          "end_date": "10/2015",
+          "duration_months": 10,
+          "description": null,
+          "achievements": []
+        },
+        {
+          "title": "Trainee",
+          "company": "Wipro Technologies",
+          "start_date": "10/2014",
+          "end_date": "12/2014",
+          "duration_months": 3,
+          "description": null,
+          "achievements": []
+        }
+      ],
+      "education": [
+        {
+          "degree": "Master's degree",
+          "institution": "Lancaster University",
+          "graduation_year": 2022,
+          "gpa": null,
+          "field_of_study": "Data Science"
+        },
+        {
+          "degree": "Master of Science - MSc",
+          "institution": "Pillai College of Arts,Commerce and Science",
+          "graduation_year": 2018,
+          "gpa": null,
+          "field_of_study": "Information Technology"
+        },
+        {
+          "degree": "Bachelor of Science - BSc",
+          "institution": "Pillai College of Arts,Commerce and Science",
+          "graduation_year": 2014,
+          "gpa": null,
+          "field_of_study": "Information Technology"
+        }
+      ],
+      "certifications": [
+        "IBM Data Science Professional Certificate",
+        "Data Visualization with Python",
+        "Tools for Data Science",
+        "Data Analysis with Python"
+      ],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/neethu-muraleedharan (LinkedIn)\nTop Skills\nArtificial Intelligence (AI)\nText Mining\nCrystal Reports\nCertifications\nIBM Data Science ProfessionalCertificate\nData Visualization with Python\nTools for Data Science\nData Analysis with Python\nIBM Data Science ProfessionalCertificate\nNeethu Muraleedharan\nData Scientist | Predictive Modelling and AI Solutions\nLondon, England, United Kingdom\nSummary\nNeethu is a passionate Data Scientist dedicated to unravellingthe narratives hidden within data. With a Master's degree in DataScience from Lancaster University and proficiency in Python, SQL,and machine learning, she excels at merging data insights withstrategic business goals.Throughout her career, Neethu has orchestrated complex datastrategies, led stakeholder engagements, and developed automateddashboards to drive informed decisions. Her expertise spansregression, classification, clustering, and more, enabling her touncover actionable patterns and trends that propel organisationalsuccess.Beyond her professional pursuits, she finds inspiration in music andart—singing and drawing serve as her creative outlets.In all her endeavours, whether crafting predictive models or creatingart, she brings creativity, curiosity, and a commitment to excellence.\nExperience\nCareer Connect\nData Scientist\nJuly 2023 - December 2024 (1 year 6 months)\nLiverpool, England, United Kingdom\nAt Career Connect, I focus on analyzing data to develop predictive modelsthat assess the risk of young individuals becoming NEET (Not in Education,Employment, or Training). By examining historical trends and key factors suchas demographics, education, and socio-economic conditions, I identify patternsthat inform early intervention strategies to reduce NEET rates and promoteyouth engagement.\nPage 1 of 3\nMy role involves collaborating with teams to collect and refine data, ensuringthat analyses are accurate and actionable. The insights I generate supportevidence-based policy-making and program design. Additionally, I streamlinereporting processes, build dashboards, and provide strategic insights toadvance Career Connect's mission. Through data-driven analytics, I aim toenhance educational, employment, and training outcomes, helping youngpeople achieve long-term success.\nLancashire County Council\nData Science Intern\nJune 2022 - September 2022 (4 months)\nPreston, England, United Kingdom\nI've played a pivotal role in revolutionising healthcare services through data-driven insights and innovative solutions. From aggregating and structuringcomplex datasets to developing predictive models for attendance forecasting,my journey as a Data Science Intern at LCC has been marked by a relentlesspursuit of efficiency and excellence. Leveraging advanced analytics tools likePython and Power BI, I've unearthed actionable insights that have not onlyoptimised NHS health check services but also empowered decision-makerswith invaluable information. My collaborative spirit and effective communicationhave fostered a dynamic team environment, where sharing insights andideas is paramount to success. My passion for making a tangible impact inhealthcare, combined with a diverse skill set encompassing data analysis,predictive modelling, and visualisation, continues to drive me towards shapinga brighter future for healthcare delivery.\nEvoke Frames By Sarath Santhan\nBusiness Analyst\nJanuary 2019 - October 2021 (2 years 10 months)\nMumbai, Maharashtra, India\nMy role at Evoke Frames encompasses a diverse array of responsibilitiescrucial to the company's growth and client acquisition. Key highlights includebuilding strong client relationships, developing sales and marketing strategies,identifying and mitigating business risks, and utilising data insights for informeddecision-making. By leveraging tools like Google Analytics and Meta BusinessSuite, I've spearheaded web analysis and implemented SEO-focused contentstrategies, resulting in significant reductions in bounce rates and notablesales increases. My multifaceted contributions at the intersection of clientrelations, data analysis, and strategic decision-making have been instrumentalin elevating Evoke Frame's market presence and driving substantial growth.\nPage 2 of 3\nWipro Technologies\n1 year 1 month\nIT Engineer\nJanuary 2015 - October 2015 (10 months)\nMumbai, Maharashtra, India\nTrainee\nOctober 2014 - December 2014 (3 months)\nMumbai, Maharashtra, India\nEducation\nLancaster University\nMaster's degree, Data Science · (October 2021 - September 2022)\nPillai College of Arts,Commerce and Science\nMaster of Science - MSc, Information Technology · (July 2016 - June 2018)\nPillai College of Arts,Commerce and Science\nBachelor of Science - BSc, Information Technology · (April 2011 - March 2014)\nPage 3 of 3",
+      "parsed_at": "2025-06-09T21:34:34.818964",
+      "file_path": "data\\cvs\\processed\\473de580c39f46acabc8_20250609_213434_9951cf5f_473de580c39f46acabc883191e8ea109_Neethu Muraleedharan.txt"
+    },
+    {
+      "candidate_id": "7144202858b74537beb3_20250609_213401_8bba19bb",
+      "file_name": "7144202858b74537beb375df4afabe98_Taiyu Xie.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/taiyu-xie-cqf-608648170 (LinkedIn)\nTop Skills\nQuantitative Finance\nQuantitative Research\nDerivatives\nLanguages\nEnglish (Professional Working)\nChinese (Native or Bilingual)\nCertifications\nAWS Certified Cloud Practitioner\nComputational Methods in Pricingand Model Calibration\nCertificate in Quantitative Finance\nOptimization Methods in AssetManagement\nTaiyu Xie, CQF\nData Scientist\nLondon, England, United Kingdom\nExperience\nAccenture\nData science Consultant\nNovember 2021 - Present (3 years 8 months)\nLondon Area, United Kingdom\nSiotech LTD\nCOO & Co-Founder\nOctober 2019 - October 2021 (2 years 1 month)\nLondon, United Kingdom\nChina Mobile IoT Company Limited\nData Science Intern\nJuly 2018 - August 2018 (2 months)\nJinan, Shandong, China\nZhongtai Financial International Limited\nSummer Intern\nJune 2017 - September 2017 (4 months)\nQingdao, Shandong, China\nBank of China\nTechnology consultant Intern\nJune 2016 - August 2016 (3 months)\nQingdao, Shandong, China\nEducation\nKing's College London\nPostgraduate, Data science · (2018 - 2019)\nUCL\nBachelor of Science - BS, Mathematics · (2015 - 2018)\nPage 1 of 1",
+      "parsed_at": "2025-06-09T21:34:01.714441",
+      "file_path": "data\\cvs\\processed\\7144202858b74537beb3_20250609_213401_8bba19bb_7144202858b74537beb375df4afabe98_Taiyu Xie.txt"
+    },
+    {
+      "candidate_id": "6166ea92e9ec4a8a8146_20250609_213401_d796eefa",
+      "file_name": "6166ea92e9ec4a8a81460891303eccd6_Gül Çetin.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "İletişim Bilgileri\nwww.linkedin.com/in/gul-cetin(LinkedIn)\nEn Önemli Yetenekler\nData Science\nProgramming\nPython (Programming Language)\nLanguages\nFrench (Elementary)\nEnglish (Professional Working)\nTurkish (Native or Bilingual)\nCertifications\nCS50: Introduction to ComputerScience\nScientific Computing with Python\nExcel Skills for Business:Intermediate I\nCS50's Web Programming withPython and JavaScript\nExcel Skills for Business:Intermediate II\nGül Çetin\nData Scientist\nLondra, İngiltere, Birleşik Krallık\nÖzet\nA lifelong learner interested in sustainability, technology and art\nDeneyim\napiday\nData Scientist\nEylül 2023 - Present (1 yıl 10 ay)\nLondon Area, United Kingdom\n- Engineered and maintained scalable ESG data pipelines using Python andSQL, automating the collection, processing, and integration of structured andunstructured data. Reduced manual workload by over 200 hours annually andaccelerated data delivery timelines by 35%.- Revamped ESG questionnaire-matching algorithms through transformer-based NLP models, improving matching accuracy by 30% and enhancing ESGmetric classification at the portfolio level.\nJean Monnet Burs Programı / Jean Monnet Scholarship Programme\nScholarship Holder\nEylül 2022 - Ekim 2023 (1 yıl 2 ay)\nLondon, England, United Kingdom\nWithin the scope of the Scholarship Program, as one of Turkey’s longest andmost prestigious project, selected scholars are granted the right to do researchor postgraduate studies in a university in the EU member countries and theUK.\nRebos\nBusiness Analyst\nAğustos 2022 - Aralık 2022 (5 ay)\nLondon, England, United Kingdom\n- Optimised inventory levels using time series analysis, resulting in a 12%reduction in stockouts.- Led a data-driven revenue initiative that increased customer footfall by 5%,employing Python-based statistical analysis and regression modelling toidentify key purchasing behaviour drivers over one year.\nPage 1 of 3\ninzva\nProgram Analyst\nTemmuz 2020 - Temmuz 2022 (2 yıl 1 ay)\n- Managed 16 fully-funded projects, programmes, and educational eventsfocused on algorithms, engaging over 1,500 participants and streamlining thelearning experience.- Spearheaded the systematic collection and comprehensive analysis ofeducational programme data, utilising Python for data processing andapplying logistic regression to identify key factors influencing student retention,achieving a 25% increase in student retention and a 20% improvement ingraduation rates over two academic years.- Introduced innovative solutions, including hackathons and peer reviewsessions, aligned with best practices, increasing participant satisfaction by18% and enhancing skill development.\nCameroon Association of Active Youths (CAMAAY)\nProject Developer\nAğustos 2019 - Temmuz 2020 (1 yıl)\n- Developed the “Better Street Lighting for Better Livelihoods” project proposal,raising €2,000 to install 20 solar street lamps in Cameroon. This initiativetackled security issues stemming from inoperative lighting systems andcreated employment opportunities for seven local youths.\nTUBITAK\nResearch Assistant\nOcak 2020 - Mart 2020 (3 ay)\n- Conducted data preprocessing and analysis for the discussion paper“Regional Inequalities and the West-East Divide in Turkey” using Excel and Ron a large dataset spanning 1913–1991.\nBoğaziçi University\nUndergraduate Teaching Assistant\nEylül 2019 - Aralık 2019 (4 ay)\nEC101 Principles of Microeconomics\nEğitim\nThe London School of Economics and Political Science (LSE)\nMSc, Development Studies · (Eylül 2022 - Eylül 2023)\nPage 2 of 3\nBogazici University Department of Economics\nEconomics · (2015 - 2020)\nGhent University\nExchange, Economics · (2019 - 2019)\nPage 3 of 3",
+      "parsed_at": "2025-06-09T21:34:01.598223",
+      "file_path": "data\\cvs\\processed\\6166ea92e9ec4a8a8146_20250609_213401_d796eefa_6166ea92e9ec4a8a81460891303eccd6_Gül Çetin.txt"
+    },
+    {
+      "candidate_id": "8ac440a365374bfb846c_20250609_213401_47108008",
+      "file_name": "8ac440a365374bfb846c532cd0281869_Sahil Hussain.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/sahil-hussain-992b1b261 (LinkedIn)\nTop Skills\nSnowflake\nMicrosoft Azure\nData Warehouse Architecture\nLanguages\nEnglish (Native or Bilingual)\nBengali (Native or Bilingual)\nSpanish (Professional Working)\nUrdu (Limited Working)\nSahil Hussain\nData Scientist\nLondon, England, United Kingdom\nExperience\nIshka: Aviation Finance\nData Scientist\nFebruary 2024 - January 2025 (1 year)\nCity Of London, England, United Kingdom\nVodafone\n3 years 6 months\nData Analyst\nMay 2023 - February 2024 (10 months)\nLondon, England, United Kingdom\nData Analyst Apprentice\nSeptember 2020 - May 2023 (2 years 9 months)\nEducation\nLancaster University\nBachelor of Science - BSc, Data Science · (September 2020 - May 2023)\nUniversity of Greenwich\nBachelor of Science - BSc, Psychology · (September 2017 - May 2020)\nPage 1 of 1",
+      "parsed_at": "2025-06-09T21:34:01.626349",
+      "file_path": "data\\cvs\\processed\\8ac440a365374bfb846c_20250609_213401_47108008_8ac440a365374bfb846c532cd0281869_Sahil Hussain.txt"
+    },
+    {
+      "candidate_id": "a3a835302f0a4d02bc41_20250609_213401_28614ee9",
+      "file_name": "a3a835302f0a4d02bc41ef577df22f98_Sharaf M.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/sharaf-momen-632886i (LinkedIn)\nTop Skills\nGitHub\nETL Tools\nData Modeling\nSharaf M.\nData Scientist\nLondon, England, United Kingdom\nExperience\nMuzz\nData Scientist\nMay 2023 - July 2024 (1 year 3 months)\nCity Of London, England, United Kingdom\nI work with AB testing/experiments for revenue and retention. I build and maintain dashboards to monitor revenue metrics and feature post-release analysis.I built an API that allows the data science team to personalise upsells tousers. I also update ELT pipelines regularly on Airflow.There have been segmentation tasks that I helped with to personalise how wetarget and better help users. Work closely with data science team, and regularly conduct reviews of PRsand code for ETL pipelines, APIs, and SQL analysis.\npermutable.ai\nData Scientist\nAugust 2022 - February 2023 (7 months)\nLondon, England, United Kingdom\nBuilt end-to-end data pipeline for the collection and sentiment analysis oftweets with Airflow and Redshift.Developed and managed QuickSight dashboards for clients to track the ESGprofile of their supply chain. Worked on a project to source news in multiple languages asynchronously, aspart of a larger Airflow DAG. Developed and deployed a web scraper through AWS Lambda to retrieveinformation to enhance brand SEO. Worked on data product demos with clients, engaged in product design, keptrecord of pain points from client feedback.\nPage 1 of 3\nExposed to application of topic modelling to address relevant clusters that existamong all news articles collected.\nHonest AI\nData Scientist\nApril 2022 - August 2022 (5 months)\nLondon, England, United Kingdom\nIntegrated and tested third-party real estate APIs with existing data sources.Developed ETL pipeline using PySpark for PostgreSQL storage. Analysed and delivered insights from newly ingested real estate data in theUK. Incorporated explainability practices on Machine Learning algorithms forexploratory data analysis purposes.Developed a hybrid multi-input model that predicts house prices using a CNNembedding of neighbourhoods.\nJunior Achievement Singapore\nJunior Achievement Company Programme: CEO of Mindful Mugs\nJuly 2016 - January 2017 (7 months)\nSingapore\nAs a CEO, I ran a company under the annual Singapore Company Challenge,hosted by the Junior Achievement. Different Polytechnics, Junior Colleges andHigh Schools had to compete through having the best performing company,taking into consideration the processes undergone and the quality/accuracy ofcompany literature. Ultimately, my company won 2nd place in Singapore, equipping me with thefollowing corporate skills:- Critical problem-solving- Financial Planning and Literature- Market planning, research and strategy- Supply-chain management- Remuneration strategies and negotiation- Public Relations and stakeholder management\nEducation\nUCL\nMaster of Science - MS, Business Analytics · (September 2021 - June 2022)\nPage 2 of 3\nUniversity of Warwick\nBachelor of Science - BS, International Management · (2017 - 2021)\nSchulich School of Business - York University\nYear Abroad, Business Administration and Management,General · (2019 - 2019)\nInternational School of Singapore\nInternational Baccalaureate · (2015 - 2017)\nABRSM\nPre-diploma Level, Music Theory and Piano Practical · (September2012 - June 2016)\nPage 3 of 3",
+      "parsed_at": "2025-06-09T21:34:01.091550",
+      "file_path": "data\\cvs\\processed\\a3a835302f0a4d02bc41_20250609_213401_28614ee9_a3a835302f0a4d02bc41ef577df22f98_Sharaf M.txt"
+    },
+    {
+      "candidate_id": "20ad15b56ade453d9583_20250609_213400_3eab80ea",
+      "file_name": "20ad15b56ade453d958337a9a5c7eea1_Siddhesh Sathe.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "Contact\nwww.linkedin.com/in/thesidsat\n(LinkedIn)\nTop Skills\nLangchain\nProgramming\nData Mining\nCertifications\nAMCAT Certified Data Processing\nSpecialist\nStatistical Learning\nAMCAT Certified Business Analyst\nSiddhesh Sathe\nData Scientist\nLondon Area, United Kingdom\nSummary\nI have effectively assisted clients worldwide in meeting their business\nand technical objectives through implementation of data science\nsolutions. My expertise is in leveraging artificial intelligence, and I\nhold a Master's degree in Computer Science with specialization in AI\nfrom University of Leeds.\nCurrently, I am applying my skills and knowledge as a member of the\nTradeTeq team, actively contributing to the company's success.\nThe observations and thoughts shared here are strictly my own and\ndo not reflect the views of any other individual or organization.\nExperience\nTradeteq\nData Scientist\nMay 2022 - March 2025 (2 years 11 months)\nLondon, England, United Kingdom\nRedev Ltd\n2 years 5 months\nArtificial Intelligence Engineer\nNovember 2020 - May 2022 (1 year 7 months)\nLeeds, England, United Kingdom\nActively managed core trading strategies across FX and indices.\nDesigned, developed and backtested Risk Management and profit taking\ncapabilities resulting in higher Alpha.\nAI/Data Science\nEstablished dockerised AI modules with RESTful APIs to streamline transition\nfrom prototyping to deployment.\nDesigned ANNs and LSTMs in predictive modelling.\nExtended YOLO to detect fraud from CCTV feed in a resource constrained\nenvironment.\nAnalytics Consultant\nPage 1 of 2\nJanuary 2020 - October 2020 (10 months)\nLeeds, United Kingdom\nUpwork\nFreelance Data Scientist\nJune 2017 - September 2019 (2 years 4 months)\nFormer Top Rated freelancer - Top 10% of freelancers on the platform.I worked on delivering end to end data science solutions to 20+ clients acrossindustries in computer vision, NLP and machine learning.\nAalborg Universitet\nWinter Intern\nDecember 2016 - December 2016 (1 month)\nCopenhagen Area, Denmark\nForbes Marshall\nIntern(Oracle Dev)\nJune 2016 - June 2016 (1 month)\nEducation\nUniversity of Leeds\nMSc. Advanced Computer Science , Artificial Intelligence · (2019 - 2020)\nUniversity of Pune\nBachelor of Engineering (B.E.), Computer Science · (2013 - 2017)\nPage 2 of 2",
+      "parsed_at": "2025-06-09T21:34:00.962370",
+      "file_path": "data\\cvs\\processed\\20ad15b56ade453d9583_20250609_213400_3eab80ea_20ad15b56ade453d958337a9a5c7eea1_Siddhesh Sathe.txt"
+    },
+    {
+      "candidate_id": "8050e1581d3e48ddb23f_20250609_213401_688bde30",
+      "file_name": "8050e1581d3e48ddb23f5431ba0166fe_Saad LAOUADI.txt",
+      "full_name": "Unknown",
+      "contact_info": {
+        "email": null,
+        "phone": null,
+        "location": null,
+        "linkedin": null,
+        "github": null
+      },
+      "summary": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "certifications": [],
+      "languages": [],
+      "projects": [],
+      "raw_text": "SAAD LAOUADI, PH.D.\nDATA SCIENTIST\n#dr.saad.laouadi@gmail.com +213 670 72 95 61\nïlinkedin.com/in/saad-laouadi §github.com/dr-saad-la\n+ Boumerdes, Algeria\nProfessional Profile\nData Scientist with seven (7) years of experience and advanced expertise in machine learning, deep learning, and artificial\nintelligence. Versatile professional with demonstrated success applying data science solutions across diverse sectors including\neducation, health care, cybersecurity, and agriculture. Combines technical proficiency in programming with strong analytical\nthinking and leadership capabilities. Experienced AI instructor with the ability to communicate complex concepts effectively.\nCommitted to leveraging data-driven insights to solve challenging business problems and drive innovation.\nProfessional Experience\nFREELANCE November 2024 – Present\nAI Instructor Remote\n• Developed and delivered comprehensive curriculum on the foundations of deep learning, providing students with both\ntheoretical knowledge and practical implementation skills\n• Designed specialized course on applying deep learning techniques to sequential data analysis, covering RNNs, LSTMs, and\ntransformers with real-world applications\n• Created and taught advanced computer vision course, focusing on convolutional neural networks, object detection, and\nimage segmentation techniques\n• Mentored students through complex AI projects, providing code reviews and implementation guidance\n• Maintained high student satisfaction ratings through engaging teaching methods and accessible explanations of complex\ntechnical concepts\nGROWTECH June 2022 – October 2024\nData Science Consultant Remote\n• Led a specialized team focused on developing AI models for early detection of Red Palm Weevil infestations, a critical\nagricultural pest\n• Designed and built computer vision models that achieved 94% accuracy in identifying plant diseases from image data\n• Created custom deep learning algorithms to detect subtle signs of pest damage before visible symptoms appeared\n• Collaborated with agronomists to refine model parameters based on field expertise and regional agricultural patterns\n• Established standardized methodologies for data collection and preparation, improving model training efficiency by 40\n1\nQATAR ORGANIZATION 2018 – 2023\nStatistician / Data Scientist Doha, Qatar\n• Architected and implemented a comprehensive data entry system that streamlined information collection and improved\ndata integrity\n• Developed advanced natural language processing solutions for automated document analysis and information extraction\n• Created and deployed document classification algorithms.\n• Conducted statistical analysis on large datasets to identify patterns and generate actionable insights for organizational\ndecision-making\n• Delivered training programs on statistical methods and data analysis techniques to colleagues.\nTechnical Skills\n• Programming Languages: Python, R, Julia, Rust,\nSQL, JavaScript, C++\n• Machine Learning: TensorFlow, PyTorch, Keras, scikitlearn,\nXGBoost, LightGBM, Hugging FaceTransformers\n• Data Analysis: Pandas, Polars, NumPy, SciPy, statsmodels,\nMatplotlib, Seaborn, Plotly, ggplot2\n• Agriculture Technologies: GDAL, QGIS, GeoPandas,\nPostGIS.\n• Computer Vision: OpenCV, YOLO, EfficientNet, UNet,\nSegNet, Detectron2\n• Cloud & Infrastructure: Docker, Kubernetes,\nMLflow.\nSelected Projects\n• Soil Nutrient Optimization System — Developed machine learning models to predict optimal nutrient composition\nbased on crop type, soil condition, and climate data.\n• Water Quality Monitoring Network—Created real-time anomaly detection system for irrigation water quality using\nsensor data and time series analysis, identifying contaminants with 94% accuracy.\n• Crop Disease Prediction Model — Designed deep learning system to identify early signs of plant diseases from multispectral\nimagery.\n• Microclimate Mapping for Precision Agriculture—Built spatial analysis model combining satellite imagery, ground\nsensors, and topographical data to enable field-specific planting recommendations.\n• Sustainable Irrigation AI System — Developed reinforcement learning algorithm to optimize irrigation scheduling\nbased on weather forecasts, soil moisture, and plant growth stages.\nEducation\nBLIDA UNIVERSITY 2013 – 2017\nPh.D. in Applied Economics Blida, Algeria\n• Dissertation focused on statistical and econometric modeling applications in economic analysis\n• Applied advanced quantitative methods to solve complex economic problems\nBLIDA UNIVERSITY 2010 – 2012\nMaster’s Degree in Econometrics Blida, Algeria\n2\nBLIDA UNIVERSITY 2007 – 2010\nBachelor’s Degree in Economics Blida, Algeria\nAreas of Expertise\n• Machine Learning & Deep Learning\n• Computer Vision Systems\n• Natural Language Processing\n• Statistical Analysis &Modeling\n• AIModel Development & Optimization\n• Technical Training & Knowledge Transfer\n• Research & Development\n• Cross-functional Team Leadership\n• Domain Adaptation (Agriculture, Education, Health\ncare, Cyber security)\n• Data Pipeline Architecture\nCertifications & Professional Development\nCertifications: Professional Development:\n• Professional Certificate in Data Science, edX (2019)\n• Machine Learning with R, DataCamp (2020)\n• Data Scientist with Python, DataCamp (2021)\n• Data Scientist with R, DataCamp (2021)\n• Python Programmer, DataCamp (2022)\n• R Programmer, DataCamp (2022)\n• SAS Programmer, SAS Corporation (2019)\n• SAS Data Scientist, SAS Corporation (2019)\n• Advanced Computer Vision Techniques, Stanford Online\n(2023)\n• Natural Language ProcessingWorkshop, AI Conference\n(2022)\n• Deep Learning for Time Series Analysis, Workshop\n(2020)\n3",
+      "parsed_at": "2025-06-09T21:34:01.210573",
+      "file_path": "data\\cvs\\processed\\8050e1581d3e48ddb23f_20250609_213401_688bde30_8050e1581d3e48ddb23f5431ba0166fe_Saad LAOUADI.txt"
+    }
+  ],
+  "screening_results": null,
+  "detailed_evaluations": [],
+  "interview_questions": [],
+  "comparison_analysis": null,
+  "session_status": "screening",
+  "created_at": "2025-06-09T21:33:57.432867",
+  "updated_at": "2025-06-09T21:34:35.106665",
+  "metadata": {},
+  "configuration": {
+    "qualificationThreshold": 70,
+    "evaluationMode": "comprehensive",
+    "topNCandidates": 5,
+    "analysisType": "full",
+    "scoringWeights": {
+      "technical": 30,
+      "experience": 25,
+      "culture": 20,
+      "soft": 15,
+      "education": 10
+    },
+    "options": {
+      "autoGenerateInterviews": true,
+      "compareCandidates": true,
+      "detailedReports": true,
+      "enableBiasDetection": false,
+      "predictiveAnalysis": false,
+      "marketIntelligence": false
+    }
+  }
+}

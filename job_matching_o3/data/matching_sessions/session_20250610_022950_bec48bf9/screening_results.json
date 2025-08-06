@@ -1,0 +1,407 @@
+{
+  "session_id": "session_20250610_022950_bec48bf9",
+  "job_posting": {
+    "job_id": "job_20250610_022950",
+    "title": "Data Scientist",
+    "company": "INOVAITE LTD",
+    "department": null,
+    "location": null,
+    "employment_type": null,
+    "experience_level": null,
+    "required_skills": [],
+    "preferred_skills": [],
+    "description": "Data Scientist - Vodafone\n\nLocation: London, UK (Hybrid - 3 days office, 2 days remote) | Other locations available: Manchester, Birmingham, Dublin Salary: £65,000 - £85,000 (depending on experience) + performance bonus Visa Sponsorship: Available for qualified candidates\n\nJoin Vodafone, a global leader in telecommunications and digital services, where innovation meets impact. We're transforming how the world connects, and we need exceptional data scientists to drive our digital future.\n\nAbout Vodafone\n\nAt Vodafone, we connect millions of people, businesses, and communities worldwide. Our cutting-edge technology and data-driven approach power everything from 5G networks to IoT solutions. We're not just a telecom company – we're architects of the digital future, creating solutions that matter.\n\nOur Commitment to Diversity: With 40% of our tech workforce identifying as women and active Employee Resource Groups including Pride, Cultural Diversity Network, and Parents & Carers, we're building an inclusive environment where everyone thrives.\n\nThe Opportunity\n\nWe're seeking a talented Data Scientist to join our 25-person Advanced Analytics team within the Digital Innovation department. You'll help unlock the power of data to revolutionize customer experiences and drive business growth. Working with massive datasets, cutting-edge technologies, and brilliant minds, you'll solve complex challenges in telecommunications.\n\nCurrent Team Impact:\n\nReduced customer churn by 23% through predictive modeling\nSaved £12M annually through network optimization algorithms\nImproved customer satisfaction scores by 18% via personalization engines\n\nWhat You'll Do\n\n🔹 Develop and implement advanced machine learning models to optimize network performance and predict customer behavior\n\n🔹 Analyze petabytes of network and customer data to uncover actionable insights that drive strategic decisions\n\n🔹 Build predictive models for customer churn, network optimization, and revenue forecasting using TensorFlow, PyTorch, and scikit-learn\n\n🔹 Collaborate with cross-functional teams including engineering, product, and business stakeholders to deliver data-driven solutions\n\n🔹 Design and maintain scalable data pipelines and analytics infrastructure\n\n🔹 Create compelling data visualizations and presentations to communicate complex findings to technical and non-technical audiences\n\n🔹 Lead A/B testing initiatives to optimize customer experiences across digital touchpoints\n\n🔹 Mentor junior team members and contribute to the growth of our data science practice\n\nCurrent Projects You'll Contribute To\n\n🎯 5G Network Intelligence: Building ML models to optimize 5G network deployment and performance\n\n🎯 Customer 360 Platform: Creating unified customer profiles using graph analytics and deep learning\n\n🎯 IoT Anomaly Detection: Developing real-time fraud detection for millions of connected devices\n\n🎯 Conversational AI: Enhancing customer service chatbots with NLP and sentiment analysis\n\nWhat We're Looking For\n\n✅ Master's degree in Computer Science, Statistics, Mathematics, or related field (PhD preferred)\n\n✅ 3+ years of hands-on experience in data science, preferably in telecommunications or technology\n\n✅ Expert proficiency in Python, R, and SQL with experience in big data technologies (Spark, Hadoop)\n\n✅ Strong foundation in machine learning algorithms, statistical modeling, and deep learning frameworks (TensorFlow, PyTorch, Keras)\n\n✅ Experience with cloud platforms (AWS, Azure, or GCP) and distributed computing\n\n✅ Proven track record of deploying models into production environments using MLOps practices\n\n✅ Excellent problem-solving skills with the ability to work with ambiguous requirements\n\n✅ Outstanding communication skills with the ability to translate complex technical concepts for diverse audiences\n\nWhat Sets You Apart\n\n📊 Experience with telecom-specific datasets (CDR, network logs, IoT data)\n\n📊 Knowledge of 5G technology and its data implications\n\n📊 Published research or contributions to open-source projects\n\n📊 Experience with real-time analytics and streaming data platforms (Kafka, Flink)\n\nWhat We Offer\n\n🚀 Competitive salary package (£65,000 - £85,000) with performance-based bonuses\n\n🚀 Comprehensive health, dental, and vision coverage for you and your family\n\n🚀 Flexible working arrangements: 3 days office, 2 days remote\n\n🚀 Generous annual leave (28 days) and sabbatical opportunities\n\n🚀 Access to cutting-edge technology and £2,000 annual learning budget\n\n🚀 Continuous learning opportunities including conferences, certifications, and internal training programs\n\n🚀 Career development pathways with global mobility opportunities\n\n🚀 Employee stock purchase plan and 10% retirement savings matching\n\n🚀 Wellness programs and mental health support through dedicated apps\n\n🚀 Discounted Vodafone products and services (50% off)\n\nYour Impact After One Year\n\nBy your first anniversary, you'll have:\n\nDeployed at least 3 production-ready ML models improving key business metrics\nReduced customer churn by measurable percentage through predictive analytics\nOptimized network efficiency resulting in cost savings\nEstablished yourself as a trusted data expert within the organization\nContributed to strategic initiatives shaping Vodafone's digital transformation\nInterview Process\n\nTimeline: 3-4 weeks from application to offer\n\n1️⃣ Initial screening call with recruiter (30 mins)\n\n2️⃣ Technical assessment (take-home or live coding - your choice)\n\n3️⃣ Virtual panel interview with team members (90 mins)\n\n4️⃣ Final interview with department head (45 mins)\n\n5️⃣ Reference checks and offer\n\nReady to Shape the Future of Connectivity?\n\nIf you're passionate about using data to solve real-world problems and want to work at the forefront of telecommunications innovation, we want to hear from you.\n\nApplication Deadline: July 4, 2025\n\nVodafone is an equal opportunity employer committed to building a diverse and inclusive workforce. We welcome applications from all qualified candidates regardless of race, gender, age, sexual orientation, disability, or any other characteristic protected by law.\n\nJoin us in creating a better connected future for everyone.\n\n#DataScience #MachineLearning #Telecommunications #HybridWork #TechJobs #Vodafone #DataScientist #London #UK\n",
+    "requirements": null,
+    "responsibilities": null,
+    "education_requirements": null,
+    "salary_range": null,
+    "benefits": null,
+    "created_at": "2025-06-10T02:29:50.062215"
+  },
+  "total_candidates": 9,
+  "qualified_candidates": [
+    {
+      "candidate_id": "e21bc64fc7f0480e9122_20250610_023031_259f195b",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.898,
+      "technical_skills_score": 0.95,
+      "experience_score": 0.85,
+      "education_score": 0.9,
+      "soft_skills_score": 0.92,
+      "cultural_fit_score": 0.88,
+      "detailed_breakdown": {
+        "technical_skills": 0.95,
+        "experience": 0.85,
+        "education": 0.9,
+        "soft_skills": 0.92,
+        "cultural_fit": 0.88
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Saad Laouadi is an exceptionally qualified candidate who exceeds most requirements despite lacking direct telecom experience. With 7 years of experience, a Ph.D., and proven success across multiple industries, they demonstrate the technical expertise and adaptability needed for Vodafone's data science challenges. Their teaching experience uniquely positions them to mentor junior team members and communicate complex findings effectively. While they would need onboarding for telecom-specific technologies, their track record of rapid learning and cross-domain success suggests they would quickly become a valuable team member. The combination of deep technical skills, leadership experience, and continuous learning mindset makes them an excellent fit for driving Vodafone's digital transformation initiatives.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate demonstrates comprehensive technical expertise exceeding most requirements. With 7 years of experience and multiple certifications, they show mastery of essential ML/DL frameworks and languages. While lacking specific telecom and some big data technologies (Spark, Hadoop, Kafka), their proven ability to adapt across domains (healthcare, agriculture, cybersecurity) suggests rapid learning capability.\n\nExperience Analysis: While lacking telecom-specific experience, the candidate brings valuable cross-industry expertise and proven success in deploying production ML models. Their achievement of 94% accuracy in agricultural AI and experience with large-scale data analysis demonstrates capability to handle Vodafone's complex challenges. Leadership experience through team management and teaching aligns well with mentoring responsibilities.\n\nEducation Analysis: Educational background exceeds requirements with Ph.D. qualification. While not in traditional CS/Statistics field, Applied Economics and Econometrics provide strong mathematical and statistical foundations essential for data science. The comprehensive certification portfolio shows commitment to technical skill development and covers gaps from formal education.\n\nSoft Skills Analysis: The candidate demonstrates exceptional soft skills through their teaching experience and cross-industry success. Their ability to communicate complex AI concepts as an instructor directly addresses the requirement to present to technical and non-technical audiences. Problem-solving abilities are evidenced by quantifiable achievements across diverse domains.\n\nCultural Fit Analysis: The candidate's profile strongly aligns with Vodafone's innovation-driven culture. Their commitment to continuous learning (11+ certifications) and ability to work across diverse teams and industries suggests excellent cultural fit. Experience in remote positions indicates smooth adaptation to hybrid work model.",
+      "strengths": [
+        "Exceptional technical depth with 7 years of experience and Ph.D. qualification",
+        "Proven track record of deploying production ML models with measurable business impact",
+        "Strong teaching and mentoring abilities ideal for team development",
+        "Cross-industry expertise demonstrating adaptability and diverse problem-solving approaches",
+        "Continuous learning mindset with extensive certifications and self-directed skill development"
+      ],
+      "weaknesses": [
+        "No direct telecommunications industry experience",
+        "Limited exposure to specific big data technologies (Spark, Hadoop) mentioned in requirements",
+        "May require onboarding for telecom-specific datasets and 5G technology",
+        "No explicit experience with streaming data platforms (Kafka, Flink)"
+      ],
+      "recommendations": [
+        "Strong hire recommendation - candidate brings exceptional technical skills and proven ability to deliver business value",
+        "Provide telecom-specific onboarding to leverage their strong foundation",
+        "Utilize their teaching experience for team mentorship and knowledge transfer",
+        "Consider for senior position given Ph.D. and extensive experience",
+        "Fast-track for projects involving computer vision and NLP given their specialized expertise"
+      ],
+      "calculated_at": "2025-06-10T02:31:40.201103"
+    },
+    {
+      "candidate_id": "9bfb57c624a94614ac2f_20250610_023028_8cd44aae",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.81,
+      "technical_skills_score": 0.85,
+      "experience_score": 0.75,
+      "education_score": 0.9,
+      "soft_skills_score": 0.85,
+      "cultural_fit_score": 0.8,
+      "detailed_breakdown": {
+        "technical_skills": 0.85,
+        "experience": 0.75,
+        "education": 0.9,
+        "soft_skills": 0.85,
+        "cultural_fit": 0.8
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Sharaf is a promising candidate who demonstrates strong fundamentals and rapid growth potential. While slightly below the experience requirements and lacking telecom-specific knowledge, their proven ability to deliver business value through ML, strong technical foundation, and adaptability make them worth considering. The combination of technical skills and business understanding from their unique background could bring fresh perspectives to the team. Recommend proceeding with interview to assess learning agility and cultural fit.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate shows solid technical skills with hands-on experience in ML, data pipelines, and AWS services. They've built production APIs, implemented ML models (CNN for house prices), and managed end-to-end data pipelines. The gap in deep learning frameworks and telecom-specific knowledge could be addressed through training.\n\nExperience Analysis: While the candidate lacks the preferred 3+ years and telecom experience, they show strong adaptability across industries and have relevant experience with customer analytics, AB testing, and production ML systems. The 2.5 years of focused data science experience is slightly below requirements.\n\nEducation Analysis: The Master's degree requirement is met with a relevant field from a prestigious institution (UCL). The Business Analytics focus, combined with practical experience, compensates for not having a pure CS/Statistics background. No PhD but that's preferred, not required.\n\nSoft Skills Analysis: The candidate demonstrates strong soft skills through their varied experience and achievements. Their CEO experience in Junior Achievement shows early leadership and business acumen. Client-facing work and cross-functional collaboration indicate good communication abilities.\n\nCultural Fit Analysis: The candidate's startup experience and rapid skill acquisition align well with Vodafone's innovation culture. Their international background and diverse experience suggest good fit for inclusive environment. However, may need adjustment from startup to large corporate culture.",
+      "strengths": [
+        "Strong practical ML and data pipeline experience with production deployments",
+        "Proven ability to deliver business value through data science (revenue optimization, cost savings)",
+        "Excellent adaptability across industries and technologies",
+        "Solid AWS cloud experience and modern data stack knowledge",
+        "Business acumen from CEO experience and Business Analytics education"
+      ],
+      "weaknesses": [
+        "Below required experience level (2.5 vs 3+ years)",
+        "No telecommunications or large-scale network data experience",
+        "Missing key deep learning frameworks (TensorFlow, PyTorch)",
+        "Limited experience with real-time streaming platforms",
+        "No demonstrated experience with petabyte-scale data"
+      ],
+      "recommendations": [
+        "Consider for interview with focus on assessing learning ability and technical depth",
+        "Probe for transferable skills from customer analytics to telecom use cases",
+        "Assess willingness and ability to quickly learn deep learning frameworks",
+        "Consider for mid-level position with growth path rather than senior role",
+        "Evaluate cultural fit for transition from startup to large corporate environment"
+      ],
+      "calculated_at": "2025-06-10T02:31:49.177574"
+    },
+    {
+      "candidate_id": "23ce1eb7bfd64662b7d6_20250610_023029_92394b88",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.793,
+      "technical_skills_score": 0.85,
+      "experience_score": 0.7,
+      "education_score": 0.9,
+      "soft_skills_score": 0.85,
+      "cultural_fit_score": 0.8,
+      "detailed_breakdown": {
+        "technical_skills": 0.85,
+        "experience": 0.7,
+        "education": 0.9,
+        "soft_skills": 0.85,
+        "cultural_fit": 0.8
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Neethu Muraleedharan is a promising candidate with solid foundational skills and demonstrated impact in data science roles. While she lacks specific telecommunications experience and some advanced technical skills required for the role, her strong educational background, proven ability to deliver results, and excellent soft skills make her a viable candidate. Her experience in developing predictive models and working with stakeholders aligns well with core job requirements. The main concerns are the technical gaps in big data and deep learning technologies, and lack of telecom industry experience. However, her demonstrated learning ability and passion for data science suggest she could quickly bridge these gaps with proper support and training.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate shows excellent proficiency in fundamental data science skills and has applied them in real-world scenarios. Her experience with predictive modeling for NEET risk assessment and healthcare attendance forecasting demonstrates practical ML application. However, the role specifically requires expertise in deep learning frameworks (TensorFlow, PyTorch) and big data technologies (Spark, Hadoop) which are not evident in her profile. The telecommunications industry's scale demands these advanced technical capabilities.\n\nExperience Analysis: While the candidate has 2.5 years of direct data science experience (including internship), she lacks the telecommunications industry experience that would be valuable for understanding CDR data, network logs, and IoT data. Her experience is primarily in smaller-scale public sector projects, which may not prepare her for the petabyte-scale data challenges at Vodafone. The role requires 3+ years of hands-on experience, and she falls slightly short. However, her diverse background shows adaptability and business acumen.\n\nEducation Analysis: Educational background is excellent and directly relevant. The Master's in Data Science from a reputable UK university meets the primary requirement. While the role prefers a PhD, her dual master's degrees and professional certifications show strong academic preparation. The IBM Data Science Professional Certificate particularly demonstrates commitment to industry-standard practices.\n\nSoft Skills Analysis: The candidate demonstrates excellent soft skills through her varied experiences. Her ability to work with stakeholders, translate technical concepts for non-technical audiences, and contribute to evidence-based policy-making aligns well with the role's requirements. Her creative outlets (music and art) suggest a well-rounded personality that could contribute to team culture.\n\nCultural Fit Analysis: The candidate's values and work approach align well with Vodafone's culture. Her experience in public sector roles focused on youth development shows social consciousness that matches Vodafone's community impact focus. Her creative interests and diverse background would contribute to an inclusive team environment. However, transitioning from smaller organizations to a global corporation may require adjustment.",
+      "strengths": [
+        "Strong educational background with directly relevant Master's in Data Science",
+        "Proven track record in developing and deploying predictive models with measurable impact",
+        "Excellent communication and stakeholder management skills",
+        "Demonstrated ability to work with complex datasets and derive actionable insights",
+        "Creative problem-solver with diverse industry experience"
+      ],
+      "weaknesses": [
+        "Lacks telecommunications industry experience and knowledge of telecom-specific datasets",
+        "Missing critical technical skills in deep learning frameworks and big data technologies",
+        "Below the 3+ years experience requirement by approximately 6 months",
+        "No evident experience with production MLOps or large-scale distributed systems",
+        "Limited exposure to real-time analytics and streaming data platforms"
+      ],
+      "recommendations": [
+        "Consider for interview with focus on assessing learning agility for telecommunications domain",
+        "Evaluate potential through technical assessment to gauge ability to quickly acquire missing technical skills",
+        "Position as strong mid-level candidate who could grow into senior responsibilities",
+        "Consider offering at lower end of salary range (£65,000) with clear development path",
+        "Pair with senior team member for telecommunications domain knowledge transfer"
+      ],
+      "calculated_at": "2025-06-10T02:31:38.710762"
+    },
+    {
+      "candidate_id": "df9022ca4b4442fab317_20250610_023011_b9f2ca2b",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.765,
+      "technical_skills_score": 0.85,
+      "experience_score": 0.75,
+      "education_score": 0.9,
+      "soft_skills_score": 0.7,
+      "cultural_fit_score": 0.65,
+      "detailed_breakdown": {
+        "technical_skills": 0.85,
+        "experience": 0.75,
+        "education": 0.9,
+        "soft_skills": 0.7,
+        "cultural_fit": 0.65
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Siddhesh Sathe is a solid candidate with strong AI/ML fundamentals and relevant data science experience. However, he lacks critical technical skills (cloud, big data) and domain expertise (telecommunications) required for this senior role at Vodafone. His experience is primarily in smaller-scale fintech applications rather than the petabyte-scale telecom data mentioned in the job description. While his educational background is excellent and he shows good problem-solving abilities, the absence of leadership experience and limited evidence of stakeholder communication skills are concerns for a role requiring mentorship and cross-functional collaboration. He might be a better fit for a mid-level position where he can develop these skills while learning the telecom domain.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate shows strong AI/ML expertise with hands-on experience in ANNs, LSTMs, and YOLO. Their experience with Docker and RESTful APIs indicates production deployment capabilities. However, they lack explicit experience with telecom-specific technologies, big data platforms, and cloud services that are critical for handling Vodafone's petabyte-scale data.\n\nExperience Analysis: The candidate has 5+ years of relevant data science experience with a good career trajectory. Their work on risk management, predictive modeling, and fraud detection demonstrates ability to handle complex problems. However, they lack telecom industry experience and haven't demonstrated the mentoring/leadership capabilities required for this senior role.\n\nEducation Analysis: The candidate exceeds the educational requirements with an MSc in Advanced Computer Science specializing in AI. Their educational background from reputable institutions (University of Leeds, University of Pune) provides a strong theoretical foundation. Additional certifications demonstrate continuous learning, though more recent cloud or MLOps certifications would strengthen their profile.\n\nSoft Skills Analysis: The candidate shows good problem-solving abilities and adaptability through varied project experience. However, the CV lacks explicit evidence of the strong communication skills needed to present to non-technical audiences and limited demonstration of collaborative work with cross-functional teams, which is crucial for this role.\n\nCultural Fit Analysis: The candidate's international experience and diverse project portfolio suggest adaptability. However, there's no clear evidence of working in large corporate environments like Vodafone or contributing to diversity initiatives. Their freelance background may require adjustment to corporate culture and structured team environments.",
+      "strengths": [
+        "Strong AI/ML technical foundation with practical implementation experience",
+        "Excellent educational background with MSc in AI from reputable university",
+        "Proven track record of delivering end-to-end data science solutions",
+        "Experience with production deployment using Docker and APIs",
+        "Diverse project experience across industries showing adaptability"
+      ],
+      "weaknesses": [
+        "No telecommunications or large-scale data experience",
+        "Missing key technical skills: cloud platforms, big data tools, specific ML frameworks",
+        "Limited evidence of leadership, mentoring, or stakeholder communication",
+        "No demonstrated experience with MLOps practices or A/B testing",
+        "Lack of experience with telecom-specific datasets or 5G technology"
+      ],
+      "recommendations": [
+        "Consider for interview with focus on assessing cloud/big data capabilities",
+        "Probe for examples of stakeholder communication and team collaboration",
+        "Assess willingness and ability to quickly learn telecom domain knowledge",
+        "Evaluate potential for growth into mentoring responsibilities",
+        "May be better suited for a mid-level position rather than senior role"
+      ],
+      "calculated_at": "2025-06-10T02:31:25.731409"
+    },
+    {
+      "candidate_id": "e5b7119e54644b898be1_20250610_023042_849f9dd0",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.75,
+      "technical_skills_score": 0.75,
+      "experience_score": 0.65,
+      "education_score": 0.85,
+      "soft_skills_score": 0.9,
+      "cultural_fit_score": 0.8,
+      "detailed_breakdown": {
+        "technical_skills": 0.75,
+        "experience": 0.65,
+        "education": 0.85,
+        "soft_skills": 0.9,
+        "cultural_fit": 0.8
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Dr. Zabeen is a strong candidate with exceptional soft skills, leadership experience, and a solid analytical foundation. However, the role requires specific technical expertise in big data, cloud platforms, and telecommunications that the candidate currently lacks. Their career transition shows adaptability, but with only 2 years in data science roles, they may struggle with the senior-level technical requirements. They could be a good cultural fit and bring unique perspectives, but would need support to fill technical gaps.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate has relevant data science experience from current role at Agilance Property and previous role at Bank of America. Their research background demonstrates strong analytical and statistical skills. However, they lack explicit experience with the specific tech stack mentioned (TensorFlow, PyTorch, big data tools) and telecommunications domain expertise.\n\nExperience Analysis: While the candidate has only 2 years of direct data science industry experience (current role + Bank of America), they bring 12+ years of analytical research experience. The career transition from aerospace materials to data science shows adaptability but may indicate they're still building expertise in the field. No telecommunications experience is a significant gap.\n\nEducation Analysis: The candidate has a PhD (preferred qualification) demonstrating research capabilities and analytical rigor. While the PhD is in Aerospace Materials rather than CS/Statistics/Math, they've supplemented with relevant data science education and certifications. The combination of advanced degree and targeted upskilling is strong.\n\nSoft Skills Analysis: The candidate demonstrates exceptional soft skills through their diverse experiences. Publishing research, teaching, founding a mental health charity, and managing stakeholder relationships all indicate strong communication and leadership abilities. The career pivot shows remarkable adaptability.\n\nCultural Fit Analysis: The candidate's founding of a mental health charity aligns well with Vodafone's commitment to diversity and inclusion. Their career transition and continuous learning demonstrate the growth mindset valued by the company. Experience at Bank of America suggests adaptability to large corporate environments.",
+      "strengths": [
+        "Strong analytical and research background with PhD-level expertise",
+        "Demonstrated leadership and entrepreneurial skills through charity founding",
+        "Excellent soft skills and communication abilities",
+        "Recent relevant data science experience in corporate settings",
+        "Strong commitment to continuous learning and professional development"
+      ],
+      "weaknesses": [
+        "Limited hands-on experience with required big data technologies and cloud platforms",
+        "No telecommunications industry experience",
+        "Only 2 years of direct data science industry experience",
+        "Missing specific technical skills like TensorFlow, PyTorch, and distributed computing",
+        "May require significant ramp-up time for telecom-specific datasets and challenges"
+      ],
+      "recommendations": [
+        "Consider for interview with focus on assessing technical depth in required technologies",
+        "Evaluate willingness and ability to quickly learn telecommunications domain",
+        "Assess practical experience with production ML deployments",
+        "Consider for more junior position or with extended onboarding if technical gaps are significant",
+        "Leverage their research and leadership skills for mentoring and innovation initiatives"
+      ],
+      "calculated_at": "2025-06-10T02:31:26.960906"
+    },
+    {
+      "candidate_id": "4e4df3d95913432f95ed_20250610_023008_3c3961c4",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.745,
+      "technical_skills_score": 0.75,
+      "experience_score": 0.7,
+      "education_score": 0.85,
+      "soft_skills_score": 0.8,
+      "cultural_fit_score": 0.75,
+      "detailed_breakdown": {
+        "technical_skills": 0.75,
+        "experience": 0.7,
+        "education": 0.85,
+        "soft_skills": 0.8,
+        "cultural_fit": 0.75
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Taiyu Xie is a solid candidate with strong fundamentals in data science and mathematics, meeting the basic requirements for experience and education. Their consulting experience at Accenture and entrepreneurial background demonstrate valuable soft skills and adaptability. However, they lack specific technical skills crucial for this role (deep learning frameworks, big data technologies, telecom experience) and there's no clear evidence of production ML deployment experience. They would likely need significant upskilling in telecom-specific technologies and modern ML engineering practices. The candidate could potentially succeed with proper onboarding and training, but may not be able to contribute immediately to the advanced projects mentioned in the job posting.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate has solid data science fundamentals from their education and 3+ years of consulting experience. Their mathematics background and quantitative finance certifications demonstrate strong analytical capabilities. However, there's no explicit evidence of experience with deep learning frameworks, big data technologies like Spark/Hadoop, or telecom-specific technical skills that are crucial for this role.\n\nExperience Analysis: The candidate meets the minimum 3+ years requirement through their current role at Accenture (since 2021). Their progression shows growth and initiative, particularly with the co-founder experience. However, their background is heavily weighted toward finance and general consulting rather than telecommunications or technology sectors. The IoT internship at China Mobile provides some relevant industry exposure but is limited.\n\nEducation Analysis: The candidate exceeds the educational requirements with a Master's in Data Science from a prestigious institution and a strong mathematical foundation from UCL. The combination of mathematics undergraduate and data science postgraduate degrees provides excellent theoretical grounding. Additional certifications in AWS and quantitative methods show continued learning, though more ML/AI-specific certifications would strengthen the profile.\n\nSoft Skills Analysis: The candidate's consulting background at Accenture suggests strong communication and stakeholder management skills. Their entrepreneurial experience as COO demonstrates leadership, problem-solving, and adaptability. The diverse internship experiences across different sectors show flexibility. However, specific examples of data visualization, presentation skills, or mentoring experience are not evident from the CV.\n\nCultural Fit Analysis: The candidate's entrepreneurial experience and consulting background suggest they would thrive in Vodafone's innovation-focused environment. Their international experience (China/UK) aligns well with a global company. The continuous learning through certifications demonstrates growth mindset. However, there's no clear evidence of commitment to diversity initiatives or experience in large corporate environments similar to Vodafone.",
+      "strengths": [
+        "Strong educational foundation with Master's in Data Science and Mathematics background",
+        "Relevant data science experience with 3+ years at Accenture",
+        "Entrepreneurial mindset and leadership experience as COO/Co-Founder",
+        "AWS cloud certification and quantitative analysis skills",
+        "International experience and multilingual capabilities"
+      ],
+      "weaknesses": [
+        "No demonstrated experience with deep learning frameworks (TensorFlow, PyTorch)",
+        "Lacks telecom industry experience and domain knowledge",
+        "No evidence of big data technologies (Spark, Hadoop) or MLOps practices",
+        "Missing experience with real-time analytics and streaming platforms",
+        "No clear track record of deploying ML models to production"
+      ],
+      "recommendations": [
+        "Consider for interview with technical assessment focusing on ML/deep learning capabilities",
+        "Probe for any undocumented experience with required technical stack",
+        "Assess willingness and ability to quickly learn telecom domain knowledge",
+        "Evaluate actual hands-on ML model deployment experience during technical interview",
+        "Consider offering at lower end of salary range (£65,000) given skill gaps"
+      ],
+      "calculated_at": "2025-06-10T02:31:30.970716"
+    },
+    {
+      "candidate_id": "8f2744592bf549ee9dcf_20250610_023002_71bf0d38",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.74,
+      "technical_skills_score": 0.65,
+      "experience_score": 0.75,
+      "education_score": 0.7,
+      "soft_skills_score": 0.8,
+      "cultural_fit_score": 0.85,
+      "detailed_breakdown": {
+        "technical_skills": 0.65,
+        "experience": 0.75,
+        "education": 0.7,
+        "soft_skills": 0.8,
+        "cultural_fit": 0.85
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Sahil Hussain presents a mixed profile for this role. Their strongest asset is their previous Vodafone experience, which provides invaluable context and cultural fit. However, they appear to lack the advanced technical skills required for this senior data scientist position, particularly in machine learning, deep learning, and programming languages. While their career progression is impressive, the role demands expertise they haven't demonstrated. They might be better suited for a mid-level position or would need significant upskilling to meet the role's technical demands.\n\nDetailed Analysis:\nTechnical Skills Analysis: While the candidate has relevant data experience and cloud platform knowledge (Azure), there's no evidence of the critical programming languages (Python, R) or machine learning frameworks explicitly required. The role demands expert-level ML skills which aren't demonstrated in the candidate's profile. Their experience appears more focused on data analysis and warehousing rather than advanced data science and model development.\n\nExperience Analysis: The candidate has 4.5 years of data-related experience with excellent industry relevance, having worked at Vodafone previously. This insider knowledge would be valuable. However, the role requires 3+ years of hands-on data science experience, and it's unclear if all their experience involves the advanced ML work required. The progression from apprentice to data scientist shows good career development, but lacks evidence of leading projects or mentoring others as required.\n\nEducation Analysis: The candidate has a relevant BSc in Data Science from Lancaster University, which provides foundational knowledge. However, the role explicitly requires a Master's degree (PhD preferred), which the candidate lacks. The additional Psychology degree could be beneficial for understanding customer behavior patterns, but doesn't compensate for the missing advanced degree requirement.\n\nSoft Skills Analysis: The candidate demonstrates strong soft skills through their multilingual abilities, which would be valuable in a global company like Vodafone. Their career pivot from Psychology to Data Science shows adaptability and continuous learning. The progression through different roles suggests good interpersonal skills, though specific examples of presentations or stakeholder management aren't provided.\n\nCultural Fit Analysis: Having worked at Vodafone for nearly 3 years, the candidate would already understand the company culture, values, and work style. This is a significant advantage. Their career transition and progression show a growth mindset. The multilingual skills align well with Vodafone's diversity commitment. Previous success at the company suggests they can thrive in this environment.",
+      "strengths": [
+        "Direct Vodafone experience providing insider knowledge and cultural fit",
+        "Strong progression from apprentice to data scientist showing growth potential",
+        "Multilingual capabilities valuable for global telecommunications company",
+        "Relevant educational background in Data Science",
+        "Experience with cloud platforms and modern data infrastructure"
+      ],
+      "weaknesses": [
+        "Lacks required Master's degree or PhD",
+        "No evidence of Python, R, or ML framework expertise",
+        "Missing experience with advanced machine learning and deep learning",
+        "No demonstrated leadership or mentoring experience",
+        "Limited evidence of production ML deployment or MLOps practices"
+      ],
+      "recommendations": [
+        "Consider for interview given strong Vodafone background, but thoroughly assess technical ML skills",
+        "Request portfolio or examples of ML projects during technical assessment",
+        "Evaluate willingness to pursue advanced degree or certifications",
+        "Consider for a more junior position or with adjusted expectations if technical skills are lacking",
+        "Leverage their Vodafone experience but ensure they can meet the advanced technical requirements"
+      ],
+      "calculated_at": "2025-06-10T02:31:35.859185"
+    },
+    {
+      "candidate_id": "f5803a48c6c143d8b4d6_20250610_023025_0e14bf7a",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.735,
+      "technical_skills_score": 0.75,
+      "experience_score": 0.65,
+      "education_score": 0.7,
+      "soft_skills_score": 0.85,
+      "cultural_fit_score": 0.8,
+      "detailed_breakdown": {
+        "technical_skills": 0.75,
+        "experience": 0.65,
+        "education": 0.7,
+        "soft_skills": 0.85,
+        "cultural_fit": 0.8
+      },
+      "match_status": "MatchStatus.QUALIFIED",
+      "reasoning": "Gül Çetin presents as a promising candidate with strong fundamentals but significant gaps for this senior telecommunications data scientist role. Their proven ability to transition careers, deliver quantifiable results, and build production ML systems are valuable assets. However, the lack of experience with required technologies (TensorFlow, PyTorch, big data platforms) and telecommunications domain knowledge are concerning for a role requiring immediate impact. Their exceptional soft skills, learning agility, and cultural fit suggest they could succeed with proper support and development. Recommendation is to proceed with caution - they may be better suited for a more junior position or require significant onboarding investment.\n\nDetailed Analysis:\nTechnical Skills Analysis: The candidate demonstrates solid data science fundamentals through practical applications (ESG data pipelines, NLP models, statistical analysis). Their experience with transformer-based models shows capability with modern ML approaches. However, the role specifically requires expertise in TensorFlow/PyTorch, cloud platforms, and big data technologies which are not evident in their profile. The telecommunications context also requires handling petabytes of data, which may be beyond their current experience scale.\n\nExperience Analysis: While the candidate has 2+ years of data science experience (current role since 09/2023 plus previous analytical roles), they fall short of the preferred 3+ years. Their experience is valuable but in different domains (ESG, education, retail) rather than telecommunications or technology sectors. The scale of data they've worked with appears smaller than Vodafone's petabyte-scale requirements. Positive indicators include quantifiable achievements (30% improvement in matching accuracy, 35% faster data delivery) and experience building production pipelines.\n\nEducation Analysis: The candidate meets the Master's degree requirement but their MSc in Development Studies from LSE is not in the preferred fields (Computer Science, Statistics, Mathematics). However, their Economics background provides quantitative training, and they've supplemented this with relevant technical certifications from Harvard (CS50) and Python programming courses. This shows strong initiative in building technical skills despite non-technical formal education.\n\nSoft Skills Analysis: The candidate demonstrates exceptional soft skills through their diverse experiences. Their ability to communicate complex findings is evident from their analyst roles. Problem-solving is showcased through quantifiable improvements across different domains. Their career pivot from economics to data science, combined with international experience and scholarship achievements, shows remarkable adaptability. The self-description as a 'lifelong learner' is well-supported by their continuous skill development.\n\nCultural Fit Analysis: The candidate's profile aligns well with Vodafone's inclusive culture and commitment to diversity. Their international background (Turkey, UK, Belgium, Cameroon) and social impact work (solar street lamp project) resonate with Vodafone's global outlook and community focus. Their self-directed learning journey from economics to data science exemplifies the growth mindset Vodafone seeks. Interest in sustainability also aligns with corporate responsibility values.",
+      "strengths": [
+        "Strong foundational data science skills with proven ability to deliver measurable business impact",
+        "Exceptional adaptability and continuous learning mindset demonstrated through career transition",
+        "International experience and multilingual capabilities valuable for global company",
+        "Proven track record of building and deploying ML models in production (NLP transformers)",
+        "Quantifiable achievements across multiple domains showing results-oriented approach"
+      ],
+      "weaknesses": [
+        "Lacks telecommunications industry experience and familiarity with telecom-specific datasets",
+        "Missing critical technical skills: deep learning frameworks (TensorFlow/PyTorch), big data technologies, cloud platforms",
+        "Limited experience with petabyte-scale data and distributed computing environments",
+        "Below the preferred 3+ years of hands-on data science experience",
+        "Educational background not in preferred technical fields despite supplementary certifications"
+      ],
+      "recommendations": [
+        "Consider for interview with focus on assessing learning agility and potential to quickly acquire missing technical skills",
+        "Evaluate willingness and capability to rapidly upskill in deep learning frameworks and big data technologies",
+        "Assess through technical interview whether ESG data pipeline experience can translate to telecommunications scale",
+        "Consider starting at lower end of salary range (£65,000) with clear development plan for missing skills",
+        "Pair with senior team member initially to accelerate telecommunications domain knowledge acquisition"
+      ],
+      "calculated_at": "2025-06-10T02:31:38.534040"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "candidate_id": "2f17c16fc37c4c97a524_20250610_022958_bdc29b1c",
+      "job_id": "job_20250610_022950",
+      "overall_score": 0.613,
+      "technical_skills_score": 0.65,
+      "experience_score": 0.7,
+      "education_score": 0.6,
+      "soft_skills_score": 0.4,
+      "cultural_fit_score": 0.55,
+      "detailed_breakdown": {
+        "technical_skills": 0.65,
+        "experience": 0.7,
+        "education": 0.6,
+        "soft_skills": 0.4,
+        "cultural_fit": 0.55
+      },
+      "match_status": "MatchStatus.REJECTED",
+      "reasoning": "Jack Townsend appears to be an early-career data scientist with foundational skills but lacks the depth and breadth required for this senior position at Vodafone. The role demands extensive experience with telecommunications data, advanced ML frameworks, big data technologies, and proven ability to deploy models at scale. The candidate's sparse profile shows no evidence of these requirements, no leadership experience, and no domain expertise in telecom. The lack of detail in the CV itself raises concerns about communication skills critical for stakeholder management. While the candidate shows potential, they appear better suited for a junior or mid-level position rather than this senior role requiring immediate impact on strategic initiatives.\n\nDetailed Analysis:\nTechnical Skills Analysis: While the candidate has relevant AI and PyTorch experience, the profile lacks evidence of many critical technical requirements. The role demands expertise in multiple ML frameworks, big data technologies, cloud platforms, and MLOps practices. The absence of SQL, R, and distributed computing experience is concerning for a senior data scientist role handling petabytes of data.\n\nExperience Analysis: The candidate meets the minimum 3+ years requirement with 3.5 years as a Data Scientist. However, experience is in geospatial analytics rather than telecommunications. Missing evidence of working with telecom-specific datasets (CDR, network logs, IoT data), large-scale production deployments, or leadership responsibilities that the role requires.\n\nEducation Analysis: While a Mathematics degree from University of Birmingham provides strong analytical foundations, the role prefers Master's degree (PhD preferred) in Computer Science, Statistics, or related fields. The absence of additional certifications, courses, or evidence of continuous learning is a gap, especially given the £2,000 annual learning budget emphasis.\n\nSoft Skills Analysis: The sparse CV provides minimal evidence of the excellent communication skills required to 'translate complex technical concepts for diverse audiences.' No examples of presentations, stakeholder management, or collaborative projects. The role specifically requires outstanding communication and ability to work with ambiguous requirements.\n\nCultural Fit Analysis: The candidate's profile lacks indicators of cultural fit with Vodafone's emphasis on innovation, diversity, and continuous learning. No evidence of contributing to open-source projects, attending conferences, or engaging in professional development aligns poorly with the company's learning culture and £2,000 training budget offering.",
+      "strengths": [
+        "Solid mathematical foundation from University of Birmingham",
+        "3.5 years of data science experience meeting minimum requirements",
+        "Experience with PyTorch and AI technologies",
+        "Career progression from analyst to data scientist role"
+      ],
+      "weaknesses": [
+        "Lacks telecommunications industry experience and domain knowledge",
+        "Missing critical technical skills (big data, cloud, MLOps, multiple ML frameworks)",
+        "No Master's/PhD degree as preferred by the role",
+        "Extremely limited CV provides no evidence of achievements, impact, or soft skills",
+        "No demonstrated experience with production deployments or large-scale data"
+      ],
+      "recommendations": [
+        "REJECT - Candidate does not meet the technical depth required for this senior role",
+        "Consider for more junior positions if technical assessment shows stronger skills than CV indicates",
+        "If proceeding, require detailed technical assessment focusing on big data and production ML experience",
+        "Request expanded CV with specific achievements and project details before making final decision"
+      ],
+      "calculated_at": "2025-06-10T02:31:22.781648"
+    }
+  ],
+  "processing_time": 66.400603,
+  "qualification_rate": 0.8888888888888888,
+  "average_qualified_score": 0.7795000000000001,
+  "screening_summary": {
+    "total_uploaded": 9,
+    "successfully_processed": 9,
+    "errors": 0,
+    "qualified_count": 8,
+    "rejected_count": 1,
+    "qualification_rate": 0.8888888888888888,
+    "average_qualified_score": 0.7795000000000001,
+    "processing_time_seconds": 66.400603,
+    "threshold_used": 0.7
+  },
+  "processed_at": "2025-06-10T02:31:49.179226"
+}

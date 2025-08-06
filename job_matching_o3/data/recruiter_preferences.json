@@ -1,0 +1,18 @@
+{
+  "preferences": {},
+  "learning_data": {
+    "hiring_decisions": [],
+    "feedback_history": [],
+    "preference_weights": {
+      "technical_skills": 0.25,
+      "soft_skills": 0.20,
+      "cultural_fit": 0.20,
+      "experience": 0.20,
+      "growth_potential": 0.15
+    }
+  },
+  "metadata": {
+    "last_updated": null,
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Job Matching - Advanced AI Recruitment</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+    <!-- Chart.js for candidate comparison -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF for enhanced PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Additional libraries for enhanced functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        /* Enhanced Executive Dashboard Styling */
+        .dashboard-content {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+            line-height: 1.7;
+        }
+        
+        .dashboard-content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+        
+        .dashboard-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dashboard-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            color: #1e40af;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .dashboard-content h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 80%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .dashboard-content h3 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1e3a8a;
+        }
+        
+        .dashboard-content h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #3730a3;
+        }
+        
+        .dashboard-content ul,
+        .dashboard-content ol {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-content li {
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+        
+        .dashboard-content ul li::marker {
+            color: #667eea;
+        }
+        
+        /* Report Section Containers */
+        .report-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .report-section:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .report-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f3f4f6;
+        }
+        
+        .report-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e40af;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        /* Copy Button Styling */
+        .copy-button {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6b7280;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            opacity: 0.7;
+        }
+        
+        .copy-button:hover {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            opacity: 1;
+            transform: scale(1.05);
+            color: #374151;
+        }
+        
+        .copy-button.copied {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #15803d;
+            border-color: #86efac;
+        }
+        
+        /* Accordion Styling */
+        .accordion-toggle {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        
+        .accordion-toggle:hover {
+            background: #f8faff;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.expanded {
+            max-height: 2000px;
+        }
+        
+        /* Candidate Profile Cards */
+        .candidate-profile-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e7ff;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .candidate-profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .candidate-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+        
+        .candidate-score {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        /* Visual Progress Bars */
+        .progress-container {
+            background: #f3f4f6;
+            border-radius: 1rem;
+            height: 0.75rem;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 1rem;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+        
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Skill Tags Enhancement */
+        .skill-tag-enhanced {
+            display: inline-block;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1e40af;
+            padding: 0.375rem 0.875rem;
+            border-radius: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0.25rem;
+            border: 1px solid #bfdbfe;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag-enhanced:hover {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        
+        /* Risk Level Indicators */
+        .risk-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            gap: 0.375rem;
+        }
+        
+        .risk-low {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+        
+        .risk-medium {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #d97706;
+            border: 1px solid #fbbf24;
+        }
+        
+        .risk-high {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            border: 1px solid #f87171;
+        }
+        
+        /* Floating Table of Contents */
+        .floating-toc {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            max-width: 200px;
+            z-index: 100;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-toc:hover {
+            opacity: 1;
+        }
+        
+        .toc-item {
+            display: block;
+            padding: 0.375rem 0.75rem;
+            color: #6b7280;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+        
+        .toc-item:hover,
+        .toc-item.active {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1e40af;
+        }
+        
+        /* Action Items and Recommendations */
+        .action-item {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #86efac;
+            border-left: 4px solid #22c55e;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .action-item::before {
+            content: '⚡';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .action-item-content {
+            margin-left: 2rem;
+        }
+        
+        .recommendation-high {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #fbbf24;
+            border-left-color: #f59e0b;
+        }
+        
+        .recommendation-high::before {
+            content: '🎯';
+        }
+        
+        /* Dark Mode Support */
+        .dark-mode {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .dashboard-content {
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .report-section {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .report-section:hover {
+            background: #374151;
+        }
+        
+        .dark-mode .report-section-title {
+            color: #93c5fd;
+        }
+        
+        .dark-mode .dashboard-content h2 {
+            color: #93c5fd;
+        }
+        
+        .dark-mode .dashboard-content h3 {
+            color: #bfdbfe;
+        }
+        
+        .dark-mode .dashboard-content h4 {
+            color: #dbeafe;
+        }
+        
+        .dark-mode .candidate-profile-card {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+            border-color: #6b7280;
+        }
+        
+        .dark-mode .candidate-name {
+            color: #93c5fd;
+        }
+        
+        .dark-mode .floating-toc {
+            background: #374151;
+            border-color: #4b5563;
+        }
+        
+        .dark-mode .toc-item {
+            color: #d1d5db;
+        }
+        
+        .dark-mode .toc-item:hover,
+        .dark-mode .toc-item.active {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            color: #93c5fd;
+        }
+        
+        .dark-mode .copy-button {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            border-color: #6b7280;
+            color: #d1d5db;
+        }
+        
+        .dark-mode .copy-button:hover {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+            color: #f3f4f6;
+        }
+        
+        /* Professional Report Formatting */
+        .report-container {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        .copy-button-full {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6b7280;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            opacity: 0.8;
+        }
+        
+        .copy-button-full:hover {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            opacity: 1;
+            transform: scale(1.05);
+            color: #374151;
+        }
+        
+        .copy-button-full.copied {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #15803d;
+            border-color: #86efac;
+        }
+        
+        .report-content {
+            padding: 2rem;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #374151;
+        }
+        
+        /* Report Header Section */
+        .report-header-section {
+            text-align: left;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .report-main-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .report-header-info {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 0.25rem 0;
+            text-align: left;
+        }
+        
+        /* Section Styling */
+        .report-section {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-transform: uppercase;
+            text-align: left;
+        }
+        
+        .section-content {
+            margin-left: 0;
+            text-align: left;
+        }
+        
+        /* Subsection Styling */
+        .subsection-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 1.5rem 0 0.75rem 0;
+            text-align: left;
+        }
+        
+        .subsection-content {
+            margin-left: 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Content Elements */
+        .content-paragraph {
+            margin: 0.75rem 0;
+            line-height: 1.7;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-align: left;
+        }
+        
+        .bullet-item {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+            color: #374151;
+            margin-left: 1rem;
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-align: left;
+        }
+        
+        .numbered-item {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+        
+        /* Dark mode support */
+        .dark-mode .report-container {
+            background: #2d3748;
+        }
+        
+        .dark-mode .report-header {
+            background: #374151;
+            border-bottom-color: #4b5563;
+        }
+        
+        .dark-mode .copy-button-full {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            border-color: #6b7280;
+            color: #d1d5db;
+        }
+        
+        .dark-mode .copy-button-full:hover {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+            color: #f3f4f6;
+        }
+        
+        .dark-mode .report-content {
+            color: #e5e7eb;
+        }
+        
+        .dark-mode .report-main-title {
+            color: #93c5fd;
+        }
+        
+        .dark-mode .section-title {
+            color: #93c5fd;
+            border-bottom-color: #4b5563;
+        }
+        
+        .dark-mode .subsection-title {
+            color: #bfdbfe;
+        }
+        
+        .dark-mode .content-paragraph,
+        .dark-mode .bullet-item,
+        .dark-mode .numbered-item {
+            color: #d1d5db;
+        }
+        
+        .dark-mode .report-header-info {
+            color: #9ca3af;
+        }
+        
+        .dark-mode .report-header-section {
+            border-bottom-color: #4b5563;
+        }
+        
+        /* Responsive Design Enhancements */
+        @media (max-width: 1024px) {
+            .floating-toc {
+                right: 1rem;
+                max-width: 180px;
+            }
+            
+            .report-section {
+                padding: 1.5rem;
+            }
+            
+            .subsection-content {
+                margin-left: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .floating-toc {
+                display: none;
+            }
+            
+            .dashboard-content {
+                padding: 1rem;
+            }
+            
+            .report-section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .copy-button {
+                align-self: flex-end;
+            }
+            
+            .candidate-profile-card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .floating-toc,
+            .copy-button,
+            #reading-progress,
+            .reasoning-indicator {
+                display: none !important;
+            }
+            
+            .report-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            .dashboard-content h2::before {
+                display: none;
+            }
+        }
+    /* Skeleton loader for deep analysis */
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+    }
+    .skeleton-line {
+        background-color: #e2e8f0;
+        border-radius: 0.375rem;
+        margin-bottom: 0.75rem;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+    .skeleton-line.short { width: 50%; }
+    .skeleton-line.medium { width: 75%; }
+    .skeleton-line.long { width: 100%; }
+    /* Make candidate selection board scrollable for large lists */
+    .selection-board-content {
+        /* Allow cards area to scroll, keep headers visible */
+        position: relative;
+    }
+    /* Sticky header rows inside selection-board */
+    .selection-board-content > div:nth-child(-n+3) {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
+    }
+    /* Scroll container for candidate cards */
+    .scroll-container {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    /* Comparison section container styling */
+    #comparison-section {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    .comparison-chart-container {
+        height: 50vh;
+        position: relative;
+    }
+
+    /* Overlay for deep analysis in progress (inside executive-dashboard) */
+    #executive-dashboard {
+        position: relative;
+    }
+    #deep-analysis-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    #deep-analysis-overlay .overlay-content {
+        text-align: center;
+    }
+    #deep-analysis-overlay .overlay-spinner {
+        border: 4px solid #e2e8f0;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        margin: 0 auto 1rem;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --surface: #ffffff;
+            --surface-dark: #1f2937;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: var(--primary-gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .step-indicator {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .step-indicator.active {
+            background: white;
+            color: #667eea;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step-indicator.completed {
+            background: var(--success-gradient);
+            color: white;
+        }
+        
+        .cv-upload-zone {
+            border: 3px dashed #d1d5db;
+            border-radius: 1.5rem;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            background: linear-gradient(135deg, #fafbfc 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cv-upload-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cv-upload-zone:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.15);
+        }
+        
+        .cv-upload-zone:hover::before {
+            left: 100%;
+        }
+        
+        .cv-upload-zone.dragover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            transform: scale(1.02);
+            box-shadow: 0 20px 45px rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-launch {
+            background: var(--success-gradient);
+            color: white;
+            padding: 1.25rem 3rem;
+            border-radius: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(17, 153, 142, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-launch:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(17, 153, 142, 0.4);
+        }
+        
+        .candidate-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+        
+        .candidate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .candidate-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .candidate-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .candidate-card.selected {
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+        }
+        
+        .candidate-card.selected::before {
+            transform: scaleX(1);
+        }
+        
+        .score-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #374151;
+            padding: 0.375rem 0.875rem;
+            border-radius: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            transform: translateY(-1px);
+        }
+        
+        .loading-animation {
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 0.75rem;
+            border-radius: 1rem;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--success-gradient);
+        }
+        
+        .notification.error {
+            background: var(--warning-gradient);
+        }
+        
+        .notification.info {
+            background: var(--primary-gradient);
+        }
+        
+        .executive-dashboard {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .reasoning-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .reasoning-indicator::before {
+            content: '🧠';
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .candidate-card {
+                padding: 1.5rem;
+            }
+    /* Tooltip styling for onboarding hints */
+    .tooltip { position: relative; display: inline-block; cursor: help; }
+    .tooltip .tooltip-text {
+        visibility: hidden; width: max-content; background: rgba(55,65,81,0.9);
+        color: white; text-align: center; border-radius: 0.25rem; padding: 0.5rem;
+        position: absolute; z-index: 1001; bottom: 125%; left: 50%; transform: translateX(-50%);
+        opacity: 0; transition: opacity 0.3s;
+        white-space: nowrap;
+    }
+    .tooltip:hover .tooltip-text {
+        visibility: visible; opacity: 1;
+    }
+            
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .step-indicator {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <!-- Top-right controls: save/load session, guided tour -->
+    <div class="absolute top-4 right-4 z-30 flex space-x-2">
+        <button id="save-session" aria-label="Save session" class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300">
+            💾
+        </button>
+        <button id="load-session" aria-label="Load session" class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300">
+            📂
+        </button>
+        <button id="start-tour" aria-label="Start guided tour" class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-indigo-500">
+            ?
+        </button>
+    </div>
+    <div class="hero-section py-8 px-4 relative">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-4xl font-bold mb-4">
+                🎯 IRIS Job Matching
+                <span class="block text-xl font-light mt-1 opacity-90">Advanced AI Recruitment Platform</span>
+            </h1>
+            <p class="text-lg opacity-90 mb-6 max-w-2xl mx-auto leading-relaxed">
+                Revolutionary recruitment intelligence powered by INOVAITE LTD
+            </p>
+            <div class="reasoning-indicator">
+                HIGH Reasoning Mode Active
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="max-w-6xl mx-auto px-6 -mt-8 relative z-20">
+        <!-- Setup Card -->
+        <div id="setup-card" class="bg-white rounded-3xl shadow-2xl p-8 mb-8 transition-all duration-500">
+                <!-- Progress Steps -->
+            <div class="flex items-center justify-center mb-12">
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator active" id="step-indicator-1">1</div>
+                    <div class="w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="step-indicator" id="step-indicator-2">2</div>
+                </div>
+            </div>
+            
+            <!-- Step 1: Job Definition -->
+            <div class="step-content" id="step-1">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-3">Define Your Position</h2>
+                    <p class="text-gray-600 text-lg">Set up your job requirements for IRIS analysis</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Job Title *
+                                <span class="tooltip inline-block ml-1 text-gray-400 bg-gray-200 rounded-full px-1 text-xs" tabindex="0">?
+                                    <span class="tooltip-text">Enter the exact job title to help IRIS focus on the right candidates.</span>
+                                </span>
+                            </label>
+                            <input type="text" id="job-title" 
+                                   class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors text-lg"
+                                   placeholder="e.g. Senior Software Engineer">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Mandatory (Must-Have) Conditions
+                                <span class="tooltip inline-block ml-1 text-gray-400 bg-gray-200 rounded-full px-1 text-xs" tabindex="0">?
+                                    <span class="tooltip-text">Enter the criteria candidates must have; any candidate not meeting these will be automatically eliminated.</span>
+                                </span>
+                            </label>
+                            <textarea id="elimination-conditions" rows="3"
+                                      class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors text-lg resize-none"
+                                      placeholder="e.g. PMP certification, 5+ years in Java development"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Qualification Threshold (%)
+                                <span class="tooltip inline-block ml-1 text-gray-400 bg-gray-200 rounded-full px-1 text-xs" tabindex="0">?
+                                    <span class="tooltip-text">Set the minimum score percentage for a candidate to be marked as qualified.</span>
+                                </span>
+                            </label>
+                            <div class="flex items-center space-x-4">
+                                <input type="range" id="qualification-threshold" min="0" max="100" step="1" value="85"
+                                       class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <span id="threshold-value" class="w-12 text-center font-semibold">85%</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Minimum score to mark candidate as qualified</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Job Description
+                            <span class="tooltip inline-block ml-1 text-gray-400 bg-gray-200 rounded-full px-1 text-xs" tabindex="0">?
+                                <span class="tooltip-text">Provide a detailed description of the role and its responsibilities.</span>
+                            </span>
+                        </label>
+                        <textarea id="job-description" rows="8"
+                                  class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-0 transition-colors text-lg resize-none"
+                                  placeholder="Describe the role, key responsibilities, required skills, and ideal candidate profile..."></textarea>
+                    </div>
+                </div>
+            <!-- Merge CV Upload into Step 1 -->
+                    <!-- Step 2: CV Upload (merged) -->
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-3">Upload Candidate CVs</h2>
+                        <p class="text-gray-600 text-lg">Drag & drop or select CV files for IRIS analysis</p>
+                    </div>
+                    <div class="cv-upload-zone mb-8" id="cv-upload-zone">
+                        <div class="upload-visual">
+                            <svg class="w-20 h-20 text-blue-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Drop CV Files Here</h3>
+                            <p class="text-gray-600 mb-6">or click to browse and select files</p>
+                            <button type="button" class="btn-primary inline-flex items-center">
+                                📁 Choose Files
+                                <span class="tooltip inline-block ml-2 text-gray-200 bg-gray-600 rounded-full px-1 text-sm" tabindex="0">?
+                                    <span class="tooltip-text">Click to select CV files or drag & drop into the zone.</span>
+                                </span>
+                            </button>
+                            <p class="text-sm text-gray-500 mt-4">Supports PDF, DOCX, TXT files • Max 10MB each</p>
+                        </div>
+                    </div>
+                <div id="uploaded-files-preview" class="mt-8 max-h-[40vh] overflow-y-auto hidden">
+                        <h4 class="text-lg font-semibold mb-4">Uploaded Files</h4>
+                        <div id="files-list" class="space-y-3">
+                            <!-- Files will be listed here -->
+                        </div>
+                    </div>
+            
+            <!-- Step 2: Launch Analysis -->
+            <div class="step-content hidden" id="step-2">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-3">Ready to Launch</h2>
+                    <p class="text-gray-600 text-lg">Review your configuration and start IRIS analysis</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
+                        <div class="text-3xl font-bold text-blue-600 mb-2" id="summary-job-title">-</div>
+                        <div class="text-sm font-medium text-blue-700">Position</div>
+                    </div>
+                    <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100">
+                        <div class="text-3xl font-bold text-green-600 mb-2" id="summary-cv-count">0</div>
+                        <div class="text-sm font-medium text-green-700">CVs to Analyze</div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="launch-analysis" aria-label="Launch IRIS analysis" class="btn-launch inline-flex items-center">
+                        🚀 Launch IRIS Analysis
+                        <span class="tooltip inline-block ml-2 text-white bg-gray-700 rounded-full px-1 text-sm" tabindex="0">?
+                            <span class="tooltip-text">Start the IRIS analysis with your current configuration.</span>
+                        </span>
+                    </button>
+                    <p class="text-sm text-gray-500 mt-4">
+                        HIGH reasoning mode will provide deep analytical insights
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Navigation (sticky footer) -->
+            <div id="navigation" class="sticky bottom-0 bg-white dark:bg-gray-900 flex justify-between items-center mt-8 pt-4 border-t border-gray-200 z-20">
+                <button id="prev-step" aria-label="Previous step" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-xl font-semibold hover:bg-gray-200 transition-colors" disabled>
+                    ← Previous
+                </button>
+                <button id="next-step" aria-label="Next step" class="btn-primary">
+                    Next →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="hidden max-w-7xl mx-auto px-6 pb-12">
+        <!-- Screening Progress -->
+        <div id="screening-progress" class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+            <div class="text-center">
+                <!-- Segmented batch progress -->
+                <div id="batch-progress" class="flex space-x-2 justify-center mb-2"></div>
+                <p id="batch-text" class="text-center text-sm text-gray-600 mb-4"></p>
+                <!-- Log console -->
+                <div id="screening-log" class="bg-gray-50 rounded p-4 text-sm text-gray-700 max-h-32 overflow-y-auto mb-6"></div>
+                <!-- Circular Progress Indicator -->
+                <div class="mx-auto mb-6" style="width:120px; height:120px;">
+                    <svg id="radial-progress" width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="12" />
+                        <circle id="radial-progress-circle" cx="60" cy="60" r="54" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"
+                                stroke-dasharray="339.292" stroke-dashoffset="339.292" transform="rotate(-90 60 60)" />
+                        <text id="radial-progress-text" x="60" y="68" text-anchor="middle" font-size="24" fill="#1f2937">0%</text>
+                    </svg>
+                </div>
+                <div class="loading-animation mx-auto mb-6"></div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">IRIS Analysis in Progress</h3>
+                <p class="text-gray-600 mb-6" id="progress-message">Initializing advanced reasoning...</p>
+                <!-- Contextual help: screening progress -->
+                <p class="text-sm text-gray-500 mb-4">Monitor the real-time screening progress here.</p>
+                <div class="max-w-md mx-auto">
+                    <div class="bg-gray-200 rounded-full h-3 mb-3">
+                        <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span id="progress-text">0%</span>
+                        <span id="eta-text">Calculating...</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <div class="reasoning-indicator">
+                        HIGH Reasoning Active
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Selection Board -->
+        <div id="selection-board" class="hidden bg-white rounded-3xl shadow-2xl p-8 mb-8">
+            <!-- Contextual help: selection board -->
+            <p class="text-sm text-gray-500 mb-4">Review and select candidates from the screening results.</p>
+            <!-- Content will be populated by JavaScript -->
+        </div>
+        
+        <!-- Executive Dashboard -->
+        <div id="comparison-section" class="hidden bg-white rounded-3xl shadow-2xl p-8 mb-8 scroll-container">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Candidate Comparison</h2>
+            <!-- Contextual help: comparison -->
+            <p class="text-sm text-gray-500 mb-4">Compare shortlisted candidates using interactive charts.</p>
+            <!-- Comparison controls -->
+            <div class="flex items-center space-x-4 mb-4">
+                <button id="chart-radar" class="btn-secondary px-3 py-1 rounded">Radar View</button>
+                <button id="chart-bar" class="btn-secondary px-3 py-1 rounded">Bar Chart</button>
+                <button id="export-chart" class="btn-primary ml-auto px-3 py-1 rounded">Export Chart</button>
+            </div>
+            <!-- Automated summary -->
+            <div id="comparison-summary" class="text-sm text-gray-700 mb-4"></div>
+            <!-- Chart container -->
+            <div class="comparison-chart-container mb-4">
+                <canvas id="comparison-chart"></canvas>
+            </div>
+        </div>
+        <div id="executive-dashboard" class="hidden executive-dashboard max-h-[70vh] flex flex-col overflow-hidden">
+            <!-- Contextual help: deep analysis results -->
+            <p class="text-sm text-gray-500 mb-4">View deep analysis results in this section.</p>
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- File Input (Hidden) -->
+    <!-- Allow TXT, PDF, and DOCX files for CV parsing -->
+    <input type="file" id="file-input" multiple accept=".txt,.pdf,.docx" class="hidden">
+
+    <!-- Candidate Detail Drawer -->
+    <div id="candidate-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title"
+         class="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform ease-in-out duration-300 z-50 flex flex-col">
+        <div class="flex justify-between items-center p-4 border-b flex-none">
+            <h3 id="drawer-title" class="text-xl font-bold">Candidate Details</h3>
+            <button id="drawer-close-btn" aria-label="Close details panel"
+                    class="text-gray-500 hover:text-gray-800 text-2xl leading-none">×</button>
+        </div>
+        <div id="drawer-content" class="p-4 overflow-y-auto flex-1"></div>
+    </div>
+    <script src="{{ url_for('static', path='o3_matching.js') }}"></script>
+</body>
+</html>
