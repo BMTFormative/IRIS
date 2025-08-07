@@ -11,7 +11,8 @@ from pydantic import BaseModel
 import json
 
 from app.core.o3_client_simplified import get_o3_client_simplified
-
+from app.services.job_results_service import job_results_storage
+from app.Models.job_results_storage import SavedSessionSummary,SessionDetailsResponse,SaveSessionRequest
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -239,3 +240,85 @@ async def o3_health_check():
             "error": str(e),
             "timestamp": datetime.now().isoformat()
         })
+@router.post("/save-results")
+async def save_matching_results(request: SaveSessionRequest):
+    """Save job matching results for future reference (NO CV FILES STORED)"""
+    try:
+        session_id = job_results_storage.save_session_results(
+            job_title=request.job_title,
+            job_description=request.job_description,
+            elimination_conditions=request.elimination_conditions,
+            qualification_threshold=request.qualification_threshold,
+            candidates_data=request.candidates,
+            user_id=None  # Add user_id if you have authentication
+        )
+        
+        logger.info(f"Successfully saved job matching session: {session_id}")
+        
+        return JSONResponse({
+            "success": True,
+            "session_id": session_id,
+            "message": "Results saved successfully"
+        })
+        
+    except Exception as e:
+        logger.error(f"Error saving results: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to save results: {str(e)}")
+
+@router.get("/saved-sessions")
+async def get_saved_sessions(limit: int = 50):
+    """Get list of saved job matching sessions"""
+    try:
+        sessions = job_results_storage.get_all_sessions(
+            user_id=None,  # Add user filtering if needed
+            limit=limit
+        )
+        
+        return JSONResponse({
+            "success": True,
+            "sessions": sessions
+        })
+        
+    except Exception as e:
+        logger.error(f"Error fetching saved sessions: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch sessions: {str(e)}")
+
+@router.get("/session/{session_id}")
+async def get_session_details(session_id: str):
+    """Get detailed results for a specific session"""
+    try:
+        details = job_results_storage.get_session_details(session_id)
+        
+        if not details:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        return JSONResponse({
+            "success": True,
+            "data": details
+        })
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching session details: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch session: {str(e)}")
+
+@router.delete("/session/{session_id}")
+async def delete_saved_session(session_id: str):
+    """Delete a saved job matching session"""
+    try:
+        success = job_results_storage.delete_session(session_id)
+        
+        if not success:
+            raise HTTPException(status_code=404, detail="Session not found or could not be deleted")
+        
+        return JSONResponse({
+            "success": True,
+            "message": "Session deleted successfully"
+        })
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete session: {str(e)}")
