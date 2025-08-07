@@ -1,5 +1,5 @@
 // frontend/src/routes/_layout/job-matching.tsx
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   Container,
   Paper,
@@ -18,7 +18,7 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-} from '@mui/material';
+} from "@mui/material";
 import {
   CloudUpload,
   Delete,
@@ -26,13 +26,15 @@ import {
   CheckCircle,
   Error,
   Analytics,
-} from '@mui/icons-material';
-import { createFileRoute } from '@tanstack/react-router';
-import { useDropzone } from 'react-dropzone';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+  RocketLaunch,
+} from "@mui/icons-material";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { createFileRoute } from "@tanstack/react-router";
+import { useDropzone } from "react-dropzone";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 // Types
 interface CVFile {
@@ -41,7 +43,7 @@ interface CVFile {
   size: number;
   content: string;
   type: string;
-  status: 'uploaded' | 'failed';
+  status: "uploaded" | "failed";
 }
 
 interface AnalysisResult {
@@ -66,25 +68,27 @@ interface AnalysisResult {
   };
 }
 
-export const Route = createFileRoute('/_layout/job-matching')({
+export const Route = createFileRoute("/_layout/job-matching")({
   component: JobMatching,
 });
 
 function JobMatching() {
   // Form state
-  const [jobTitle, setJobTitle] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [mandatoryConditions, setMandatoryConditions] = useState('');
+  const [jobTitle, setJobTitle] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [mandatoryConditions, setMandatoryConditions] = useState("");
   const [qualificationThreshold, setQualificationThreshold] = useState(85);
   const [uploadedFiles, setUploadedFiles] = useState<CVFile[]>([]);
-  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(
+    null
+  );
 
   // File upload mutation
   const uploadMutation = useMutation({
     mutationFn: async (files: File[]) => {
       const formData = new FormData();
       files.forEach((file) => {
-        formData.append('files', file);
+        formData.append("files", file);
       });
 
       const response = await axios.post(
@@ -92,7 +96,7 @@ function JobMatching() {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -111,7 +115,7 @@ function JobMatching() {
         {
           job_title: jobTitle,
           job_description: jobDescription,
-          cvs: uploadedFiles.map(file => ({
+          cvs: uploadedFiles.map((file) => ({
             id: file.id,
             name: file.name,
             content: file.content,
@@ -128,35 +132,39 @@ function JobMatching() {
   });
 
   // Dropzone configuration
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    uploadMutation.mutate(acceptedFiles);
-  }, [uploadMutation]);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      uploadMutation.mutate(acceptedFiles);
+    },
+    [uploadMutation]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-      'text/plain': ['.txt'],
+      "application/pdf": [".pdf"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [".docx"],
+      "text/plain": [".txt"],
     },
     multiple: true,
   });
 
   const handleDeleteFile = (fileId: string) => {
-    setUploadedFiles(files => files.filter(f => f.id !== fileId));
+    setUploadedFiles((files) => files.filter((f) => f.id !== fileId));
   };
 
   const handleAnalysis = () => {
     if (!jobTitle.trim()) {
-      alert('Please enter a job title');
+      alert("Please enter a job title");
       return;
     }
     if (!jobDescription.trim()) {
-      alert('Please enter a job description');
+      alert("Please enter a job description");
       return;
     }
     if (uploadedFiles.length === 0) {
-      alert('Please upload at least one CV');
+      alert("Please upload at least one CV");
       return;
     }
     analysisMutation.mutate();
@@ -167,30 +175,26 @@ function JobMatching() {
       {/* Header */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: "linear-gradient(135deg, #2196F3 0%, #1976D2 100%)",
           borderRadius: 2,
           p: 4,
           mb: 4,
-          color: 'white',
-          textAlign: 'center',
+          color: "white",
+          textAlign: "center",
+          boxShadow: "0 4px 12px rgba(33, 150, 243, 0.3)",
         }}
       >
         <Typography variant="h3" component="h1" gutterBottom fontWeight="bold">
-          🎯 IRIS Job Matching
-        </Typography>
-        <Typography variant="h6" sx={{ opacity: 0.9 }}>
-          Advanced AI Recruitment Platform
-        </Typography>
-        <Typography variant="body1" sx={{ opacity: 0.8, mt: 1 }}>
-          Revolutionary recruitment intelligence powered by INOVATE LTD
+          🎯 Job Matching
         </Typography>
         <Chip
           label="Start Matching Mode Active"
           sx={{
             mt: 2,
-            bgcolor: 'rgba(255,255,255,0.2)',
-            color: 'white',
-            fontWeight: 'bold',
+            bgcolor: "rgba(255,255,255,0.2)",
+            color: "white",
+            fontWeight: "bold",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
           }}
         />
       </Box>
@@ -199,23 +203,86 @@ function JobMatching() {
       <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
         {/* Define Position Section */}
         <Box sx={{ mb: 6 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <Description sx={{ mr: 2, color: 'primary.main' }} />
-            <Typography variant="h5" fontWeight="bold">
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+            <Description sx={{ mr: 2, color: "primary.main" }} />
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                color: "#1976D2",
+                position: "relative",
+                display: "inline-block",
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -4,
+                  left: 0,
+                  width: "100%",
+                  height: 3,
+                  background:
+                    "linear-gradient(135deg, #2196F3 0%, #1976D2 100%)",
+                  borderRadius: "2px",
+                  transform: "scaleX(0)",
+                  transformOrigin: "left",
+                  animation: "slideIn 0.8s ease-out 0.2s forwards",
+                },
+                "@keyframes slideIn": {
+                  "0%": {
+                    transform: "scaleX(0)",
+                  },
+                  "100%": {
+                    transform: "scaleX(1)",
+                  },
+                },
+              }}
+            >
               Define Your Position
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{
+              mt: 1,
+              fontSize: "1.1rem",
+              opacity: 0,
+              animation: "fadeIn 0.6s ease-out 0.5s forwards",
+              "@keyframes fadeIn": {
+                "0%": {
+                  opacity: 0,
+                  transform: "translateY(10px)",
+                },
+                "100%": {
+                  opacity: 1,
+                  transform: "translateY(0)",
+                },
+              },
+            }}
+          >
             Set up your job requirements for IRIS analysis
           </Typography>
 
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3, mt: 3 }}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 3,
+              mt: 3,
+            }}
+          >
             {/* Job Title */}
             <Box>
               <Typography variant="subtitle2" gutterBottom>
-                Job Title *{' '}
-                <Typography component="span" variant="caption" color="text.secondary">
-                  Please like name job like to help IRIS focus on the right candidates
+                Job Title *{" "}
+                <Typography
+                  component="span"
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Please like name job like to help IRIS focus on the right
+                  candidates
                 </Typography>
               </Typography>
               <TextField
@@ -231,9 +298,14 @@ function JobMatching() {
             {/* Job Description */}
             <Box>
               <Typography variant="subtitle2" gutterBottom>
-                Job Description *{' '}
-                <Typography component="span" variant="caption" color="text.secondary">
-                  Provide a detailed description of the role and key responsibilities
+                Job Description *{" "}
+                <Typography
+                  component="span"
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Provide a detailed description of the role and key
+                  responsibilities
                 </Typography>
               </Typography>
               <TextField
@@ -252,8 +324,12 @@ function JobMatching() {
           {/* Mandatory Conditions */}
           <Box sx={{ mt: 3 }}>
             <Typography variant="subtitle2" gutterBottom>
-              Mandatory (Must Have) Conditions{' '}
-              <Typography component="span" variant="caption" color="text.secondary">
+              Mandatory (Must Have) Conditions{" "}
+              <Typography
+                component="span"
+                variant="caption"
+                color="text.secondary"
+              >
                 List the mandatory requirements and minimum qualifications
               </Typography>
             </Typography>
@@ -272,17 +348,24 @@ function JobMatching() {
             <Typography variant="subtitle2" gutterBottom>
               Qualification Threshold (%)
             </Typography>
-            <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              display="block"
+              gutterBottom
+            >
               Set the minimum score to mark candidates as qualified
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-              <Typography variant="body2" sx={{ minWidth: '120px' }}>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+              <Typography variant="body2" sx={{ minWidth: "120px" }}>
                 Minimum score to mark candidates as qualified
               </Typography>
               <Box sx={{ flex: 1, mx: 3 }}>
                 <Slider
                   value={qualificationThreshold}
-                  onChange={(_, value) => setQualificationThreshold(value as number)}
+                  onChange={(_, value) =>
+                    setQualificationThreshold(value as number)
+                  }
                   aria-labelledby="qualification-threshold-slider"
                   valueLabelDisplay="auto"
                   step={1}
@@ -290,11 +373,11 @@ function JobMatching() {
                   min={0}
                   max={100}
                   sx={{
-                    '& .MuiSlider-thumb': {
-                      bgcolor: 'primary.main',
+                    "& .MuiSlider-thumb": {
+                      bgcolor: "primary.main",
                     },
-                    '& .MuiSlider-track': {
-                      bgcolor: 'primary.main',
+                    "& .MuiSlider-track": {
+                      bgcolor: "primary.main",
                     },
                   }}
                 />
@@ -308,8 +391,8 @@ function JobMatching() {
 
         {/* Upload CVs Section */}
         <Box sx={{ mb: 6 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <CloudUpload sx={{ mr: 2, color: 'primary.main' }} />
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+            <CloudUpload sx={{ mr: 2, color: "primary.main" }} />
             <Typography variant="h5" fontWeight="bold">
               Upload Candidate CVs
             </Typography>
@@ -322,22 +405,22 @@ function JobMatching() {
           <Box
             {...getRootProps()}
             sx={{
-              border: '2px dashed',
-              borderColor: isDragActive ? 'primary.main' : 'grey.300',
+              border: "2px dashed",
+              borderColor: isDragActive ? "primary.main" : "grey.300",
               borderRadius: 2,
               p: 6,
-              textAlign: 'center',
-              bgcolor: isDragActive ? 'action.hover' : 'background.paper',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                borderColor: 'primary.main',
-                bgcolor: 'action.hover',
+              textAlign: "center",
+              bgcolor: isDragActive ? "action.hover" : "background.paper",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                borderColor: "primary.main",
+                bgcolor: "action.hover",
               },
             }}
           >
             <input {...getInputProps()} />
-            <CloudUpload sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
+            <CloudUpload sx={{ fontSize: 48, color: "primary.main", mb: 2 }} />
             <Typography variant="h6" gutterBottom>
               Drop CV Files Here
             </Typography>
@@ -385,7 +468,7 @@ function JobMatching() {
                   {uploadedFiles.map((file) => (
                     <ListItem key={file.id}>
                       <Box sx={{ mr: 2 }}>
-                        {file.status === 'uploaded' ? (
+                        {file.status === "uploaded" ? (
                           <CheckCircle color="success" />
                         ) : (
                           <Error color="error" />
@@ -413,11 +496,11 @@ function JobMatching() {
         </Box>
 
         {/* Analysis Section */}
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Box sx={{ textAlign: "center", mb: 4 }}>
           <Button
             variant="contained"
             size="large"
-            startIcon={<Analytics />}
+            startIcon={<RocketLaunch />}
             onClick={handleAnalysis}
             disabled={
               analysisMutation.isPending ||
@@ -428,15 +511,11 @@ function JobMatching() {
             sx={{
               py: 2,
               px: 6,
-              fontSize: '1.1rem',
-              fontWeight: 'bold',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
-              },
+              fontSize: "1.1rem",
+              fontWeight: "bold",
             }}
           >
-            🚀 Launch IRIS Analysis
+            Launch Analysis
           </Button>
 
           {analysisMutation.isPending && (
@@ -462,20 +541,27 @@ function JobMatching() {
               <Typography variant="h6" gutterBottom>
                 📊 Analysis Results
               </Typography>
-              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, mb: 3 }}>
-                <Paper sx={{ p: 2, textAlign: 'center' }}>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
+                  gap: 2,
+                  mb: 3,
+                }}
+              >
+                <Paper sx={{ p: 2, textAlign: "center" }}>
                   <Typography variant="h4" color="primary.main">
                     {analysisResult.analysis.total_candidates}
                   </Typography>
                   <Typography variant="body2">Total Candidates</Typography>
                 </Paper>
-                <Paper sx={{ p: 2, textAlign: 'center' }}>
+                <Paper sx={{ p: 2, textAlign: "center" }}>
                   <Typography variant="h4" color="success.main">
                     {analysisResult.summary.qualified_count}
                   </Typography>
                   <Typography variant="body2">Qualified</Typography>
                 </Paper>
-                <Paper sx={{ p: 2, textAlign: 'center' }}>
+                <Paper sx={{ p: 2, textAlign: "center" }}>
                   <Typography variant="h4" color="text.secondary">
                     {analysisResult.analysis.qualification_threshold}%
                   </Typography>
@@ -488,19 +574,36 @@ function JobMatching() {
                 Candidate Analysis:
               </Typography>
               {analysisResult.candidates.map((candidate, index) => (
-                <Card key={candidate.id} sx={{ mb: 2, bgcolor: candidate.qualified ? 'success.light' : 'grey.100' }}>
+                <Card
+                  key={candidate.id}
+                  sx={{
+                    mb: 2,
+                    bgcolor: candidate.qualified ? "success.light" : "grey.100",
+                  }}
+                >
                   <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 1,
+                      }}
+                    >
                       <Typography variant="subtitle1" fontWeight="bold">
                         {candidate.name}
                       </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
                         <Typography variant="h6" fontWeight="bold">
                           {candidate.overall_score.toFixed(1)}%
                         </Typography>
                         <Chip
-                          label={candidate.qualified ? 'QUALIFIED' : 'NOT QUALIFIED'}
-                          color={candidate.qualified ? 'success' : 'error'}
+                          label={
+                            candidate.qualified ? "QUALIFIED" : "NOT QUALIFIED"
+                          }
+                          color={candidate.qualified ? "success" : "error"}
                           size="small"
                         />
                       </Box>
@@ -508,27 +611,46 @@ function JobMatching() {
                     <Typography variant="body2" gutterBottom>
                       {candidate.match_summary}
                     </Typography>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mt: 2 }}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: 2,
+                        mt: 2,
+                      }}
+                    >
                       <Box>
-                        <Typography variant="caption" fontWeight="bold" color="success.main">
+                        <Typography
+                          variant="caption"
+                          fontWeight="bold"
+                          color="success.main"
+                        >
                           Strengths:
                         </Typography>
-                        <ul style={{ margin: '4px 0', paddingLeft: '16px' }}>
+                        <ul style={{ margin: "4px 0", paddingLeft: "16px" }}>
                           {candidate.strengths.map((strength, i) => (
                             <li key={i}>
-                              <Typography variant="caption">{strength}</Typography>
+                              <Typography variant="caption">
+                                {strength}
+                              </Typography>
                             </li>
                           ))}
                         </ul>
                       </Box>
                       <Box>
-                        <Typography variant="caption" fontWeight="bold" color="error.main">
+                        <Typography
+                          variant="caption"
+                          fontWeight="bold"
+                          color="error.main"
+                        >
                           Areas for Improvement:
                         </Typography>
-                        <ul style={{ margin: '4px 0', paddingLeft: '16px' }}>
+                        <ul style={{ margin: "4px 0", paddingLeft: "16px" }}>
                           {candidate.weaknesses.map((weakness, i) => (
                             <li key={i}>
-                              <Typography variant="caption">{weakness}</Typography>
+                              <Typography variant="caption">
+                                {weakness}
+                              </Typography>
                             </li>
                           ))}
                         </ul>
@@ -539,7 +661,7 @@ function JobMatching() {
               ))}
 
               {/* Recommendations */}
-              <Box sx={{ mt: 3, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
+              <Box sx={{ mt: 3, p: 2, bgcolor: "info.light", borderRadius: 1 }}>
                 <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
                   IRIS Recommendations:
                 </Typography>

@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import json
 
-from app.core.o3_client import get_o3_client
+from app.core.o3_client_simplified import get_o3_client_simplified
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -19,7 +19,15 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/job-matching", tags=["job-matching"])
 
 # Initialize O3 client
-o3_client = get_o3_client()
+try:
+    o3_client = get_o3_client_simplified()
+    if o3_client:
+        logger.info("✅ O3 Client (Simplified) initialized successfully with HIGH reasoning mode")
+    else:
+        logger.warning("⚠️ O3 Client initialization failed - check OPENAI_API_KEY")
+except Exception as e:
+    logger.error(f"❌ O3 Client error: {e}")
+    o3_client = None
 
 # Pydantic models
 class JobPositionRequest(BaseModel):
@@ -38,28 +46,36 @@ class CVAnalysisRequest(BaseModel):
 @router.get("/health")
 async def health_check():
     """Job matching system health check"""
-    if not o3_client:
+    try:
+        if not o3_client:
+            return JSONResponse({
+                "status": "unavailable",
+                "model": "o3-2025-04-16",
+                "error": "O3 client not initialized. Please check OPENAI_API_KEY in .env file",
+                "troubleshooting": [
+                    "Ensure OPENAI_API_KEY is set in .env file",
+                    "Verify API key has access to o3-2025-04-16 model",
+                    "Check internet connectivity"
+                ]
+            })
+        
+        health_status = await o3_client.health_check()
+        return JSONResponse(health_status)
+        
+    except Exception as e:
+        logger.error(f"O3 health check error: {str(e)}")
         return JSONResponse({
             "status": "error",
-            "service": "Job Matching System",
-            "error": "O3 client not initialized - check OPENAI_API_KEY"
+            "model": "o3-2025-04-16",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
         })
-    
-    o3_health = await o3_client.health_check()
-    return JSONResponse({
-        "status": "healthy" if o3_health.get("status") == "healthy" else "error",
-        "service": "Job Matching System", 
-        "version": "1.0.0",
-        "timestamp": datetime.now().isoformat(),
-        "o3_status": o3_health
-    })
 
 @router.post("/upload-cvs")
 async def upload_cvs(files: List[UploadFile] = File(...)):
-    """Upload CV files for analysis"""
+    """Upload CV files for O3 processing"""
     try:
-        # Create temp directory for uploads
-        temp_dir = Path("temp_uploads")
+        temp_dir = Path(__file__).parent.parent.parent.parent / "temp_uploads"
         temp_dir.mkdir(parents=True, exist_ok=True)
         
         saved_files = []
@@ -70,33 +86,72 @@ async def upload_cvs(files: List[UploadFile] = File(...)):
             unique_name = f"{uuid.uuid4().hex}_{filename}"
             dest_path = temp_dir / unique_name
             
-            # Save file
             content = await upload.read()
             with open(dest_path, "wb") as f:
                 f.write(content)
             
-            # Extract text content
-            text_content = await extract_text_content(dest_path, filename)
+            # Extract text content for processing and track parse status
+            parse_ok = True
+            text_content = ''
+            logger.info(f"Processing file: {filename}")
+            try:
+                if filename.lower().endswith('.txt'):
+                    with open(dest_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        text_content = f.read()
+                    logger.info(f"Extracted {len(text_content)} chars from TXT file: {filename}")
+                elif filename.lower().endswith('.pdf'):
+                    try:
+                        from PyPDF2 import PdfReader
+                        reader = PdfReader(dest_path)
+                        pages = [page.extract_text() or '' for page in reader.pages]
+                        text_content = '\n'.join(pages)
+                        logger.info(f"Extracted {len(text_content)} chars from PDF file: {filename}")
+                    except Exception as parse_error:
+                        parse_ok = False
+                        logger.warning(f"Failed to parse PDF {filename}: {parse_error}")
+                        text_content = ''
+                elif filename.lower().endswith('.docx'):
+                    try:
+                        from docx import Document
+                        doc = Document(dest_path)
+                        paragraphs = [p.text for p in doc.paragraphs]
+                        text_content = '\n'.join(paragraphs)
+                        logger.info(f"Extracted {len(text_content)} chars from DOCX file: {filename}")
+                    except Exception as parse_error:
+                        parse_ok = False
+                        logger.warning(f"Failed to parse DOCX {filename}: {parse_error}")
+                        text_content = ''
+                else:
+                    parse_ok = False
+                    logger.warning(f"Unsupported file format: {filename}")
+                    text_content = ''
+            except Exception as parse_error:
+                parse_ok = False
+                logger.warning(f"Failed to parse {filename}: {parse_error}")
+                text_content = ''
             
             file_id = f"file_{uuid.uuid4().hex}"
             file_ids[filename] = file_id
             
+            # Include parse status
+            status = 'uploaded' if parse_ok else 'failed'
             saved_files.append({
-                "id": file_id,
                 "name": filename,
                 "path": str(dest_path),
                 "size": len(content),
+                "id": file_id,
                 "content": text_content,
                 "type": filename.split('.')[-1].lower() if '.' in filename else 'unknown',
-                "status": 'uploaded' if text_content else 'failed'
+                "status": status
             })
         
-        logger.info(f"Successfully uploaded {len(saved_files)} CV files")
+        logger.info(f"Successfully uploaded {len(saved_files)} CV files for O3 processing")
         
         return JSONResponse({
             "success": True,
             "uploaded_files": len(saved_files),
             "files": saved_files,
+            "file_ids": file_ids,
             "message": f"Uploaded {len(saved_files)} CV files successfully"
         })
         
@@ -106,83 +161,81 @@ async def upload_cvs(files: List[UploadFile] = File(...)):
 
 @router.post("/analyze")
 async def analyze_candidates(request: CVAnalysisRequest):
-    """Analyze candidates using O3 AI"""
+    """Stream O3 screening results with HIGH reasoning effort"""
     try:
-        if not o3_client:
-            raise HTTPException(
-                status_code=503, 
-                detail="O3 service not available. Check OPENAI_API_KEY configuration."
-            )
+        job_title = request.job_title
+        job_description = request.job_description
+        cvs = request.cvs
+        reasoning_effort = "high"
+        qualification_threshold = request.qualification_threshold
+        elimination_conditions = request.elimination_conditions
         
-        if not request.job_description.strip():
+        # Validate inputs
+        if not job_description.strip():
             raise HTTPException(status_code=400, detail="Job description is required")
-        
-        if not request.cvs:
+        if not cvs:
             raise HTTPException(status_code=400, detail="At least one CV is required")
+        if not o3_client:
+            raise HTTPException(status_code=503, detail="O3 service not available. Check OPENAI_API_KEY configuration.")
         
-        logger.info(f"Starting O3 analysis for {len(request.cvs)} candidates")
+        logger.info(f"🚀 Starting O3 batch screening for {len(cvs)} candidates")
+        logger.info(f"📊 Qualification threshold: {qualification_threshold}%")
+        logger.info(f"🎯 Job title: {job_title}")
+        logger.info(f"⚡ Reasoning effort: {reasoning_effort}")
         
         # Call O3 for batch screening
-        result = await o3_client.batch_screening(
-            cvs=request.cvs,
-            job_description=request.job_description,
-            qualification_threshold=request.qualification_threshold,
-            elimination_conditions=request.elimination_conditions
+        screening_result = await o3_client.batch_screening(
+            cvs=cvs,
+            job_description=job_description,
+            qualification_threshold=qualification_threshold,
+            elimination_conditions=elimination_conditions
         )
         
-        logger.info(f"O3 analysis completed successfully")
+        logger.info(f"✅ O3 screening completed successfully")
+        logger.info(f"📈 Results: {screening_result.get('summary', {}).get('qualified_count', 0)} qualified candidates")
         
         return JSONResponse({
             "success": True,
-            "analysis": result,
-            "timestamp": datetime.now().isoformat()
+            "analysis": screening_result,
+            "metadata": {
+                "job_title": job_title,
+                "total_candidates": len(cvs),
+                "qualification_threshold": qualification_threshold,
+                "reasoning_effort": reasoning_effort,
+                "timestamp": datetime.now().isoformat()
+            }
         })
         
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Analysis error: {str(e)}")
+        logger.error(f"❌ O3 screening analysis error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
-async def extract_text_content(file_path: Path, filename: str) -> str:
-    """Extract text content from uploaded files"""
+@router.get("/api/o3/health")
+async def o3_health_check():
+    """Check O3 model availability and performance"""
     try:
-        if filename.lower().endswith('.txt'):
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                return f.read()
+        if not o3_client:
+            return JSONResponse({
+                "status": "unavailable",
+                "model": "o3-2025-04-16",
+                "error": "O3 client not initialized. Please check OPENAI_API_KEY in .env file",
+                "troubleshooting": [
+                    "Ensure OPENAI_API_KEY is set in .env file",
+                    "Verify API key has access to o3-2025-04-16 model", 
+                    "Check internet connectivity"
+                ]
+            })
         
-        elif filename.lower().endswith('.pdf'):
-            try:
-                # Try to import and use PyPDF2
-                from PyPDF2 import PdfReader
-                reader = PdfReader(file_path)
-                pages = [page.extract_text() or '' for page in reader.pages]
-                return '\n'.join(pages)
-            except ImportError:
-                logger.warning("PyPDF2 not available, cannot parse PDF files")
-                return f"PDF file: {filename} (text extraction not available)"
-            except Exception as e:
-                logger.warning(f"Failed to parse PDF {filename}: {e}")
-                return f"PDF file: {filename} (failed to extract text)"
+        health_status = await o3_client.health_check()
+        return JSONResponse(health_status)
         
-        elif filename.lower().endswith('.docx'):
-            try:
-                # Try to import and use python-docx
-                from docx import Document
-                doc = Document(file_path)
-                paragraphs = [p.text for p in doc.paragraphs]
-                return '\n'.join(paragraphs)
-            except ImportError:
-                logger.warning("python-docx not available, cannot parse DOCX files")
-                return f"DOCX file: {filename} (text extraction not available)"
-            except Exception as e:
-                logger.warning(f"Failed to parse DOCX {filename}: {e}")
-                return f"DOCX file: {filename} (failed to extract text)"
-        
-        else:
-            logger.warning(f"Unsupported file format: {filename}")
-            return f"Unsupported file: {filename}"
-            
     except Exception as e:
-        logger.error(f"Error extracting text from {filename}: {e}")
-        return f"Error reading file: {filename}"
+        logger.error(f"O3 health check error: {str(e)}")
+        return JSONResponse({
+            "status": "error",
+            "model": "o3-2025-04-16",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        })
