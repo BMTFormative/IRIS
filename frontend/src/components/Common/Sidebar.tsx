@@ -23,6 +23,7 @@ import {
   Logout as LogoutIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
+  Work as WorkIcon, 
 } from "@mui/icons-material";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link as RouterLink, useRouterState } from "@tanstack/react-router";
@@ -37,6 +38,7 @@ const menuItems = [
   { icon: HomeIcon, title: "Dashboard", path: "/" },
   { icon: InventoryIcon, title: "Items", path: "/items" },
   { icon: SettingsIcon, title: "User Settings", path: "/settings" },
+  { icon: WorkIcon, title: "Job Matching", path: "/job-matching" },
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
