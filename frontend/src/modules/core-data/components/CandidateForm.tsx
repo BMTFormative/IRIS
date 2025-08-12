@@ -39,12 +39,14 @@ interface CandidateFormProps {
   initialData?: Partial<CandidateFormData>;
   onSubmit: (data: CandidateFormData) => void;
   isLoading?: boolean;
+  onCancel?: () => void;
 }
 
-const CandidateForm: React.FC<CandidateFormProps> = ({ 
-  initialData, 
-  onSubmit, 
-  isLoading = false 
+const CandidateForm: React.FC<CandidateFormProps> = ({
+  initialData,
+  onSubmit,
+  isLoading = false,
+  onCancel,
 }) => {
   const [formData, setFormData] = useState<CandidateFormData>({
     first_name: '',
@@ -401,7 +403,12 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           {/* Submit Button */}
           <Grid size={12}>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', pt: 2 }}>
-              <Button variant="outlined" color="secondary">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => onCancel && onCancel()}
+                type="button"
+              >
                 Cancel
               </Button>
               <Button 

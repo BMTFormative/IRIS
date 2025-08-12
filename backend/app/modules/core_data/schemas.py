@@ -27,7 +27,8 @@ class TimestampMixin(BaseModel):
 class JobBase(BaseSchema):
     """Base job fields"""
     title: str = Field(..., min_length=1, max_length=200)
-    description: str = Field(..., min_length=10)
+    # Allow shorter descriptions to prevent 422 on small inputs
+    description: str = Field(..., min_length=1)
     location: str = Field(..., max_length=100)
     department: Optional[str] = Field(None, max_length=100)
     job_number: str = Field(..., max_length=50)

@@ -1,5 +1,6 @@
 // frontend/src/services/api.ts
-const API_BASE_URL = 'http://localhost:8000/api/v1/core-data';
+// Central API base URL (mirror ItemsService pattern)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 // Types
 export interface Job {
@@ -69,7 +70,8 @@ async function apiRequest<T>(
   };
 
   // Add auth token if available
-  const token = localStorage.getItem('token');
+  // Use the same key as the auth flow: access_token
+  const token = localStorage.getItem('access_token');
   if (token) {
     config.headers = {
       ...config.headers,
@@ -81,11 +83,19 @@ async function apiRequest<T>(
     const response = await fetch(url, config);
     
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new ApiError(
-        response.status,
-        errorData.detail || `HTTP ${response.status}: ${response.statusText}`
-      );
+      // Attempt to parse validation or error details
+      let errorData: any = {};
+      try {
+        errorData = await response.json();
+      } catch {
+        // ignore JSON parse errors
+      }
+      // Extract detail field if present (FastAPI validation errors)
+      const detail = errorData.detail;
+      const message = detail
+        ? (typeof detail === 'string' ? detail : JSON.stringify(detail, null, 2))
+        : `HTTP ${response.status}: ${response.statusText}`;
+      throw new ApiError(response.status, message);
     }
 
     return await response.json();
@@ -121,18 +131,18 @@ export const jobApi = {
 
     const query = searchParams.toString();
     return apiRequest<{ jobs: Job[]; total: number; page: number; per_page: number }>(
-      `/jobs${query ? `?${query}` : ''}`
+      `/core-data/jobs${query ? `?${query}` : ''}`
     );
   },
 
   // Get job by ID
   async getJob(id: string): Promise<Job> {
-    return apiRequest<Job>(`/jobs/${id}`);
+    return apiRequest<Job>(`/core-data/jobs/${id}`);
   },
 
   // Create new job
   async createJob(job: Omit<Job, 'id' | 'created_at' | 'updated_at'>): Promise<Job> {
-    return apiRequest<Job>('/jobs', {
+    return apiRequest<Job>('/core-data/jobs', {
       method: 'POST',
       body: JSON.stringify(job),
     });
@@ -140,7 +150,7 @@ export const jobApi = {
 
   // Update job
   async updateJob(id: string, job: Partial<Job>): Promise<Job> {
-    return apiRequest<Job>(`/jobs/${id}`, {
+    return apiRequest<Job>(`/core-data/jobs/${id}`, {
       method: 'PUT',
       body: JSON.stringify(job),
     });
@@ -148,7 +158,7 @@ export const jobApi = {
 
   // Delete job
   async deleteJob(id: string): Promise<void> {
-    return apiRequest<void>(`/jobs/${id}`, {
+    return apiRequest<void>(`/core-data/jobs/${id}`, {
       method: 'DELETE',
     });
   },
@@ -183,18 +193,18 @@ export const candidateApi = {
 
     const query = searchParams.toString();
     return apiRequest<{ candidates: Candidate[]; total: number; page: number; per_page: number }>(
-      `/candidates${query ? `?${query}` : ''}`
+      `/core-data/candidates${query ? `?${query}` : ''}`
     );
   },
 
   // Get candidate by ID
   async getCandidate(id: string): Promise<Candidate> {
-    return apiRequest<Candidate>(`/candidates/${id}`);
+    return apiRequest<Candidate>(`/core-data/candidates/${id}`);
   },
 
   // Create new candidate
   async createCandidate(candidate: Omit<Candidate, 'id' | 'created_at' | 'updated_at'>): Promise<Candidate> {
-    return apiRequest<Candidate>('/candidates', {
+    return apiRequest<Candidate>('/core-data/candidates', {
       method: 'POST',
       body: JSON.stringify(candidate),
     });
@@ -202,7 +212,7 @@ export const candidateApi = {
 
   // Update candidate
   async updateCandidate(id: string, candidate: Partial<Candidate>): Promise<Candidate> {
-    return apiRequest<Candidate>(`/candidates/${id}`, {
+    return apiRequest<Candidate>(`/core-data/candidates/${id}`, {
       method: 'PUT',
       body: JSON.stringify(candidate),
     });
@@ -210,7 +220,7 @@ export const candidateApi = {
 
   // Delete candidate
   async deleteCandidate(id: string): Promise<void> {
-    return apiRequest<void>(`/candidates/${id}`, {
+    return apiRequest<void>(`/core-data/candidates/${id}`, {
       method: 'DELETE',
     });
   },

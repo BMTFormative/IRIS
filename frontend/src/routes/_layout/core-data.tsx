@@ -1,5 +1,5 @@
 // frontend/src/routes/core-data.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -31,6 +31,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import MUIDataTable, { Column, Action } from '../../modules/core-data/components/MUIDataTable';
 import JobForm from '../../modules/core-data/components/JobForm';
 import CandidateForm from '../../modules/core-data/components/CandidateForm';
+import { jobApi, candidateApi } from '@/services/api';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -63,6 +64,29 @@ const CoreDataPage: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'job' | 'candidate'>('job');
   const [editingItem, setEditingItem] = useState<any>(null);
+  // Data state
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [candidates, setCandidates] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState<boolean>(true);
+
+  // Fetch initial data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoadingData(true);
+        const jobRes = await jobApi.getJobs({ skip: 0, limit: 100 });
+        setJobs(jobRes.jobs);
+        const candRes = await candidateApi.getCandidates({ skip: 0, limit: 100 });
+        setCandidates(candRes.candidates);
+      } catch (error) {
+        console.error('Error loading core-data:', error);
+      } finally {
+        setLoadingData(false);
+      }
+    }
+    fetchData();
+  }, []);
+ 
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -79,69 +103,38 @@ const CoreDataPage: React.FC = () => {
     setEditingItem(null);
   };
 
-  const handleSubmit = (data: any) => {
-    console.log(`${dialogType} data:`, data);
-    // Handle form submission here
-    setDialogOpen(false);
-    setEditingItem(null);
+  const handleSubmit = async (data: any) => {
+    try {
+      if (dialogType === 'job') {
+        if (editingItem) {
+          const updated = await jobApi.updateJob(editingItem.id, data);
+          setJobs(jobs.map(job => (job.id === updated.id ? updated : job)));
+        } else {
+          const created = await jobApi.createJob(data);
+          setJobs([...jobs, created]);
+        }
+      } else {
+        if (editingItem) {
+          const updated = await candidateApi.updateCandidate(editingItem.id, data);
+          setCandidates(candidates.map(c => (c.id === updated.id ? updated : c)));
+        } else {
+          const created = await candidateApi.createCandidate(data);
+          setCandidates([...candidates, created]);
+        }
+      }
+    } catch (error: any) {
+      // Log detailed API error if available
+      if (error.status === 422 && error.message) {
+        console.error('Validation errors:', error.message);
+      } else {
+        console.error('Submit error:', error);
+      }
+    } finally {
+      setDialogOpen(false);
+      setEditingItem(null);
+    }
   };
 
-  // Mock data with proper id fields
-  const mockJobs = [
-    {
-      id: '1',
-      title: 'Senior Python Developer',
-      job_number: 'ENG-2025-001',
-      location: 'San Francisco, CA',
-      department: 'Engineering',
-      status: 'published',
-      priority: 'high',
-      employment_type: 'full-time',
-      remote_allowed: true,
-      required_skills: ['Python', 'FastAPI', 'PostgreSQL'],
-      created_at: '2025-01-10T10:00:00Z'
-    },
-    {
-      id: '2',
-      title: 'Frontend React Developer',
-      job_number: 'ENG-2025-002',
-      location: 'New York, NY',
-      department: 'Engineering',
-      status: 'draft',
-      priority: 'medium',
-      employment_type: 'full-time',
-      remote_allowed: false,
-      required_skills: ['React', 'TypeScript', 'JavaScript'],
-      created_at: '2025-01-09T14:30:00Z'
-    }
-  ];
-
-  const mockCandidates = [
-    {
-      id: '1',
-      first_name: 'John',
-      last_name: 'Smith',
-      email: 'john.smith@email.com',
-      current_title: 'Senior Developer',
-      current_company: 'Tech Corp',
-      location: 'San Francisco, CA',
-      skills: ['Python', 'React', 'AWS'],
-      source: 'linkedin',
-      created_at: '2025-01-08T09:00:00Z'
-    },
-    {
-      id: '2',
-      first_name: 'Jane',
-      last_name: 'Doe',
-      email: 'jane.doe@email.com',
-      current_title: 'Product Manager',
-      current_company: 'Startup Inc',
-      location: 'New York, NY',
-      skills: ['Product Management', 'Analytics', 'Agile'],
-      source: 'referral',
-      created_at: '2025-01-07T15:30:00Z'
-    }
-  ];
 
   // Table columns for jobs
   const jobColumns: Column[] = [
@@ -314,14 +307,24 @@ const CoreDataPage: React.FC = () => {
     }
   ];
 
-  const handleDeleteJobs = (selectedIds: string[]) => {
+  const handleDeleteJobs = async (selectedIds: string[]) => {
     console.log('Delete jobs:', selectedIds);
-    // Implement delete logic here
+    try {
+      await Promise.all(selectedIds.map(id => jobApi.deleteJob(id)));
+      setJobs(prev => prev.filter(job => !selectedIds.includes(job.id)));
+    } catch (error) {
+      console.error('Delete jobs error:', error);
+    }
   };
 
-  const handleDeleteCandidates = (selectedIds: string[]) => {
+  const handleDeleteCandidates = async (selectedIds: string[]) => {
     console.log('Delete candidates:', selectedIds);
-    // Implement delete logic here
+    try {
+      await Promise.all(selectedIds.map(id => candidateApi.deleteCandidate(id)));
+      setCandidates(prev => prev.filter(c => !selectedIds.includes(c.id)));
+    } catch (error) {
+      console.error('Delete candidates error:', error);
+    }
   };
 
   return (
@@ -363,7 +366,7 @@ const CoreDataPage: React.FC = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <WorkIcon color="primary" />
                   <Box>
-                    <Typography variant="h6">{mockJobs.length}</Typography>
+                    <Typography variant="h6">{jobs.length}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       Total Jobs
                     </Typography>
@@ -379,7 +382,7 @@ const CoreDataPage: React.FC = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <PersonIcon color="secondary" />
                   <Box>
-                    <Typography variant="h6">{mockCandidates.length}</Typography>
+                    <Typography variant="h6">{candidates.length}</Typography>
                     <Typography variant="body2" color="textSecondary">
                       Candidates
                     </Typography>
@@ -477,9 +480,9 @@ const CoreDataPage: React.FC = () => {
             <MUIDataTable
               title="Jobs"
               columns={jobColumns}
-              rows={mockJobs}
+              rows={jobs}
               actions={jobActions}
-              loading={false}
+              loading={loadingData}
               onDelete={handleDeleteJobs}
             />
           </TabPanel>
@@ -502,9 +505,9 @@ const CoreDataPage: React.FC = () => {
             <MUIDataTable
               title="Candidates"
               columns={candidateColumns}
-              rows={mockCandidates}
+              rows={candidates}
               actions={candidateActions}
-              loading={false}
+              loading={loadingData}
               onDelete={handleDeleteCandidates}
             />
           </TabPanel>
@@ -541,12 +544,14 @@ const CoreDataPage: React.FC = () => {
                 initialData={editingItem}
                 onSubmit={handleSubmit}
                 isLoading={false}
+                onCancel={handleCloseDialog}
               />
             ) : (
               <CandidateForm
                 initialData={editingItem}
                 onSubmit={handleSubmit}
                 isLoading={false}
+                onCancel={handleCloseDialog}
               />
             )}
           </DialogContent>

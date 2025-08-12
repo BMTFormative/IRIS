@@ -17,11 +17,11 @@ import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as JobsImport } from './routes/jobs'
 import { Route as LayoutImport } from './routes/_layout'
-import { Route as LayoutCoreDataImport } from './routes/_layout/core-data'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutJobMatchingImport } from './routes/_layout/job-matching'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
+import { Route as LayoutCoreDataImport } from './routes/_layout/core-data'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 
 // Create/Update Routes
@@ -56,11 +56,6 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutCoreDataRoute = LayoutCoreDataImport.update({
-  path: '/core-data',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutIndexRoute = LayoutIndexImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
@@ -78,6 +73,11 @@ const LayoutJobMatchingRoute = LayoutJobMatchingImport.update({
 
 const LayoutItemsRoute = LayoutItemsImport.update({
   path: '/items',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutCoreDataRoute = LayoutCoreDataImport.update({
+  path: '/core-data',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -118,6 +118,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/core-data': {
+      preLoaderRoute: typeof LayoutCoreDataImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/items': {
       preLoaderRoute: typeof LayoutItemsImport
       parentRoute: typeof LayoutImport
@@ -134,10 +138,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/core-data': {
-      preLoaderRoute: typeof LayoutCoreDataImport
-      parentRoute: typeof LayoutImport
-    }
   }
 }
 
@@ -146,11 +146,11 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
+    LayoutCoreDataRoute,
     LayoutItemsRoute,
     LayoutJobMatchingRoute,
     LayoutSettingsRoute,
     LayoutIndexRoute,
-    LayoutCoreDataRoute,
   ]),
   JobsRoute,
   LoginRoute,

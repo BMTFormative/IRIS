@@ -391,6 +391,7 @@ const JobsPage: React.FC = () => {
               initialData={editingJob}
               onSubmit={handleSubmit}
               isLoading={loading}
+              onCancel={handleCloseDialog}
             />
           </DialogContent>
         </Dialog>

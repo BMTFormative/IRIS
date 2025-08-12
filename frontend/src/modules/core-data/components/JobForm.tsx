@@ -40,14 +40,16 @@ interface JobFormProps {
   initialData?: Partial<JobFormData>;
   onSubmit: (data: JobFormData) => void;
   isLoading?: boolean;
+  onCancel?: () => void;
 }
 
-const JobForm: React.FC<JobFormProps> = ({ 
-  initialData, 
-  onSubmit, 
-  isLoading = false 
+const JobForm: React.FC<JobFormProps> = ({
+  initialData,
+  onSubmit,
+  isLoading = false,
+  onCancel,
 }) => {
-  const [formData, setFormData] = useState<JobFormData>({
+  const defaultData: JobFormData = {
     title: '',
     job_number: '',
     description: '',
@@ -61,8 +63,18 @@ const JobForm: React.FC<JobFormProps> = ({
     preferred_skills: [],
     tags: [],
     experience_required: '',
-    ...initialData
+  };
+  const [formData, setFormData] = useState<JobFormData>({
+    ...defaultData,
+    ...(initialData || {}),
   });
+  // Reset form when switching between create/edit or reopening dialog
+  React.useEffect(() => {
+    setFormData({
+      ...defaultData,
+      ...(initialData || {}),
+    });
+  }, [initialData]);
 
   const handleInputChange = (field: keyof JobFormData) => (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -381,7 +393,12 @@ const JobForm: React.FC<JobFormProps> = ({
           {/* Submit Button */}
           <Grid size={12}>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', pt: 2 }}>
-              <Button variant="outlined" color="secondary">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => onCancel && onCancel()}
+                type="button"
+              >
                 Cancel
               </Button>
               <Button 
