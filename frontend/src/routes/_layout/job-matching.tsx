@@ -207,7 +207,8 @@ function JobMatching() {
     },
     onSuccess: (data) => {
       console.log("Analysis response:", data);
-      setAnalysisResult(data);
+      const result = data.analysis ?? data;
+      setAnalysisResult(result);
     },
     onError: (error) => {
       console.error("Analysis failed:", error);
@@ -943,16 +944,46 @@ function JobMatching() {
       >
         {selectedSession && (
           <>
-            <DialogTitle>
-              <Typography variant="h5" sx={{ fontWeight: 600, color: 'primary.main' }}>
-                {selectedSession.job_title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Analysis completed on {formatDate(selectedSession.created_at)}
-              </Typography>
-            </DialogTitle>
+      <DialogTitle sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Analytics sx={{ color: 'primary.main' }} />
+            <Typography variant="h5" sx={{ fontWeight: 600, color: 'primary.main' }}>
+              Analysis Results
+            </Typography>
+          </Box>
+          <Typography variant="body2" color="text.secondary">
+            Completed on {formatDate(selectedSession.created_at)}
+          </Typography>
+        </Box>
+        <Typography variant="subtitle1" color="text.secondary">
+          {selectedSession.job_title}
+        </Typography>
+      </DialogTitle>
 
             <DialogContent dividers>
+              {/* Summary Statistics */}
+              <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+                <Chip
+                  label={`Total: ${selectedSession.total_candidates}`}
+                  color="primary"
+                  sx={{ fontWeight: 'bold' }}
+                />
+                <Chip
+                  label={`Qualified: ${selectedSession.qualified_candidates}`}
+                  color="success"
+                  sx={{ fontWeight: 'bold' }}
+                />
+                <Chip
+                  label={`Pass Rate: ${
+                    selectedSession.total_candidates > 0
+                      ? ((selectedSession.qualified_candidates / selectedSession.total_candidates) * 100).toFixed(1)
+                      : '0'
+                  }%`}
+                  color="info"
+                  sx={{ fontWeight: 'bold' }}
+                />
+              </Box>
               {/* Job Description */}
               <Card variant="outlined" sx={{ mb: 3, borderRadius: 2 }}>
                 <CardContent>
