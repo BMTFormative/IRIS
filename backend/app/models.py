@@ -2,8 +2,11 @@ import uuid
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
-
-
+from app.modules.core_data.models import (
+    Job, Candidate, Application, Interview, Attachment, 
+    AuditLog, IntegrationMetadata,
+    JobStatus, ApplicationStatus, PriorityLevel
+)
 # Shared properties
 class UserBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
@@ -111,3 +114,10 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+__all__ = [
+    "User", "Item",  # Existing models
+    "Job", "Candidate", "Application", "Interview", "Attachment", 
+    "AuditLog", "IntegrationMetadata",
+    "JobStatus", "ApplicationStatus", "PriorityLevel"
+]
