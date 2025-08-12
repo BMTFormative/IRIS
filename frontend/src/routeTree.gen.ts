@@ -16,8 +16,8 @@ import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as JobsImport } from './routes/jobs'
-import { Route as CoreDataImport } from './routes/core-data'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as LayoutCoreDataImport } from './routes/_layout/core-data'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutJobMatchingImport } from './routes/_layout/job-matching'
@@ -51,14 +51,14 @@ const JobsRoute = JobsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CoreDataRoute = CoreDataImport.update({
-  path: '/core-data',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
   getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutCoreDataRoute = LayoutCoreDataImport.update({
+  path: '/core-data',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const LayoutIndexRoute = LayoutIndexImport.update({
@@ -92,10 +92,6 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_layout': {
       preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/core-data': {
-      preLoaderRoute: typeof CoreDataImport
       parentRoute: typeof rootRoute
     }
     '/jobs': {
@@ -138,6 +134,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/core-data': {
+      preLoaderRoute: typeof LayoutCoreDataImport
+      parentRoute: typeof LayoutImport
+    }
   }
 }
 
@@ -150,8 +150,8 @@ export const routeTree = rootRoute.addChildren([
     LayoutJobMatchingRoute,
     LayoutSettingsRoute,
     LayoutIndexRoute,
+    LayoutCoreDataRoute,
   ]),
-  CoreDataRoute,
   JobsRoute,
   LoginRoute,
   RecoverPasswordRoute,

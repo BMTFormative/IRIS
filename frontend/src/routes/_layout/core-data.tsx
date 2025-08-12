@@ -28,9 +28,9 @@ import {
 } from '@mui/icons-material';
 import { createFileRoute } from '@tanstack/react-router';
 
-import MUIDataTable, { Column, Action } from '../modules/core-data/components/MUIDataTable';
-import JobForm from '../modules/core-data/components/JobForm';
-import CandidateForm from '../modules/core-data/components/CandidateForm';
+import MUIDataTable, { Column, Action } from '../../modules/core-data/components/MUIDataTable';
+import JobForm from '../../modules/core-data/components/JobForm';
+import CandidateForm from '../../modules/core-data/components/CandidateForm';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -556,7 +556,7 @@ const CoreDataPage: React.FC = () => {
   );
 };
 
-export const Route = createFileRoute('/core-data')({
+export const Route = createFileRoute('/_layout/core-data')({
   component: CoreDataPage,
 });
 
