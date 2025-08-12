@@ -12,7 +12,8 @@ import {
   CardContent,
   Grid,
   IconButton,
-  Fab
+  Fab,
+  Container
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -23,7 +24,7 @@ import {
 } from '@mui/icons-material';
 import { createFileRoute } from '@tanstack/react-router';
 
-import DataTable, { Column, Action } from '../modules/core-data/components/DataTable';
+import MUIDataTable, { Column, Action } from '../modules/core-data/components/MUIDataTable';
 import JobForm from '../modules/core-data/components/JobForm';
 
 // Mock data - replace with actual API calls
@@ -61,6 +62,23 @@ const mockJobs = [
     salary_min: 90000,
     salary_max: 140000,
     created_at: '2025-01-09T14:30:00Z'
+  },
+  {
+    id: '3',
+    title: 'Product Manager',
+    job_number: 'PM-2025-001',
+    location: 'Remote',
+    department: 'Product',
+    status: 'published',
+    priority: 'high',
+    employment_type: 'full-time',
+    remote_allowed: true,
+    required_skills: ['Product Management', 'Analytics', 'Agile'],
+    preferred_skills: ['SQL', 'A/B Testing'],
+    tags: ['product', 'senior', 'remote'],
+    salary_min: 110000,
+    salary_max: 160000,
+    created_at: '2025-01-08T16:00:00Z'
   }
 ];
 
@@ -69,8 +87,6 @@ const JobsPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingJob, setEditingJob] = useState<any>(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   // Define table columns
   const columns: Column[] = [
@@ -94,7 +110,7 @@ const JobsPage: React.FC = () => {
             {value}
           </Typography>
           <Typography variant="caption" color="textSecondary">
-            {row.department}
+            {row?.department}
           </Typography>
         </Box>
       )
@@ -106,7 +122,7 @@ const JobsPage: React.FC = () => {
       format: (value, row) => (
         <Box>
           <Typography variant="body2">{value}</Typography>
-          {row.remote_allowed && (
+          {row?.remote_allowed && (
             <Chip label="Remote OK" size="small" color="success" variant="outlined" />
           )}
         </Box>
@@ -115,308 +131,274 @@ const JobsPage: React.FC = () => {
     {
       id: 'status',
       label: 'Status',
-      minWidth: 100,
-      format: (value) => {
-        const colors = {
-          draft: 'default',
-          published: 'success',
-          closed: 'error',
-          archived: 'warning'
-        } as const;
-        return (
-          <Chip
-            label={value.charAt(0).toUpperCase() + value.slice(1)}
-            color={colors[value as keyof typeof colors] || 'default'}
-            size="small"
-          />
-        );
-      }
+      minWidth: 120,
+      format: (value) => (
+        <Chip 
+          label={value} 
+          size="small"
+          color={value === 'published' ? 'success' : value === 'draft' ? 'warning' : 'default'}
+          variant="filled"
+        />
+      )
     },
     {
       id: 'priority',
       label: 'Priority',
       minWidth: 100,
-      format: (value) => {
-        const colors = {
-          low: 'info',
-          medium: 'warning',
-          high: 'error',
-          urgent: 'error'
-        } as const;
-        return (
-          <Chip
-            label={value.charAt(0).toUpperCase() + value.slice(1)}
-            color={colors[value as keyof typeof colors] || 'default'}
-            size="small"
-            variant={value === 'urgent' ? 'filled' : 'outlined'}
-          />
-        );
-      }
+      format: (value) => (
+        <Chip 
+          label={value} 
+          size="small"
+          color={value === 'high' ? 'error' : value === 'medium' ? 'warning' : 'info'}
+          variant="outlined"
+        />
+      )
     },
     {
       id: 'required_skills',
       label: 'Skills',
-      minWidth: 200
+      minWidth: 250,
+      format: (value) => (
+        <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+          {value?.slice(0, 3)?.map((skill: string) => (
+            <Chip key={skill} label={skill} size="small" variant="outlined" />
+          ))}
+          {value?.length > 3 && (
+            <Chip label={`+${value.length - 3}`} size="small" variant="outlined" />
+          )}
+        </Box>
+      )
     },
     {
       id: 'salary_range',
       label: 'Salary',
-      minWidth: 120,
-      format: (_, row) => {
-        if (row.salary_min && row.salary_max) {
+      minWidth: 150,
+      format: (value, row) => {
+        if (row?.salary_min && row?.salary_max) {
           return (
-            <Typography variant="body2">
-              ${row.salary_min.toLocaleString()} - ${row.salary_max.toLocaleString()}
+            <Typography variant="body2" color="success.main">
+              ${(row.salary_min / 1000).toFixed(0)}k - ${(row.salary_max / 1000).toFixed(0)}k
             </Typography>
           );
         }
-        return <Typography variant="body2" color="textSecondary">—</Typography>;
+        return <Typography variant="body2" color="textSecondary">Not specified</Typography>;
       }
-    },
-    {
-      id: 'created_at',
-      label: 'Created',
-      minWidth: 120,
-      format: (value) => new Date(value).toLocaleDateString()
     }
   ];
 
   // Define table actions
   const actions: Action[] = [
     {
-      label: 'View',
       icon: <ViewIcon />,
-      onClick: (job) => {
-        console.log('View job:', job);
-        // Navigate to job detail page
-      },
-      color: 'primary'
+      label: 'View',
+      onClick: (row) => console.log('View job:', row)
     },
     {
-      label: 'Edit',
       icon: <EditIcon />,
-      onClick: (job) => {
-        setEditingJob(job);
+      label: 'Edit',
+      onClick: (row) => {
+        setEditingJob(row);
         setDialogOpen(true);
-      },
-      color: 'primary'
+      }
     },
     {
-      label: 'Delete',
       icon: <DeleteIcon />,
-      onClick: (job) => {
-        if (window.confirm('Are you sure you want to delete this job?')) {
-          setJobs(prev => prev.filter(j => j.id !== job.id));
-        }
-      },
-      color: 'error',
-      show: (job) => job.status === 'draft' // Only show delete for draft jobs
+      label: 'Delete',
+      onClick: (row) => console.log('Delete job:', row),
+      color: 'error'
     }
   ];
 
-  const handleCreateJob = () => {
-    setEditingJob(null);
-    setDialogOpen(true);
-  };
-
-  const handleJobSubmit = (jobData: any) => {
+  const handleSubmit = (data: any) => {
+    console.log('Job data:', data);
     if (editingJob) {
       // Update existing job
-      setJobs(prev => prev.map(job => 
-        job.id === editingJob.id 
-          ? { ...job, ...jobData, updated_at: new Date().toISOString() }
-          : job
-      ));
+      setJobs(jobs.map(job => job.id === editingJob.id ? { ...job, ...data } : job));
     } else {
-      // Create new job
+      // Add new job
       const newJob = {
-        ...jobData,
-        id: String(Date.now()),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        ...data,
+        id: Date.now().toString(),
+        created_at: new Date().toISOString()
       };
-      setJobs(prev => [newJob, ...prev]);
+      setJobs([...jobs, newJob]);
     }
     setDialogOpen(false);
     setEditingJob(null);
   };
 
-  const handleSearch = (searchTerm: string) => {
-    // Implement search functionality
-    console.log('Search:', searchTerm);
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setEditingJob(null);
   };
 
-  const handleSort = (column: string, direction: 'asc' | 'desc') => {
-    // Implement sorting
-    console.log('Sort:', column, direction);
+  const handleDeleteJobs = (selectedIds: string[]) => {
+    console.log('Delete jobs:', selectedIds);
+    setJobs(jobs.filter(job => !selectedIds.includes(job.id)));
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Jobs
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            Manage job postings and track applications
-          </Typography>
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleCreateJob}
-          size="large"
-        >
-          Create Job
-        </Button>
-      </Box>
-
-      {/* Statistics Cards */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <WorkIcon color="primary" />
-                <Box>
-                  <Typography variant="h6">
-                    {jobs.length}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Total Jobs
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Chip label="Published" color="success" size="small" />
-                <Box>
-                  <Typography variant="h6">
-                    {jobs.filter(j => j.status === 'published').length}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Published
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Chip label="Draft" color="default" size="small" />
-                <Box>
-                  <Typography variant="h6">
-                    {jobs.filter(j => j.status === 'draft').length}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Drafts
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Chip label="Remote" color="info" size="small" />
-                <Box>
-                  <Typography variant="h6">
-                    {jobs.filter(j => j.remote_allowed).length}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Remote OK
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      {/* Jobs Table */}
-      <DataTable
-        title="All Jobs"
-        columns={columns}
-        data={jobs}
-        actions={actions}
-        loading={loading}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        total={jobs.length}
-        onPageChange={setPage}
-        onRowsPerPageChange={setRowsPerPage}
-        onSearch={handleSearch}
-        onSort={handleSort}
-        selectable={true}
-        bulkActions={[
-          {
-            label: 'Delete Selected',
-            icon: <DeleteIcon />,
-            onClick: (selectedIds) => {
-              if (window.confirm(`Delete ${selectedIds.length} jobs?`)) {
-                setJobs(prev => prev.filter(job => !selectedIds.includes(job.id)));
-              }
+    <Container maxWidth="xl">
+      <Box pt={8} mb={4}>
+        {/* Page Header */}
+        <Typography 
+          variant="h4" 
+          component="h1" 
+          gutterBottom
+          sx={{
+            fontWeight: 700,
+            color: '#1976D2',
+            position: 'relative',
+            display: 'inline-block',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: -4,
+              left: 0,
+              width: '100%',
+              height: 3,
+              background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+              borderRadius: '2px',
             },
-            color: 'error'
-          }
-        ]}
-      />
+          }}
+        >
+          Jobs Management
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mt: 1, fontSize: '1.1rem' }}>
+          Manage job postings and track applications
+        </Typography>
 
-      {/* Create/Edit Job Dialog */}
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>
-          {editingJob ? 'Edit Job' : 'Create New Job'}
-        </DialogTitle>
-        <DialogContent>
-          <Box sx={{ pt: 1 }}>
+        {/* Statistics Cards - Updated Grid syntax */}
+        <Grid container spacing={3} sx={{ mt: 3, mb: 4 }}>
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
+            <Card>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <WorkIcon color="primary" />
+                  <Box>
+                    <Typography variant="h6">
+                      {jobs.length}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Total Jobs
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
+            <Card>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Chip label="Published" color="success" size="small" />
+                  <Box>
+                    <Typography variant="h6">
+                      {jobs.filter(j => j.status === 'published').length}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Published
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
+            <Card>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Chip label="Draft" color="default" size="small" />
+                  <Box>
+                    <Typography variant="h6">
+                      {jobs.filter(j => j.status === 'draft').length}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Drafts
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
+            <Card>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Chip label="High Priority" color="error" size="small" />
+                  <Box>
+                    <Typography variant="h6">
+                      {jobs.filter(j => j.priority === 'high').length}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      High Priority
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {/* Add Job Button */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography variant="h5" component="h2">
+            Job Listings
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setDialogOpen(true)}
+            sx={{
+              background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+              boxShadow: '0 4px 12px rgba(33, 150, 243, 0.3)',
+              '&:hover': {
+                boxShadow: '0 6px 20px rgba(33, 150, 243, 0.4)',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            Add New Job
+          </Button>
+        </Box>
+
+        {/* Jobs Table - Using Official MUI Table */}
+        <MUIDataTable
+          title="Jobs"
+          columns={columns}
+          rows={jobs}
+          actions={actions}
+          loading={loading}
+          onDelete={handleDeleteJobs}
+        />
+
+        {/* Job Form Dialog */}
+        <Dialog 
+          open={dialogOpen} 
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>
+            {editingJob ? 'Edit Job' : 'Create New Job'}
+          </DialogTitle>
+          <DialogContent>
             <JobForm
               initialData={editingJob}
-              onSubmit={handleJobSubmit}
+              onSubmit={handleSubmit}
               isLoading={loading}
             />
-          </Box>
-        </DialogContent>
-      </Dialog>
-
-      {/* Floating Action Button for Mobile */}
-      <Fab
-        color="primary"
-        aria-label="add job"
-        onClick={handleCreateJob}
-        sx={{
-          position: 'fixed',
-          bottom: 16,
-          right: 16,
-          display: { xs: 'flex', md: 'none' }
-        }}
-      >
-        <AddIcon />
-      </Fab>
-    </Box>
+          </DialogContent>
+        </Dialog>
+      </Box>
+    </Container>
   );
 };
 
-// Export the route
 export const Route = createFileRoute('/jobs')({
   component: JobsPage,
 });

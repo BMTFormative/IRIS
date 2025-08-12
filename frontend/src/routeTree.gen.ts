@@ -16,6 +16,7 @@ import { Route as ResetPasswordImport } from './routes/reset-password'
 import { Route as RecoverPasswordImport } from './routes/recover-password'
 import { Route as LoginImport } from './routes/login'
 import { Route as JobsImport } from './routes/jobs'
+import { Route as CoreDataImport } from './routes/core-data'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
@@ -47,6 +48,11 @@ const LoginRoute = LoginImport.update({
 
 const JobsRoute = JobsImport.update({
   path: '/jobs',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CoreDataRoute = CoreDataImport.update({
+  path: '/core-data',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -86,6 +92,10 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_layout': {
       preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/core-data': {
+      preLoaderRoute: typeof CoreDataImport
       parentRoute: typeof rootRoute
     }
     '/jobs': {
@@ -141,6 +151,7 @@ export const routeTree = rootRoute.addChildren([
     LayoutSettingsRoute,
     LayoutIndexRoute,
   ]),
+  CoreDataRoute,
   JobsRoute,
   LoginRoute,
   RecoverPasswordRoute,

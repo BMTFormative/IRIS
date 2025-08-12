@@ -116,13 +116,13 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
       <Box component="form" onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Personal Information */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Personal Information
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="First Name"
@@ -133,7 +133,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Last Name"
@@ -144,7 +144,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Email"
@@ -156,7 +156,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Phone"
@@ -167,7 +167,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               label="Location"
@@ -179,13 +179,13 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           </Grid>
           
           {/* Professional Information */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Professional Information
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Current Title"
@@ -195,7 +195,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Current Company"
@@ -205,7 +205,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Years of Experience"
@@ -217,7 +217,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <FormControl fullWidth>
               <InputLabel>Source</InputLabel>
               <Select
@@ -234,7 +234,14 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             </FormControl>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          {/* Links & Social */}
+          <Grid size={12}>
+            <Typography variant="h6" gutterBottom color="primary">
+              Links & Social
+            </Typography>
+          </Grid>
+          
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="LinkedIn URL"
@@ -245,7 +252,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Portfolio URL"
@@ -256,14 +263,14 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
             />
           </Grid>
           
-          {/* Skills and Tags */}
-          <Grid item xs={12}>
+          {/* Skills & Tags */}
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Skills & Tags
             </Typography>
           </Grid>
           
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Autocomplete
               multiple
               options={skillOptions}
@@ -284,13 +291,13 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                 <TextField
                   {...params}
                   label="Skills"
-                  placeholder="Add skills (e.g., Python, React, AWS)"
+                  placeholder="Select or type skills..."
                 />
               )}
             />
           </Grid>
           
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Autocomplete
               multiple
               options={tagOptions}
@@ -311,20 +318,20 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                 <TextField
                   {...params}
                   label="Tags"
-                  placeholder="Add tags for categorization"
+                  placeholder="Add tags..."
                 />
               )}
             />
           </Grid>
           
-          {/* Additional Contact Information */}
-          <Grid item xs={12}>
+          {/* Additional Information */}
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
-              Additional Contact Information
+              Additional Information
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={12}>
             <Autocomplete
               multiple
               freeSolo
@@ -336,7 +343,7 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
-                    size="small"
+                    color="info"
                   />
                 ))
               }
@@ -344,14 +351,14 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                 <TextField
                   {...params}
                   label="Additional Emails"
-                  placeholder="Add additional email addresses"
+                  placeholder="Add additional email addresses..."
                 />
               )}
               options={[]}
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={12}>
             <Autocomplete
               multiple
               freeSolo
@@ -363,29 +370,22 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
-                    size="small"
+                    color="warning"
                   />
                 ))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Additional Phone Numbers"
-                  placeholder="Add additional phone numbers"
+                  label="Additional Phones"
+                  placeholder="Add additional phone numbers..."
                 />
               )}
               options={[]}
             />
           </Grid>
           
-          {/* Notes */}
-          <Grid item xs={12}>
-            <Typography variant="h6" gutterBottom color="primary">
-              Notes
-            </Typography>
-          </Grid>
-          
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               label="Notes"
@@ -399,23 +399,18 @@ const CandidateForm: React.FC<CandidateFormProps> = ({
           </Grid>
           
           {/* Submit Button */}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={isLoading}
-                sx={{ minWidth: 120 }}
-              >
-                {isLoading ? 'Saving...' : initialData ? 'Update Candidate' : 'Add Candidate'}
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={() => window.history.back()}
-              >
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', pt: 2 }}>
+              <Button variant="outlined" color="secondary">
                 Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                variant="contained" 
+                color="primary"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Saving...' : (initialData ? 'Update Candidate' : 'Add Candidate')}
               </Button>
             </Box>
           </Grid>

@@ -3,38 +3,37 @@ import React, { useState } from 'react';
 import {
   Box,
   TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Chip,
-  OutlinedInput,
   Button,
   Grid,
   Paper,
   Typography,
-  Switch,
+  Chip,
+  Autocomplete,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
   FormControlLabel,
-  Autocomplete
+  Switch
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 interface JobFormData {
   title: string;
+  job_number: string;
   description: string;
   location: string;
   department: string;
-  job_number: string;
-  status: 'draft' | 'published' | 'closed' | 'archived';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  salary_min?: number;
-  salary_max?: number;
-  employment_type: string;
+  status: 'draft' | 'published' | 'closed';
+  priority: 'low' | 'medium' | 'high';
+  employment_type: 'full-time' | 'part-time' | 'contract' | 'internship';
   remote_allowed: boolean;
-  experience_required: string;
   required_skills: string[];
   preferred_skills: string[];
   tags: string[];
+  salary_min?: number;
+  salary_max?: number;
+  experience_required: string;
 }
 
 interface JobFormProps {
@@ -43,21 +42,25 @@ interface JobFormProps {
   isLoading?: boolean;
 }
 
-const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = false }) => {
+const JobForm: React.FC<JobFormProps> = ({ 
+  initialData, 
+  onSubmit, 
+  isLoading = false 
+}) => {
   const [formData, setFormData] = useState<JobFormData>({
     title: '',
+    job_number: '',
     description: '',
     location: '',
     department: '',
-    job_number: '',
     status: 'draft',
     priority: 'medium',
     employment_type: 'full-time',
     remote_allowed: false,
-    experience_required: '',
     required_skills: [],
     preferred_skills: [],
     tags: [],
+    experience_required: '',
     ...initialData
   });
 
@@ -94,7 +97,13 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
 
   const skillOptions = [
     'Python', 'JavaScript', 'React', 'FastAPI', 'PostgreSQL', 'Docker', 
-    'AWS', 'Git', 'TypeScript', 'Node.js', 'MongoDB', 'Redis'
+    'AWS', 'Git', 'TypeScript', 'Node.js', 'MongoDB', 'Redis', 'Java',
+    'C++', 'Go', 'Kubernetes', 'Machine Learning', 'Data Science'
+  ];
+
+  const tagOptions = [
+    'engineering', 'senior', 'junior', 'remote', 'urgent', 'contract',
+    'full-time', 'startup', 'enterprise', 'fintech', 'healthtech'
   ];
 
   return (
@@ -106,13 +115,13 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
       <Box component="form" onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Basic Information */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Basic Information
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={8}>
+          <Grid size={8}>
             <TextField
               fullWidth
               label="Job Title"
@@ -123,7 +132,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={4}>
             <TextField
               fullWidth
               label="Job Number"
@@ -135,7 +144,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               label="Job Description"
@@ -148,7 +157,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Location"
@@ -159,7 +168,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Department"
@@ -170,13 +179,13 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
           </Grid>
           
           {/* Job Details */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Job Details
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={{xs: 12, md: 4}}>
             <FormControl fullWidth>
               <InputLabel>Status</InputLabel>
               <Select
@@ -187,12 +196,11 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 <MenuItem value="draft">Draft</MenuItem>
                 <MenuItem value="published">Published</MenuItem>
                 <MenuItem value="closed">Closed</MenuItem>
-                <MenuItem value="archived">Archived</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={{xs: 12, md: 4}}>
             <FormControl fullWidth>
               <InputLabel>Priority</InputLabel>
               <Select
@@ -203,12 +211,11 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 <MenuItem value="low">Low</MenuItem>
                 <MenuItem value="medium">Medium</MenuItem>
                 <MenuItem value="high">High</MenuItem>
-                <MenuItem value="urgent">Urgent</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={{xs: 12, md: 4}}>
             <FormControl fullWidth>
               <InputLabel>Employment Type</InputLabel>
               <Select
@@ -216,15 +223,22 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 label="Employment Type"
                 onChange={handleSelectChange('employment_type')}
               >
-                <MenuItem value="full-time">Full-time</MenuItem>
-                <MenuItem value="part-time">Part-time</MenuItem>
+                <MenuItem value="full-time">Full Time</MenuItem>
+                <MenuItem value="part-time">Part Time</MenuItem>
                 <MenuItem value="contract">Contract</MenuItem>
                 <MenuItem value="internship">Internship</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          {/* Compensation */}
+          <Grid size={12}>
+            <Typography variant="h6" gutterBottom color="primary">
+              Compensation
+            </Typography>
+          </Grid>
+          
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Minimum Salary"
@@ -238,7 +252,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <TextField
               fullWidth
               label="Maximum Salary"
@@ -252,7 +266,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={8}>
+          <Grid size={8}>
             <TextField
               fullWidth
               label="Experience Required"
@@ -263,7 +277,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
             />
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={4}>
             <FormControlLabel
               control={
                 <Switch
@@ -277,13 +291,13 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
           </Grid>
           
           {/* Skills */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" gutterBottom color="primary">
               Skills & Requirements
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <Autocomplete
               multiple
               options={skillOptions}
@@ -304,13 +318,13 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 <TextField
                   {...params}
                   label="Required Skills"
-                  placeholder="Add required skills"
+                  placeholder="Select or type skills..."
                 />
               )}
             />
           </Grid>
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <Autocomplete
               multiple
               options={skillOptions}
@@ -323,7 +337,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
-                    color="warning"
+                    color="primary"
                   />
                 ))
               }
@@ -331,16 +345,16 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 <TextField
                   {...params}
                   label="Preferred Skills"
-                  placeholder="Add preferred skills"
+                  placeholder="Select or type skills..."
                 />
               )}
             />
           </Grid>
           
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Autocomplete
               multiple
-              options={['engineering', 'remote', 'senior', 'junior', 'urgent']}
+              options={tagOptions}
               freeSolo
               value={formData.tags}
               onChange={handleSkillsChange('tags')}
@@ -350,7 +364,7 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                     variant="filled"
                     label={option}
                     {...getTagProps({ index })}
-                    color="primary"
+                    color="secondary"
                   />
                 ))
               }
@@ -358,30 +372,25 @@ const JobForm: React.FC<JobFormProps> = ({ initialData, onSubmit, isLoading = fa
                 <TextField
                   {...params}
                   label="Tags"
-                  placeholder="Add tags for categorization"
+                  placeholder="Add tags..."
                 />
               )}
             />
           </Grid>
           
           {/* Submit Button */}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={isLoading}
-                sx={{ minWidth: 120 }}
-              >
-                {isLoading ? 'Saving...' : initialData ? 'Update Job' : 'Create Job'}
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={() => window.history.back()}
-              >
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', pt: 2 }}>
+              <Button variant="outlined" color="secondary">
                 Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                variant="contained" 
+                color="primary"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Saving...' : (initialData ? 'Update Job' : 'Create Job')}
               </Button>
             </Box>
           </Grid>

@@ -1,4 +1,4 @@
-// frontend/src/components/Common/Sidebar-mui.tsx (Mini Variant Version)
+// frontend/src/components/Common/Sidebar-mui.tsx
 import React from "react";
 import {
   Box,
@@ -23,7 +23,8 @@ import {
   Logout as LogoutIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  Work as WorkIcon, 
+  Work as WorkIcon,
+  Storage as StorageIcon, // New icon for Core Data
 } from "@mui/icons-material";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link as RouterLink, useRouterState } from "@tanstack/react-router";
@@ -37,6 +38,8 @@ const miniDrawerWidth = 64;
 const menuItems = [
   { icon: HomeIcon, title: "Dashboard", path: "/" },
   { icon: InventoryIcon, title: "Items", path: "/items" },
+  { icon: StorageIcon, title: "Core Data", path: "/core-data" }, // New Core Data menu item
+  { icon: WorkIcon, title: "Jobs", path: "/jobs" },
   { icon: SettingsIcon, title: "User Settings", path: "/settings" },
   { icon: WorkIcon, title: "Job Matching", path: "/job-matching" },
 ];
@@ -189,28 +192,34 @@ const MiniVariantDrawer = ({
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
-                    margin: "16px 8px",
                     borderRadius: "12px",
-                    color: theme.palette.text.primary,
-                    transition: theme.transitions.create(
-                      ["background-color", "transform", "box-shadow"],
-                      { duration: theme.transitions.duration.short }
-                    ),
+                    mx: 1,
+                    my: 0.5,
+                    transition: "all 0.2s ease-in-out",
+                    backgroundColor: isActive
+                      ? alpha(theme.palette.primary.main, 0.12)
+                      : "transparent",
+                    color: isActive
+                      ? theme.palette.primary.main
+                      : theme.palette.text.primary,
                     "&:hover": {
-                      backgroundColor: "rgba(33, 150, 243, 0.08)",
-                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
+                      backgroundColor: isActive
+                        ? alpha(theme.palette.primary.main, 0.16)
+                        : alpha(theme.palette.action.hover, 0.08),
                       transform: "translateX(4px)",
                     },
                     "&.Mui-selected": {
-                      backgroundColor: theme.palette.action.selected,
-                      boxShadow: theme.shadows[2],
-                      "&:hover": {
-                        backgroundColor: "rgba(33, 150, 243, 0.08)",
-                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
-                        transform: "translateX(4px)",
-                      },
-                      "& .MuiListItemIcon-root": {
-                        color: theme.palette.text.primary,
+                      backgroundColor: alpha(theme.palette.primary.main, 0.12),
+                      "&::before": {
+                        content: '""',
+                        position: "absolute",
+                        left: 0,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        width: "4px",
+                        height: "60%",
+                        backgroundColor: theme.palette.primary.main,
+                        borderRadius: "0 4px 4px 0",
                       },
                     },
                   })}
@@ -218,25 +227,26 @@ const MiniVariantDrawer = ({
                   <ListItemIcon
                     sx={(theme) => ({
                       minWidth: 0,
-                      mr: open ? theme.spacing(3) : "auto",
+                      mr: open ? 3 : "auto",
                       justifyContent: "center",
-                      color: theme.palette.text.primary,
+                      color: isActive
+                        ? theme.palette.primary.main
+                        : theme.palette.text.primary,
+                      transition: "color 0.2s ease-in-out",
                     })}
                   >
                     <Icon />
                   </ListItemIcon>
                   <ListItemText
                     primary={item.title}
-                    sx={(theme) => ({
+                    sx={{
                       opacity: open ? 1 : 0,
+                      transition: "opacity 0.2s ease-in-out",
                       "& .MuiListItemText-primary": {
                         fontSize: "0.875rem",
-                        fontWeight: isActive
-                          ? theme.typography.fontWeightBold
-                          : theme.typography.fontWeightRegular,
-                        color: theme.palette.text.primary,
+                        fontWeight: isActive ? 600 : 400,
                       },
-                    })}
+                    }}
                   />
                 </ListItemButton>
               </Tooltip>
@@ -245,71 +255,69 @@ const MiniVariantDrawer = ({
         })}
       </List>
 
-      <Divider
-        sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })}
-      />
-
-      {/* Logout at bottom */}
-      <Box sx={{ mt: "auto" }}>
-        <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <Tooltip
-              title={!open ? "Logout" : ""}
-              placement="right"
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    bgcolor: alpha(theme.palette.background.paper, 0.9),
-                    fontSize: "0.75rem",
-                    boxShadow: theme.shadows[2],
-                  },
+      {/* Logout Button */}
+      <Box sx={{ mt: "auto", p: 1 }}>
+        <Divider
+          sx={(theme) => ({
+            borderColor: alpha(theme.palette.divider, 0.12),
+            my: 1,
+          })}
+        />
+        <ListItem disablePadding sx={{ display: "block" }}>
+          <Tooltip
+            title={!open ? "Logout" : ""}
+            placement="right"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: "rgba(0, 0, 0, 0.9)",
+                  fontSize: "0.75rem",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
                 },
-              }}
+              },
+            }}
+          >
+            <ListItemButton
+              onClick={handleLogout}
+              sx={(theme) => ({
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                borderRadius: "12px",
+                mx: 1,
+                my: 0.5,
+                transition: "all 0.2s ease-in-out",
+                color: theme.palette.error.main,
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.error.main, 0.08),
+                  transform: "translateX(4px)",
+                },
+              })}
             >
-              <ListItemButton
-                onClick={handleLogout}
+              <ListItemIcon
                 sx={(theme) => ({
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                  margin: "4px 8px",
-                  borderRadius: "12px",
-                  color: theme.palette.text.primary,
-                  transition: theme.transitions.create(
-                    ["background-color", "transform", "box-shadow"],
-                    { duration: theme.transitions.duration.short }
-                  ),
-                  "&:hover": {
-                    backgroundColor: alpha(theme.palette.error.main, 0.2),
-                    boxShadow: theme.shadows[2],
-                    transform: "translateX(4px)",
-                  },
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                  color: theme.palette.error.main,
                 })}
               >
-                <ListItemIcon
-                  sx={(theme) => ({
-                    minWidth: 0,
-                    mr: open ? theme.spacing(3) : "auto",
-                    justifyContent: "center",
-                    color: theme.palette.text.primary,
-                  })}
-                >
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Logout"
-                  sx={(theme) => ({
-                    opacity: open ? 1 : 0,
-                    "& .MuiListItemText-primary": {
-                      fontSize: "0.875rem",
-                      color: theme.palette.text.primary,
-                    },
-                  })}
-                />
-              </ListItemButton>
-            </Tooltip>
-          </ListItem>
-        </List>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Logout"
+                sx={{
+                  opacity: open ? 1 : 0,
+                  transition: "opacity 0.2s ease-in-out",
+                  "& .MuiListItemText-primary": {
+                    fontSize: "0.875rem",
+                    fontWeight: 400,
+                  },
+                }}
+              />
+            </ListItemButton>
+          </Tooltip>
+        </ListItem>
       </Box>
     </StyledDrawer>
   );
