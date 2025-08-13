@@ -39,7 +39,6 @@ const menuItems = [
   { icon: HomeIcon, title: "Dashboard", path: "/" },
   { icon: InventoryIcon, title: "Items", path: "/items" },
   { icon: StorageIcon, title: "Core Data", path: "/core-data" }, // New Core Data menu item
-  { icon: WorkIcon, title: "Jobs", path: "/jobs" },
   { icon: SettingsIcon, title: "User Settings", path: "/settings" },
   { icon: WorkIcon, title: "Job Matching", path: "/job-matching" },
 ];
