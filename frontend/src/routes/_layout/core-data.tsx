@@ -273,7 +273,7 @@ const CoreDataPage: React.FC = () => {
     {
       icon: <ViewIcon />,
       label: 'View',
-      onClick: (row) => console.log('View job:', row)
+      onClick: (row) => openDialog('job', row)
     },
     {
       icon: <EditIcon />,
@@ -292,7 +292,7 @@ const CoreDataPage: React.FC = () => {
     {
       icon: <ViewIcon />,
       label: 'View',
-      onClick: (row) => console.log('View candidate:', row)
+      onClick: (row) => openDialog('candidate', row)
     },
     {
       icon: <EditIcon />,
