@@ -3,7 +3,7 @@ import uuid
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlmodel import func, select
+from sqlmodel import func, select, delete  
 from app.api.deps import SessionDep
 from app.core.permissions import (
     require_admin, 
@@ -177,25 +177,19 @@ def update_role(
 
     # Update permissions if provided
     if role_in.permission_ids is not None:
-        # Deactivate existing permissions
-        existing_perms = db.exec(
-            select(RolePermission).where(
-                RolePermission.role_id == role.id,
-                RolePermission.is_active == True
-            )
-        ).all()
+        # Delete all existing role-permission associations
+        db.exec(
+            delete(RolePermission).where(RolePermission.role_id == role.id)
+        )
         
-        for perm in existing_perms:
-            perm.is_active = False
-            db.add(perm)
-
         # Add new permissions
         for perm_id in role_in.permission_ids:
             permission = db.get(Permission, perm_id)
-            if permission:
+            if permission and permission.is_active:
                 role_perm = RolePermission(
                     role_id=role.id,
-                    permission_id=perm_id
+                    permission_id=perm_id,
+                    is_active=True
                 )
                 db.add(role_perm)
 

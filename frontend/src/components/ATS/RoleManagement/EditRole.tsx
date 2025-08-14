@@ -8,18 +8,24 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Chip,
   Box,
   Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Autocomplete,
+  Chip,
+  Paper,
 } from "@mui/material"
-import { Edit as EditIcon } from "@mui/icons-material"
+import { 
+  Edit as EditIcon, 
+  ExpandMore as ExpandMoreIcon,
+  Person as PersonIcon,
+  Security as SecurityIcon,
+} from "@mui/icons-material"
 
 import { ATSService } from "@/client/ats"
-import type { ApiError, RolePublic } from "@/client"
+import type { ApiError, RolePublic, PermissionPublic } from "@/client"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import Button from "@mui/material/Button"
@@ -39,6 +45,7 @@ interface RoleUpdateForm {
 const EditRole = ({ role, open, onOpenChange }: EditRoleProps) => {
   const queryClient = useQueryClient()
   const { showSuccessToast } = useCustomToast()
+  const [expandedPanels, setExpandedPanels] = useState<string[]>(['basic-info', 'permissions'])
 
   const {
     register,
@@ -49,11 +56,6 @@ const EditRole = ({ role, open, onOpenChange }: EditRoleProps) => {
   } = useForm<RoleUpdateForm>({
     mode: "onBlur",
     criteriaMode: "all",
-    defaultValues: {
-      name: role.name,
-      description: role.description || "",
-      permission_ids: role.permissions?.map(p => p.id) || [],
-    },
   })
 
   // Fetch available permissions
@@ -62,20 +64,24 @@ const EditRole = ({ role, open, onOpenChange }: EditRoleProps) => {
     queryFn: () => ATSService.getPermissions(),
   })
 
-  // Reset form when role or dialog state changes
+  // Reset form when role changes
   useEffect(() => {
-    if (open) {
+    if (role) {
       reset({
         name: role.name,
         description: role.description || "",
-        permission_ids: role.permissions?.map(p => p.id) || [],
+        permission_ids: role.permissions?.map((p) => p.id) || [],
       })
     }
-  }, [open, role, reset])
+  }, [role, reset])
 
   const mutation = useMutation({
     mutationFn: (data: RoleUpdateForm) =>
-      ATSService.updateRole(role.id, data),
+      ATSService.updateRole(role.id, {
+        name: data.name,
+        description: data.description,
+        permission_ids: data.permission_ids,
+      }),
     onSuccess: () => {
       showSuccessToast("Role updated successfully")
       onOpenChange(false)
@@ -92,106 +98,314 @@ const EditRole = ({ role, open, onOpenChange }: EditRoleProps) => {
     mutation.mutate(data)
   }
 
+  const handlePanelChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpandedPanels(prev => 
+      isExpanded 
+        ? [...prev, panel]
+        : prev.filter(p => p !== panel)
+    )
+  }
+
+  const groupPermissionsByType = (permissions: PermissionPublic[]) => {
+    const grouped = permissions.reduce((acc, permission) => {
+      const type = permission.permission_type || 'Other'
+      if (!acc[type]) acc[type] = []
+      acc[type].push(permission)
+      return acc
+    }, {} as Record<string, PermissionPublic[]>)
+    
+    return grouped
+  }
+
+  const permissionGroups = permissionsData?.data ? groupPermissionsByType(permissionsData.data) : {}
+
   return (
-    <Dialog open={open} onClose={() => onOpenChange(false)} maxWidth="md" fullWidth>
+    <Dialog 
+      open={open} 
+      onClose={() => onOpenChange(false)} 
+      maxWidth="md" 
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+        }
+      }}
+    >
       <DialogTitle
         sx={{
           background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
           color: "white",
-          mb: 0,
+          p: 3,
+          borderRadius: '8px 8px 0 0',
         }}
       >
         <Box display="flex" alignItems="center" gap={2}>
           <EditIcon />
-          <Typography variant="h6" component="span">
+          <Typography variant="h6" component="span" fontWeight={600}>
             Edit Role
           </Typography>
         </Box>
       </DialogTitle>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent sx={{ mt: 2 }}>
-          <Box display="flex" flexDirection="column" gap={3}>
-            <TextField
-              {...register("name", {
-                required: "Role name is required",
-                minLength: {
-                  value: 2,
-                  message: "Role name must be at least 2 characters",
+        <DialogContent sx={{ p: 0, backgroundColor: '#fafafa' }}>
+          
+          {/* Basic Information Accordion */}
+          <Accordion 
+            expanded={expandedPanels.includes('basic-info')}
+            onChange={handlePanelChange('basic-info')}
+            elevation={0}
+            sx={{ 
+              '&:before': { display: 'none' },
+              borderBottom: '1px solid #e0e0e0',
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              sx={{
+                backgroundColor: 'white',
+                minHeight: '64px',
+                '& .MuiAccordionSummary-content': {
+                  alignItems: 'center',
                 },
-              })}
-              label="Role Name"
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              fullWidth
-              variant="outlined"
-            />
+                borderBottom: '1px solid #f0f0f0',
+              }}
+            >
+              <Box display="flex" alignItems="center" gap={2}>
+                <PersonIcon sx={{ color: '#1976D2' }} />
+                <Box>
+                  <Typography variant="h6" fontWeight={600}>
+                    Basic Information
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Role name and description
+                  </Typography>
+                </Box>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails sx={{ p: 3, backgroundColor: 'white' }}>
+              <Box display="flex" flexDirection="column" gap={3}>
+                <TextField
+                  {...register("name", {
+                    required: "Role name is required",
+                    minLength: {
+                      value: 2,
+                      message: "Role name must be at least 2 characters",
+                    },
+                  })}
+                  label="Role Name"
+                  placeholder="Enter a descriptive role name"
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                  fullWidth
+                  variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    }
+                  }}
+                />
 
-            <TextField
-              {...register("description")}
-              label="Description"
-              multiline
-              rows={3}
-              fullWidth
-              variant="outlined"
-            />
+                <TextField
+                  {...register("description")}
+                  label="Description"
+                  placeholder="Describe the role's purpose and responsibilities"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    }
+                  }}
+                />
+              </Box>
+            </AccordionDetails>
+          </Accordion>
 
-            <FormControl fullWidth>
-              <InputLabel>Permissions</InputLabel>
+          {/* Permissions Accordion */}
+          <Accordion 
+            expanded={expandedPanels.includes('permissions')}
+            onChange={handlePanelChange('permissions')}
+            elevation={0}
+            sx={{ 
+              '&:before': { display: 'none' },
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              sx={{
+                backgroundColor: 'white',
+                minHeight: '64px',
+                '& .MuiAccordionSummary-content': {
+                  alignItems: 'center',
+                },
+                borderBottom: '1px solid #f0f0f0',
+              }}
+            >
+              <Box display="flex" alignItems="center" gap={2}>
+                <SecurityIcon sx={{ color: '#1976D2' }} />
+                <Box>
+                  <Typography variant="h6" fontWeight={600}>
+                    Permissions
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Select permissions for this role
+                  </Typography>
+                </Box>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails sx={{ p: 3, backgroundColor: 'white' }}>
               <Controller
                 name="permission_ids"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    {...field}
+                  <Autocomplete
                     multiple
-                    label="Permissions"
-                    renderValue={(selected) => (
-                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                        {(selected as string[]).map((value) => {
-                          const permission = permissionsData?.data.find(
-                            (p) => p.id === value
-                          )
-                          return (
-                            <Chip
-                              key={value}
-                              label={permission?.name || value}
-                              size="small"
-                              sx={{
-                                backgroundColor: "rgba(25, 118, 210, 0.1)",
-                                color: "#1976D2",
-                              }}
-                            />
-                          )
-                        })}
-                      </Box>
+                    value={field.value.map(id => 
+                      permissionsData?.data.find(p => p.id === id)
+                    ).filter(Boolean) as PermissionPublic[]}
+                    onChange={(_event, newValue) => {
+                      field.onChange(newValue.map(permission => permission.id))
+                    }}
+                    options={permissionsData?.data || []}
+                    groupBy={(option) => option.permission_type || 'Other'}
+                    getOptionLabel={(option) => option.name}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Search and select permissions"
+                        placeholder="Type to search permissions..."
+                        variant="outlined"
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: 2,
+                          }
+                        }}
+                      />
                     )}
-                  >
-                    {permissionsData?.data.map((permission) => (
-                      <MenuItem key={permission.id} value={permission.id}>
-                        <Box>
-                          <Typography variant="body2" fontWeight="medium">
-                            {permission.name}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          {...getTagProps({ index })}
+                          key={option.id}
+                          label={option.name}
+                          size="medium"
+                          sx={{
+                            backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                            color: '#1976D2',
+                            fontWeight: 500,
+                            '& .MuiChip-deleteIcon': {
+                              color: '#1976D2',
+                            },
+                          }}
+                        />
+                      ))
+                    }
+                    renderOption={(props, option, { selected }) => (
+                      <Box
+                        component="li"
+                        {...props}
+                        sx={{
+                          borderRadius: 1,
+                          margin: '2px 8px',
+                          backgroundColor: selected ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                          '&:hover': {
+                            backgroundColor: 'rgba(25, 118, 210, 0.04)',
+                          },
+                        }}
+                      >
+                        <Box sx={{ width: '100%' }}>
+                          <Typography variant="body2" fontWeight={selected ? 600 : 500}>
+                            {option.name}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                            {permission.description}
+                            {option.description || "No description available"}
                           </Typography>
                         </Box>
-                      </MenuItem>
-                    ))}
-                  </Select>
+                      </Box>
+                    )}
+                    renderGroup={(params) => (
+                      <Box key={params.key}>
+                        <Typography
+                          variant="overline"
+                          sx={{
+                            px: 2,
+                            py: 1,
+                            backgroundColor: '#f5f5f5',
+                            fontWeight: 600,
+                            color: '#1976D2',
+                            borderBottom: '1px solid #e0e0e0',
+                            display: 'block',
+                          }}
+                        >
+                          {params.group}
+                        </Typography>
+                        {params.children}
+                      </Box>
+                    )}
+                    PaperComponent={({ children, ...props }) => (
+                      <Paper
+                        {...props}
+                        sx={{
+                          borderRadius: 2,
+                          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                          border: '1px solid #e0e0e0',
+                          maxHeight: '400px',
+                        }}
+                      >
+                        {children}
+                      </Paper>
+                    )}
+                    ChipProps={{
+                      deleteIcon: <Box>×</Box>,
+                    }}
+                    sx={{
+                      '& .MuiAutocomplete-inputRoot': {
+                        minHeight: '56px',
+                      },
+                    }}
+                  />
                 )}
               />
-            </FormControl>
-          </Box>
+              
+              {/* Permission Summary */}
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" color="text.secondary">
+                  {Object.entries(permissionGroups).map(([type, permissions]) => (
+                    <span key={type}>
+                      <strong>{type}:</strong> {permissions.length} permissions{' '}
+                    </span>
+                  ))}
+                </Typography>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
         </DialogContent>
 
-        <DialogActions sx={{ p: 3, gap: 2 }}>
+        <DialogActions 
+          sx={{ 
+            p: 3, 
+            gap: 2, 
+            backgroundColor: 'white',
+            borderTop: '1px solid #e0e0e0',
+          }}
+        >
           <Button
             variant="outlined"
             color="inherit"
             onClick={() => onOpenChange(false)}
             disabled={isSubmitting}
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              py: 1.5,
+              fontWeight: 600,
+            }}
           >
             Cancel
           </Button>
@@ -199,15 +413,22 @@ const EditRole = ({ role, open, onOpenChange }: EditRoleProps) => {
           <Button
             type="submit"
             variant="contained"
-            loading={isSubmitting}
+            disabled={isSubmitting}
             sx={{
+              borderRadius: 2,
+              px: 3,
+              py: 1.5,
+              fontWeight: 600,
               background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
               "&:hover": {
                 background: "linear-gradient(135deg, #1565C0 0%, #1976D2 100%)",
               },
+              "&:disabled": {
+                background: "rgba(0, 0, 0, 0.12)",
+              },
             }}
           >
-            Update Role
+            {isSubmitting ? 'Updating...' : 'Update Role'}
           </Button>
         </DialogActions>
       </form>
