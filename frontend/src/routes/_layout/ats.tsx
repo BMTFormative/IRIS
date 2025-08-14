@@ -1,96 +1,155 @@
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Tabs, 
-  Tab, 
-  Paper, 
-  Grid,
+// frontend/src/routes/_layout/ats.tsx
+import { useState } from "react"
+import { createFileRoute } from "@tanstack/react-router"
+import {
+  Container,
+  Typography,
+  Box,
   Card,
   CardContent,
-  Divider,
+  Tabs,
+  Tab,
+  Paper,
+  Stack,
   Chip,
-  Stack
+  Grid,
+  Divider,
+  useTheme,
+  alpha,
+  Button,
 } from "@mui/material"
-import { useState } from "react"
 import {
   Security as SecurityIcon,
-  ManageAccounts as ManageAccountsIcon,
   VpnKey as VpnKeyIcon,
-  Dashboard as DashboardIcon,
+  ManageAccounts as ManageAccountsIcon,
+  AdminPanelSettings as AdminIcon,
+  Assignment as PermissionsIcon,
+  People as UsersIcon,
+  Add as AddIcon,
 } from "@mui/icons-material"
-import { createFileRoute } from '@tanstack/react-router'
 
+// Import ATS components
 import { ProtectedRoute } from "@/components/Common/ProtectedRoute"
 import AddRole from "@/components/ATS/RoleManagement/AddRole"
 import RolesTable from "@/components/ATS/RoleManagement/RolesTable"
 import PermissionsTable from "@/components/ATS/Permissions/PermissionsTable"
 import UserRoleManagement from "@/components/ATS/UserRoles/UserRoleManagement"
 
+// TabPanel component for tab content
 interface TabPanelProps {
   children?: React.ReactNode
   index: number
   value: number
 }
 
-function TabPanel({ children, value, index }: TabPanelProps) {
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
   return (
-    <div role="tabpanel" hidden={value !== index}>
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`ats-tabpanel-${index}`}
+      aria-labelledby={`ats-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
   )
 }
 
-const ATS = () => {
-  const [tabValue, setTabValue] = useState(0)
+// Tab accessibility props
+function a11yProps(index: number) {
+  return {
+    id: `ats-tab-${index}`,
+    'aria-controls': `ats-tabpanel-${index}`,
+  }
+}
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+function ATS() {
+  const [tabValue, setTabValue] = useState(0)
+  const theme = useTheme()
+
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
   }
 
+  // Function to trigger the AddRole dialog
+  const triggerAddRole = () => {
+    // Find and click the hidden AddRole FAB button
+    const addRoleFab = document.querySelector('[aria-label="add role"]') as HTMLButtonElement
+    if (addRoleFab) {
+      addRoleFab.click()
+    }
+  }
+
+  // Tab configuration - no hardcoded data
+  const tabs = [
+    { 
+      label: "Role Management", 
+      icon: <AdminIcon />, 
+      description: "Create and manage user roles with permissions" 
+    },
+    { 
+      label: "Permissions", 
+      icon: <PermissionsIcon />, 
+      description: "View system permissions and access controls" 
+    },
+    { 
+      label: "User Management", 
+      icon: <UsersIcon />, 
+      description: "Assign roles to users and manage access" 
+    }
+  ]
+
+  // Quick stats configuration - no hardcoded numbers
+  const quickStats = [
+    { icon: <SecurityIcon />, label: "Role-Based Access Control" },
+    { icon: <VpnKeyIcon />, label: "Granular Permissions" },
+    { icon: <ManageAccountsIcon />, label: "User Management" }
+  ]
+
   return (
     <ProtectedRoute permissions={["manage_users", "system_admin"]}>
-      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-        {/* Header Section */}
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        {/* Header Card with Gradient */}
         <Card
           elevation={0}
           sx={{
-            mb: 4,
-            background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
             color: "white",
-            position: "relative",
+            borderRadius: 4,
+            mb: 4,
             overflow: "hidden",
-            border: "none",
+            position: "relative",
             "&::before": {
               content: '""',
               position: "absolute",
               top: 0,
-              right: 0,
-              width: "100px",
-              height: "100px",
-              background: "rgba(255, 255, 255, 0.1)",
-              borderRadius: "50%",
-              transform: "translate(30px, -30px)",
-            },
-            "&::after": {
-              content: '""',
-              position: "absolute",
-              bottom: 0,
               left: 0,
-              width: "60px",
-              height: "60px",
-              background: "rgba(255, 255, 255, 0.1)",
-              borderRadius: "50%",
-              transform: "translate(-20px, 20px)",
+              right: 0,
+              bottom: 0,
+              background: `linear-gradient(135deg, ${alpha(theme.palette.common.white, 0.1)} 0%, transparent 50%)`,
+              pointerEvents: "none",
             },
           }}
         >
           <CardContent sx={{ p: 4, position: "relative", zIndex: 1 }}>
-            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
-              <DashboardIcon sx={{ fontSize: 40 }} />
-              <Box>
+            <Stack direction="row" alignItems="center" spacing={3}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 3,
+                  backgroundColor: alpha(theme.palette.common.white, 0.15),
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+                <SecurityIcon sx={{ fontSize: 40 }} />
+              </Box>
+              
+              <Box sx={{ flex: 1 }}>
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   component="h1"
                   fontWeight="bold"
                   sx={{ mb: 1 }}
@@ -103,26 +162,16 @@ const ATS = () => {
               </Box>
             </Stack>
             
-            {/* Quick Stats */}
+            {/* Quick Stats - Using new Grid syntax */}
             <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid size={4}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <SecurityIcon />
-                  <Typography variant="body2">Role-Based Access Control</Typography>
-                </Stack>
-              </Grid>
-              <Grid size={4}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <VpnKeyIcon />
-                  <Typography variant="body2">Granular Permissions</Typography>
-                </Stack>
-              </Grid>
-              <Grid size={4}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <ManageAccountsIcon />
-                  <Typography variant="body2">User Management</Typography>
-                </Stack>
-              </Grid>
+              {quickStats.map((stat, index) => (
+                <Grid size={4} key={index}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    {stat.icon}
+                    <Typography variant="body2">{stat.label}</Typography>
+                  </Stack>
+                </Grid>
+              ))}
             </Grid>
           </CardContent>
         </Card>
@@ -159,93 +208,107 @@ const ATS = () => {
               "& .MuiTabs-indicator": {
                 height: 3,
                 borderRadius: "3px 3px 0 0",
-                background: "linear-gradient(45deg, #1976D2 30%, #42A5F5 90%)",
               },
             }}
           >
-            <Tab
-              icon={<SecurityIcon />}
-              iconPosition="start"
-              label="Role Management"
-              sx={{ gap: 1 }}
-            />
-            <Tab
-              icon={<VpnKeyIcon />}
-              iconPosition="start"
-              label="Permissions"
-              sx={{ gap: 1 }}
-            />
-            <Tab
-              icon={<ManageAccountsIcon />}
-              iconPosition="start"
-              label="User Roles"
-              sx={{ gap: 1 }}
-            />
+            {tabs.map((tab, index) => (
+              <Tab
+                key={index}
+                icon={tab.icon}
+                iconPosition="start"
+                label={
+                  <Box>
+                    <Typography variant="subtitle1" fontWeight="inherit">
+                      {tab.label}
+                    </Typography>
+                    <Typography 
+                      variant="caption" 
+                      sx={{ 
+                        display: "block", 
+                        opacity: 0.7,
+                        textTransform: "none",
+                        fontWeight: 400 
+                      }}
+                    >
+                      {tab.description}
+                    </Typography>
+                  </Box>
+                }
+                {...a11yProps(index)}
+                sx={{
+                  "& .MuiTab-iconWrapper": {
+                    mb: 0,
+                    mr: 1,
+                  },
+                }}
+              />
+            ))}
           </Tabs>
 
-          {/* Tab Content */}
+          {/* Tab Panels */}
           <TabPanel value={tabValue} index={0}>
             <Box>
+              {/* Header with centered Administration chip - reduced spacing */}
+              <Box sx={{ textAlign: 'center', mb: 1 }}>
+                <Chip 
+                  label="Administration" 
+                  color="primary" 
+                  variant="outlined" 
+                  size="small" 
+                />
+              </Box>
+              
               <Stack 
                 direction="row" 
                 justifyContent="space-between" 
                 alignItems="center" 
-                sx={{ mb: 3 }}
+                sx={{ mb: 1 }}
               >
                 <Box>
                   <Typography variant="h6" gutterBottom color="text.primary">
-                    Manage System Roles
+                    Role Management
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Create, edit, and assign permissions to system roles
+                    Create, edit, and manage system roles with custom permissions
                   </Typography>
                 </Box>
-                <Chip 
-                  label="Active" 
-                  color="success" 
-                  variant="outlined" 
-                  size="small" 
-                />
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={triggerAddRole}
+                  sx={{
+                    borderRadius: 2,
+                    px: 3,
+                    py: 1,
+                    fontWeight: 600,
+                    background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
+                    boxShadow: "0 4px 12px rgba(25, 118, 210, 0.3)",
+                    "&:hover": {
+                      background: "linear-gradient(135deg, #1565C0 0%, #1976D2 100%)",
+                      transform: "translateY(-1px)",
+                      boxShadow: "0 6px 16px rgba(25, 118, 210, 0.4)",
+                    },
+                    transition: "all 0.2s ease-in-out",
+                  }}
+                >
+                  Add Role
+                </Button>
               </Stack>
               
               <Divider sx={{ mb: 3 }} />
               
-              {/* Using new Grid syntax */}
-              <Grid container spacing={3}>
-                <Grid size={8}>
-                  <Paper 
-                    elevation={1} 
-                    sx={{ 
-                      p: 2, 
-                      borderRadius: 2,
-                      border: "1px solid",
-                      borderColor: "divider"
-                    }}
-                  >
-                    <Typography variant="h6" gutterBottom>
-                      Roles Overview
-                    </Typography>
-                    <RolesTable />
-                  </Paper>
-                </Grid>
-                <Grid size={4}>
-                  <Paper 
-                    elevation={1} 
-                    sx={{ 
-                      p: 2, 
-                      borderRadius: 2,
-                      border: "1px solid",
-                      borderColor: "divider",
-                      background: "linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%)"
-                    }}
-                  >
-                    <Typography variant="h6" gutterBottom>
-                      Add New Role
-                    </Typography>
-                    <AddRole />
-                  </Paper>
-                </Grid>
-              </Grid>
+              {/* Roles Table */}
+              <Paper 
+                elevation={1} 
+                sx={{ 
+                  p: 2, 
+                  borderRadius: 2,
+                  border: "1px solid",
+                  borderColor: "divider"
+                }}
+              >
+                <RolesTable />
+              </Paper>
             </Box>
           </TabPanel>
 
@@ -262,11 +325,11 @@ const ATS = () => {
                     System Permissions
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    View and manage all available system permissions
+                    View all available permissions and their descriptions
                   </Typography>
                 </Box>
                 <Chip 
-                  label="Read Only" 
+                  label="Read-only" 
                   color="info" 
                   variant="outlined" 
                   size="small" 
@@ -329,6 +392,11 @@ const ATS = () => {
             </Box>
           </TabPanel>
         </Paper>
+
+        {/* Hidden AddRole FAB for dialog functionality */}
+        <Box sx={{ visibility: 'hidden', position: 'fixed', bottom: -100, right: -100 }}>
+          <AddRole />
+        </Box>
       </Container>
     </ProtectedRoute>
   )
