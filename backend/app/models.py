@@ -1,8 +1,8 @@
 import uuid
-
+from typing import Optional, List
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
-
+from .Models.ats_models import UserRole, RolePublic
 
 # Shared properties
 class UserBase(SQLModel):
@@ -15,13 +15,15 @@ class UserBase(SQLModel):
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     password: str = Field(min_length=8, max_length=40)
-
+    # ATS Extension: Add default role assignment
+    role_ids: Optional[List[uuid.UUID]] = Field(default_factory=list)
 
 class UserRegister(SQLModel):
     email: EmailStr = Field(max_length=255)
     password: str = Field(min_length=8, max_length=40)
     full_name: str | None = Field(default=None, max_length=255)
-
+    # ATS Extension: Allow role selection during registration
+    default_role: Optional[str] = Field(default="job_candidate")
 
 # Properties to receive via API on update, all are optional
 class UserUpdate(UserBase):
@@ -44,13 +46,29 @@ class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
-
+    # ATS Extension: Add roles relationship
+    # ATS Extension: Add roles relationship
+    user_roles: List[UserRole] = Relationship(
+        back_populates="user",
+        cascade_delete=True,
+        sa_relationship_kwargs={
+            "foreign_keys": [UserRole.user_id]
+        }
+    )
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
+    # ATS Extension: Include roles in public response
+    roles: Optional[List["RolePublic"]] = Field(default_factory=list)
+    permissions: Optional[List[str]] = Field(default_factory=list)
 
-
+# ATS Extension: Enhanced user response with role info
+class UserPublicWithRoles(UserPublic):
+    roles: List["RolePublic"]
+    permissions: List[str]
+    primary_role: Optional[str] = None
+    
 class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
@@ -106,7 +124,10 @@ class Token(SQLModel):
 # Contents of JWT token
 class TokenPayload(SQLModel):
     sub: str | None = None
-
+    # ATS Extension: Add role and permission claims
+    roles: Optional[List[str]] = Field(default_factory=list)
+    permissions: Optional[List[str]] = Field(default_factory=list)
+    primary_role: Optional[str] = None
 
 class NewPassword(SQLModel):
     token: str

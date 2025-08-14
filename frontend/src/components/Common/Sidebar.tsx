@@ -1,4 +1,4 @@
-// frontend/src/components/Common/Sidebar-mui.tsx (Mini Variant Version)
+// frontend/src/components/Common/Sidebar.tsx
 import React from "react";
 import {
   Box,
@@ -23,7 +23,13 @@ import {
   Logout as LogoutIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  Work as WorkIcon, 
+  Work as WorkIcon,
+  // ATS Icons
+  Security as SecurityIcon,        // ATS Management
+  Assignment as AssignmentIcon,    // Applications
+  People as PeopleIcon,           // Candidates  
+  Analytics as AnalyticsIcon,     // Analytics
+  BusinessCenter as JobsIcon,     // Jobs
 } from "@mui/icons-material";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link as RouterLink, useRouterState } from "@tanstack/react-router";
@@ -34,19 +40,11 @@ import useAuth from "@/hooks/useAuth";
 const drawerWidth = 240;
 const miniDrawerWidth = 64;
 
-const menuItems = [
-  { icon: HomeIcon, title: "Dashboard", path: "/" },
-  { icon: InventoryIcon, title: "Items", path: "/items" },
-  { icon: SettingsIcon, title: "User Settings", path: "/settings" },
-  { icon: WorkIcon, title: "Job Matching", path: "/job-matching" },
-];
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -104,7 +102,7 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
           : theme.palette.background.paper,
       color:
         theme.palette.mode === "light"
-          ? theme.palette.getContrastText(theme.palette.primary.main)
+          ? theme.palette.text.primary
           : theme.palette.text.primary,
       boxShadow: theme.shadows[4],
       border: "none",
@@ -112,145 +110,252 @@ const StyledDrawer = styled(Drawer)(({ theme, open }: any) => ({
   }),
 }));
 
-interface MiniVariantDrawerProps {
+interface SidebarProps {
   open: boolean;
   handleDrawerToggle: () => void;
 }
 
-const MiniVariantDrawer = ({
-  open,
-  handleDrawerToggle,
-}: MiniVariantDrawerProps) => {
+interface MenuItem {
+  icon: React.ComponentType;
+  title: string;
+  path: string;
+  adminOnly?: boolean;
+  permissions?: string[];
+  dividerAfter?: boolean;
+}
+
+const MiniVariantDrawer = ({ open, handleDrawerToggle }: SidebarProps) => {
   const theme = useTheme();
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"]);
-  const { logout } = useAuth();
-  const routerState = useRouterState();
-  const currentPath = routerState.location.pathname;
+  const { hasAnyPermission, canAccess, isAdmin } = useAuth();
+  const router = useRouterState();
 
-  // Add admin item for superusers
-  const finalItems = currentUser?.is_superuser
-    ? [...menuItems, { icon: AdminIcon, title: "Admin", path: "/admin" }]
-    : menuItems;
+  // Base menu items
+  const baseMenuItems: MenuItem[] = [
+    { icon: HomeIcon, title: "Dashboard", path: "/" },
+    { icon: InventoryIcon, title: "Items", path: "/items" },
+    { icon: WorkIcon, title: "Job Matching", path: "/job-matching", dividerAfter: true },
+  ];
+
+  // ATS menu items with permission checks
+  const atsMenuItems: MenuItem[] = [
+    { 
+      icon: JobsIcon, 
+      title: "Jobs", 
+      path: "/jobs",
+      permissions: ["view_jobs"]
+    },
+    { 
+      icon: PeopleIcon, 
+      title: "Candidates", 
+      path: "/candidates",
+      permissions: ["view_candidates"]
+    },
+    { 
+      icon: AssignmentIcon, 
+      title: "Applications", 
+      path: "/applications",
+      permissions: ["view_applications"]
+    },
+    { 
+      icon: AnalyticsIcon, 
+      title: "Analytics", 
+      path: "/analytics",
+      permissions: ["view_analytics"]
+    },
+    { 
+      icon: SecurityIcon, 
+      title: "ATS Management", 
+      path: "/ats",
+      permissions: ["manage_users", "system_admin"],
+      dividerAfter: true
+    },
+  ];
+
+  // Settings and admin items
+  const settingsMenuItems: MenuItem[] = [
+    { icon: SettingsIcon, title: "User Settings", path: "/settings" },
+    ...(currentUser?.is_superuser ? [
+      { icon: AdminIcon, title: "Admin", path: "/admin", adminOnly: true }
+    ] : []),
+  ];
+
+  // Filter ATS items based on permissions
+  const visibleATSItems = atsMenuItems.filter(item => {
+    if (!item.permissions) return true;
+    return hasAnyPermission(item.permissions);
+  });
+
+  // Combine all menu items
+  const allMenuItems = [
+    ...baseMenuItems,
+    ...visibleATSItems,
+    ...settingsMenuItems,
+  ];
 
   const handleLogout = () => {
-    logout();
+    queryClient.clear();
+    window.location.href = "/login";
+  };
+
+  const isItemActive = (path: string) => {
+    return router.location.pathname === path;
   };
 
   return (
     <StyledDrawer variant="permanent" open={open}>
-      <DrawerHeader
-        sx={(theme) => ({
-          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
-          "& .MuiIconButton-root": {
-            color: theme.palette.text.primary,
+      <DrawerHeader>
+        <IconButton 
+          onClick={handleDrawerToggle}
+          sx={(theme) => ({
+            color: theme.palette.primary.main,
             "&:hover": {
-              backgroundColor: theme.palette.action.hover,
+              backgroundColor: alpha(theme.palette.primary.main, 0.1),
+              transform: "scale(1.1)",
             },
-          },
-        })}
-      >
-        <IconButton onClick={handleDrawerToggle}>
+            transition: theme.transitions.create(["transform", "background-color"], {
+              duration: theme.transitions.duration.short,
+            }),
+          })}
+        >
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
+
       <Divider
-        sx={(theme) => ({
+        sx={(theme) => ({ 
           borderColor: alpha(theme.palette.divider, 0.12),
-          marginTop: "10px",
+          mx: 1 
         })}
       />
 
-      <List>
-        {finalItems.map((item) => {
+      {/* Main Navigation */}
+      <List sx={{ px: 1, pt: 1 }}>
+        {allMenuItems.map((item, index) => {
           const Icon = item.icon;
-          const isActive = currentPath === item.path;
+          const isActive = isItemActive(item.path);
 
           return (
-            <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
-              <Tooltip
-                title={!open ? item.title : ""}
-                placement="right"
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: "rgba(0, 0, 0, 0.9)",
-                      fontSize: "0.75rem",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            <React.Fragment key={`${item.title}-${index}`}>
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <Tooltip
+                  title={!open ? item.title : ""}
+                  placement="right"
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        bgcolor: alpha(theme.palette.background.paper, 0.95),
+                        color: theme.palette.text.primary,
+                        fontSize: "0.75rem",
+                        boxShadow: theme.shadows[8],
+                        border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+                        borderRadius: 2,
+                      },
                     },
-                  },
-                }}
-              >
-                <ListItemButton
-                  component={RouterLink}
-                  to={item.path}
-                  selected={isActive}
-                  sx={(theme) => ({
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                    margin: "16px 8px",
-                    borderRadius: "12px",
-                    color: theme.palette.text.primary,
-                    transition: theme.transitions.create(
-                      ["background-color", "transform", "box-shadow"],
-                      { duration: theme.transitions.duration.short }
-                    ),
-                    "&:hover": {
-                      backgroundColor: "rgba(33, 150, 243, 0.08)",
-                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
-                      transform: "translateX(4px)",
-                    },
-                    "&.Mui-selected": {
-                      backgroundColor: theme.palette.action.selected,
-                      boxShadow: theme.shadows[2],
+                  }}
+                >
+                  <ListItemButton
+                    component={RouterLink}
+                    to={item.path}
+                    selected={isActive}
+                    sx={(theme) => ({
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      margin: "4px 0",
+                      borderRadius: "12px",
+                      color: isActive 
+                        ? theme.palette.primary.main 
+                        : theme.palette.text.primary,
+                      backgroundColor: isActive 
+                        ? alpha(theme.palette.primary.main, 0.1)
+                        : "transparent",
+                      transition: theme.transitions.create(
+                        ["background-color", "transform", "box-shadow", "color"],
+                        { duration: theme.transitions.duration.short }
+                      ),
                       "&:hover": {
-                        backgroundColor: "rgba(33, 150, 243, 0.08)",
-                      boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
+                        backgroundColor: isActive
+                          ? alpha(theme.palette.primary.main, 0.15)
+                          : alpha(theme.palette.primary.main, 0.08),
+                        boxShadow: "0 2px 8px rgba(33, 150, 243, 0.15)",
                         transform: "translateX(4px)",
                       },
-                      "& .MuiListItemIcon-root": {
-                        color: theme.palette.text.primary,
+                      "&.Mui-selected": {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                        color: theme.palette.primary.main,
+                        boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.2)}`,
+                        "&:hover": {
+                          backgroundColor: alpha(theme.palette.primary.main, 0.15),
+                          transform: "translateX(4px)",
+                        },
+                        "& .MuiListItemIcon-root": {
+                          color: theme.palette.primary.main,
+                        },
                       },
-                    },
-                  })}
-                >
-                  <ListItemIcon
-                    sx={(theme) => ({
-                      minWidth: 0,
-                      mr: open ? theme.spacing(3) : "auto",
-                      justifyContent: "center",
-                      color: theme.palette.text.primary,
                     })}
                   >
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.title}
-                    sx={(theme) => ({
-                      opacity: open ? 1 : 0,
-                      "& .MuiListItemText-primary": {
-                        fontSize: "0.875rem",
-                        fontWeight: isActive
-                          ? theme.typography.fontWeightBold
-                          : theme.typography.fontWeightRegular,
-                        color: theme.palette.text.primary,
-                      },
-                    })}
-                  />
-                </ListItemButton>
-              </Tooltip>
-            </ListItem>
+                    <ListItemIcon
+                      sx={(theme) => ({
+                        minWidth: 0,
+                        mr: open ? theme.spacing(3) : "auto",
+                        justifyContent: "center",
+                        color: isActive 
+                          ? theme.palette.primary.main 
+                          : theme.palette.text.primary,
+                        transition: theme.transitions.create("color", {
+                          duration: theme.transitions.duration.short,
+                        }),
+                      })}
+                    >
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.title}
+                      sx={(theme) => ({
+                        opacity: open ? 1 : 0,
+                        transition: theme.transitions.create("opacity", {
+                          duration: theme.transitions.duration.short,
+                        }),
+                        "& .MuiListItemText-primary": {
+                          fontSize: "0.875rem",
+                          fontWeight: isActive
+                            ? theme.typography.fontWeightBold
+                            : theme.typography.fontWeightMedium,
+                          color: isActive 
+                            ? theme.palette.primary.main 
+                            : theme.palette.text.primary,
+                        },
+                      })}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </ListItem>
+
+              {/* Add divider after certain items */}
+              {item.dividerAfter && (
+                <Divider
+                  sx={(theme) => ({ 
+                    borderColor: alpha(theme.palette.divider, 0.12),
+                    my: 1,
+                    mx: 1
+                  })}
+                />
+              )}
+            </React.Fragment>
           );
         })}
       </List>
 
-      <Divider
-        sx={(theme) => ({ borderColor: alpha(theme.palette.divider, 0.12) })}
-      />
-
       {/* Logout at bottom */}
-      <Box sx={{ mt: "auto" }}>
+      <Box sx={{ mt: "auto", p: 1 }}>
+        <Divider
+          sx={(theme) => ({ 
+            borderColor: alpha(theme.palette.divider, 0.12),
+            mb: 1
+          })}
+        />
         <List>
           <ListItem disablePadding sx={{ display: "block" }}>
             <Tooltip
@@ -259,9 +364,12 @@ const MiniVariantDrawer = ({
               componentsProps={{
                 tooltip: {
                   sx: {
-                    bgcolor: alpha(theme.palette.background.paper, 0.9),
+                    bgcolor: alpha(theme.palette.background.paper, 0.95),
+                    color: theme.palette.text.primary,
                     fontSize: "0.75rem",
-                    boxShadow: theme.shadows[2],
+                    boxShadow: theme.shadows[8],
+                    border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+                    borderRadius: 2,
                   },
                 },
               }}
@@ -272,7 +380,7 @@ const MiniVariantDrawer = ({
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  margin: "4px 8px",
+                  margin: "4px 0",
                   borderRadius: "12px",
                   color: theme.palette.text.primary,
                   transition: theme.transitions.create(
@@ -280,9 +388,13 @@ const MiniVariantDrawer = ({
                     { duration: theme.transitions.duration.short }
                   ),
                   "&:hover": {
-                    backgroundColor: alpha(theme.palette.error.main, 0.2),
-                    boxShadow: theme.shadows[2],
+                    backgroundColor: alpha(theme.palette.error.main, 0.1),
+                    color: theme.palette.error.main,
+                    boxShadow: `0 2px 8px ${alpha(theme.palette.error.main, 0.2)}`,
                     transform: "translateX(4px)",
+                    "& .MuiListItemIcon-root": {
+                      color: theme.palette.error.main,
+                    },
                   },
                 })}
               >
@@ -292,6 +404,9 @@ const MiniVariantDrawer = ({
                     mr: open ? theme.spacing(3) : "auto",
                     justifyContent: "center",
                     color: theme.palette.text.primary,
+                    transition: theme.transitions.create("color", {
+                      duration: theme.transitions.duration.short,
+                    }),
                   })}
                 >
                   <LogoutIcon />
@@ -300,8 +415,12 @@ const MiniVariantDrawer = ({
                   primary="Logout"
                   sx={(theme) => ({
                     opacity: open ? 1 : 0,
+                    transition: theme.transitions.create("opacity", {
+                      duration: theme.transitions.duration.short,
+                    }),
                     "& .MuiListItemText-primary": {
                       fontSize: "0.875rem",
+                      fontWeight: theme.typography.fontWeightMedium,
                       color: theme.palette.text.primary,
                     },
                   })}
