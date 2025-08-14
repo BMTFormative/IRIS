@@ -1,7 +1,7 @@
-// frontend/src/components/Common/ProtectedRoute.tsx - NEW: Route protection
+// frontend/src/components/Common/ProtectedRoute.tsx - FIXED: Material UI compatible
 import { ReactNode } from "react"
 import { Navigate } from "@tanstack/react-router"
-import { Alert, AlertDescription, Box } from "@mui/material"
+import { Alert, AlertTitle, Box, Typography } from "@mui/material"
 import { Lock as LockIcon } from "@mui/icons-material"
 
 import { useAuth } from "@/hooks/useAuth"
@@ -41,13 +41,14 @@ export const ProtectedRoute = ({
         return (
           <Box sx={{ p: 4 }}>
             <Alert severity="error" icon={<LockIcon />}>
-              <AlertDescription>
+              <AlertTitle>Access Denied</AlertTitle>
+              <Typography>
                 You don't have sufficient permissions to access this page.
                 {permissions.length === 1 
                   ? ` Required permission: ${permissions[0]}`
                   : ` Required permissions: ${permissions.join(", ")}`
                 }
-              </AlertDescription>
+              </Typography>
             </Alert>
           </Box>
         )
@@ -63,10 +64,11 @@ export const ProtectedRoute = ({
         return (
           <Box sx={{ p: 4 }}>
             <Alert severity="error" icon={<LockIcon />}>
-              <AlertDescription>
+              <AlertTitle>Access Denied</AlertTitle>
+              <Typography>
                 You don't have the required role to access this page.
                 Required roles: {roles.join(", ")}
-              </AlertDescription>
+              </Typography>
             </Alert>
           </Box>
         )
