@@ -106,8 +106,21 @@ export const useAuth = () => {
     getPrimaryRole,
     getAccessLevel,
     canAccess,
-    // Legacy support
-    isAuthenticated: !!currentUser,
-    isLoading: false, // You might want to implement proper loading state
+  // Legacy support
+  isAuthenticated: !!currentUser,
+  isLoading: false, // You might want to implement proper loading state
   }
 }
+
+/**
+ * Check if a user is currently logged in based on stored access token.
+ * This can be used outside of React components (e.g., in route loaders).
+ */
+export function isLoggedIn(): boolean {
+  return Boolean(localStorage.getItem('access_token'));
+}
+
+/**
+ * React hook providing authentication state and helpers.
+ */
+export default useAuth;
