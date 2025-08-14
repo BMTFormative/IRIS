@@ -1,9 +1,23 @@
-import { Container, Typography, Box, Tabs, Tab, Paper, Grid } from "@mui/material"
+import { 
+  Container, 
+  Typography, 
+  Box, 
+  Tabs, 
+  Tab, 
+  Paper, 
+  Grid,
+  Card,
+  CardContent,
+  Divider,
+  Chip,
+  Stack
+} from "@mui/material"
 import { useState } from "react"
 import {
   Security as SecurityIcon,
   ManageAccounts as ManageAccountsIcon,
   VpnKey as VpnKeyIcon,
+  Dashboard as DashboardIcon,
 } from "@mui/icons-material"
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -37,16 +51,16 @@ const ATS = () => {
   return (
     <ProtectedRoute permissions={["manage_users", "system_admin"]}>
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-        {/* Header */}
-        <Box
+        {/* Header Section */}
+        <Card
+          elevation={0}
           sx={{
             mb: 4,
-            p: 4,
             background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
-            borderRadius: 3,
             color: "white",
             position: "relative",
             overflow: "hidden",
+            border: "none",
             "&::before": {
               content: '""',
               position: "absolute",
@@ -71,33 +85,47 @@ const ATS = () => {
             },
           }}
         >
-          <Typography
-            variant="h3"
-            component="h1"
-            fontWeight="bold"
-            sx={{
-              mb: 1,
-              background: "linear-gradient(45deg, #ffffff 30%, #e3f2fd 90%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            ATS Management
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              opacity: 0.9,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            Manage roles, permissions, and user access for the ATS system
-          </Typography>
-        </Box>
+          <CardContent sx={{ p: 4, position: "relative", zIndex: 1 }}>
+            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+              <DashboardIcon sx={{ fontSize: 40 }} />
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h1"
+                  fontWeight="bold"
+                  sx={{ mb: 1 }}
+                >
+                  ATS Management
+                </Typography>
+                <Typography variant="h6" sx={{ opacity: 0.9 }}>
+                  Manage roles, permissions, and user access for the ATS system
+                </Typography>
+              </Box>
+            </Stack>
+            
+            {/* Quick Stats */}
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid size={4}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <SecurityIcon />
+                  <Typography variant="body2">Role-Based Access Control</Typography>
+                </Stack>
+              </Grid>
+              <Grid size={4}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <VpnKeyIcon />
+                  <Typography variant="body2">Granular Permissions</Typography>
+                </Stack>
+              </Grid>
+              <Grid size={4}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <ManageAccountsIcon />
+                  <Typography variant="body2">User Management</Typography>
+                </Stack>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
 
         {/* Navigation Tabs */}
         <Paper
@@ -124,14 +152,14 @@ const ATS = () => {
                 fontWeight: 500,
                 color: "text.secondary",
                 "&.Mui-selected": {
-                  color: "#1976D2",
-                  background: "linear-gradient(135deg, rgba(25, 118, 210, 0.05) 0%, rgba(66, 165, 245, 0.05) 100%)",
+                  color: "primary.main",
+                  fontWeight: 600,
                 },
               },
               "& .MuiTabs-indicator": {
                 height: 3,
-                background: "linear-gradient(135deg, #1976D2 0%, #42A5F5 100%)",
                 borderRadius: "3px 3px 0 0",
+                background: "linear-gradient(45deg, #1976D2 30%, #42A5F5 90%)",
               },
             }}
           >
@@ -139,57 +167,83 @@ const ATS = () => {
               icon={<SecurityIcon />}
               iconPosition="start"
               label="Role Management"
-              sx={{
-                gap: 1,
-                "&:hover": {
-                  background: "rgba(25, 118, 210, 0.04)",
-                  transform: "translateY(-1px)",
-                  transition: "all 0.2s ease",
-                },
-              }}
+              sx={{ gap: 1 }}
             />
             <Tab
               icon={<VpnKeyIcon />}
               iconPosition="start"
               label="Permissions"
-              sx={{
-                gap: 1,
-                "&:hover": {
-                  background: "rgba(25, 118, 210, 0.04)",
-                  transform: "translateY(-1px)",
-                  transition: "all 0.2s ease",
-                },
-              }}
+              sx={{ gap: 1 }}
             />
             <Tab
               icon={<ManageAccountsIcon />}
               iconPosition="start"
               label="User Roles"
-              sx={{
-                gap: 1,
-                "&:hover": {
-                  background: "rgba(25, 118, 210, 0.04)",
-                  transform: "translateY(-1px)",
-                  transition: "all 0.2s ease",
-                },
-              }}
+              sx={{ gap: 1 }}
             />
           </Tabs>
 
           {/* Tab Content */}
           <TabPanel value={tabValue} index={0}>
             <Box>
-              <Typography variant="h6" gutterBottom sx={{ mb: 3, color: "text.primary" }}>
-                Manage System Roles
-              </Typography>
+              <Stack 
+                direction="row" 
+                justifyContent="space-between" 
+                alignItems="center" 
+                sx={{ mb: 3 }}
+              >
+                <Box>
+                  <Typography variant="h6" gutterBottom color="text.primary">
+                    Manage System Roles
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Create, edit, and assign permissions to system roles
+                  </Typography>
+                </Box>
+                <Chip 
+                  label="Active" 
+                  color="success" 
+                  variant="outlined" 
+                  size="small" 
+                />
+              </Stack>
               
-              {/* Example of new Grid usage if needed */}
-              <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Divider sx={{ mb: 3 }} />
+              
+              {/* Using new Grid syntax */}
+              <Grid container spacing={3}>
                 <Grid size={8}>
-                  <RolesTable />
+                  <Paper 
+                    elevation={1} 
+                    sx={{ 
+                      p: 2, 
+                      borderRadius: 2,
+                      border: "1px solid",
+                      borderColor: "divider"
+                    }}
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      Roles Overview
+                    </Typography>
+                    <RolesTable />
+                  </Paper>
                 </Grid>
                 <Grid size={4}>
-                  <AddRole />
+                  <Paper 
+                    elevation={1} 
+                    sx={{ 
+                      p: 2, 
+                      borderRadius: 2,
+                      border: "1px solid",
+                      borderColor: "divider",
+                      background: "linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%)"
+                    }}
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      Add New Role
+                    </Typography>
+                    <AddRole />
+                  </Paper>
                 </Grid>
               </Grid>
             </Box>
@@ -197,19 +251,81 @@ const ATS = () => {
 
           <TabPanel value={tabValue} index={1}>
             <Box>
-              <Typography variant="h6" gutterBottom sx={{ mb: 3, color: "text.primary" }}>
-                System Permissions
-              </Typography>
-              <PermissionsTable />
+              <Stack 
+                direction="row" 
+                justifyContent="space-between" 
+                alignItems="center" 
+                sx={{ mb: 3 }}
+              >
+                <Box>
+                  <Typography variant="h6" gutterBottom color="text.primary">
+                    System Permissions
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    View and manage all available system permissions
+                  </Typography>
+                </Box>
+                <Chip 
+                  label="Read Only" 
+                  color="info" 
+                  variant="outlined" 
+                  size="small" 
+                />
+              </Stack>
+              
+              <Divider sx={{ mb: 3 }} />
+              
+              <Paper 
+                elevation={1} 
+                sx={{ 
+                  p: 2, 
+                  borderRadius: 2,
+                  border: "1px solid",
+                  borderColor: "divider"
+                }}
+              >
+                <PermissionsTable />
+              </Paper>
             </Box>
           </TabPanel>
 
           <TabPanel value={tabValue} index={2}>
             <Box>
-              <Typography variant="h6" gutterBottom sx={{ mb: 3, color: "text.primary" }}>
-                User Role Assignments
-              </Typography>
-              <UserRoleManagement />
+              <Stack 
+                direction="row" 
+                justifyContent="space-between" 
+                alignItems="center" 
+                sx={{ mb: 3 }}
+              >
+                <Box>
+                  <Typography variant="h6" gutterBottom color="text.primary">
+                    User Role Assignments
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Assign and manage user roles and access levels
+                  </Typography>
+                </Box>
+                <Chip 
+                  label="Management" 
+                  color="primary" 
+                  variant="outlined" 
+                  size="small" 
+                />
+              </Stack>
+              
+              <Divider sx={{ mb: 3 }} />
+              
+              <Paper 
+                elevation={1} 
+                sx={{ 
+                  p: 2, 
+                  borderRadius: 2,
+                  border: "1px solid",
+                  borderColor: "divider"
+                }}
+              >
+                <UserRoleManagement />
+              </Paper>
             </Box>
           </TabPanel>
         </Paper>
@@ -218,7 +334,7 @@ const ATS = () => {
   )
 }
 
-// THIS IS THE CRITICAL MISSING EXPORT
+// Export route configuration
 export const Route = createFileRoute('/_layout/ats')({
   component: ATS
 })

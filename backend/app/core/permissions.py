@@ -56,7 +56,7 @@ class PermissionChecker:
     def get_user_permissions(self, user_id: uuid.UUID) -> List[PermissionType]:
         """Get all permissions for a user through their roles"""
         statement = (
-            select(Permission.permission_type)
+            select(Permission.code)
             .join(RolePermission, RolePermission.permission_id == Permission.id)
             .join(Role, Role.id == RolePermission.role_id)
             .join(UserRole, UserRole.role_id == Role.id)
