@@ -46,7 +46,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function ModernLogin() {
-  const { loginMutation, error, resetError } = useAuth();
+  const { loginMutation, error } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const theme = useTheme();
@@ -68,7 +68,7 @@ function ModernLogin() {
   const onSubmit: SubmitHandler<AccessToken> = async (data) => {
     if (isSubmitting) return;
 
-    resetError();
+    loginMutation.reset();
 
     try {
       await loginMutation.mutateAsync(data);

@@ -1,10 +1,11 @@
-import { Container, Typography, Box, Tabs, Tab, Paper } from "@mui/material"
+import { Container, Typography, Box, Tabs, Tab, Paper, Grid } from "@mui/material"
 import { useState } from "react"
 import {
   Security as SecurityIcon,
   ManageAccounts as ManageAccountsIcon,
   VpnKey as VpnKeyIcon,
 } from "@mui/icons-material"
+import { createFileRoute } from '@tanstack/react-router'
 
 import { ProtectedRoute } from "@/components/Common/ProtectedRoute"
 import AddRole from "@/components/ATS/RoleManagement/AddRole"
@@ -181,8 +182,16 @@ const ATS = () => {
               <Typography variant="h6" gutterBottom sx={{ mb: 3, color: "text.primary" }}>
                 Manage System Roles
               </Typography>
-              <RolesTable />
-              <AddRole />
+              
+              {/* Example of new Grid usage if needed */}
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid size={8}>
+                  <RolesTable />
+                </Grid>
+                <Grid size={4}>
+                  <AddRole />
+                </Grid>
+              </Grid>
             </Box>
           </TabPanel>
 
@@ -208,5 +217,10 @@ const ATS = () => {
     </ProtectedRoute>
   )
 }
+
+// THIS IS THE CRITICAL MISSING EXPORT
+export const Route = createFileRoute('/_layout/ats')({
+  component: ATS
+})
 
 export default ATS

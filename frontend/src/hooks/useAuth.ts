@@ -1,7 +1,11 @@
-// frontend/src/hooks/useAuth.ts - EXTENDED with ATS permissions
-import { useQueryClient } from "@tanstack/react-query"
-import { useMemo } from "react"
-import { UserPublic } from "@/client"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useNavigate } from "@tanstack/react-router"
+import { useState, useMemo } from "react"
+
+import { type Body_login_login_access_token, type UserPublic, LoginService, UsersService } from "@/client"
+import type { ApiError } from "@/client/core/ApiError"
+import useCustomToast from "./useCustomToast"
+import { handleError } from "@/utils"
 
 interface ExtendedUser extends UserPublic {
   roles?: Array<{
@@ -13,102 +17,158 @@ interface ExtendedUser extends UserPublic {
   primary_role?: string
 }
 
-export const useAuth = () => {
+const useAuth = () => {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const currentUser = queryClient.getQueryData<ExtendedUser>(["currentUser"])
+  const { showSuccessToast } = useCustomToast()
+  const [error, setError] = useState<string | null>(null)
 
-  const userPermissions = useMemo(() => {
-    return currentUser?.permissions || []
-  }, [currentUser?.permissions])
+  // Get current user query
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => UsersService.readUserMe(),
+    enabled: isLoggedIn(),
+    retry: false,
+  })
 
-  const userRoles = useMemo(() => {
-    return currentUser?.roles || []
-  }, [currentUser?.roles])
+  // Login mutation
+  const loginMutation = useMutation({
+    mutationFn: (data: Body_login_login_access_token) =>
+      LoginService.loginAccessToken({ formData: data }),
+    onSuccess: (response) => {
+      // Store the access token
+      localStorage.setItem("access_token", response.access_token)
+      
+      // Clear any previous errors
+      setError(null)
+      
+      // Invalidate and refetch user data
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+      
+      // Show success message
+      showSuccessToast("Logged in successfully")
+      
+      // Navigate to dashboard
+      navigate({ to: "/" })
+    },
+    onError: (err: ApiError) => {
+      setError("Invalid credentials. Please try again.")
+      handleError(err)
+    },
+  })
 
-  const hasPermission = (permission: string): boolean => {
-    return userPermissions.includes(permission)
-  }
+  // Enhanced user with permissions (from ATS integration)
+  const enhancedUser = useMemo(() => {
+    if (!user) return null
+    return user as ExtendedUser
+  }, [user])
 
-  const hasAnyPermission = (permissions: string[]): boolean => {
-    return permissions.some(permission => userPermissions.includes(permission))
-  }
+  // Authentication status
+  const isAuthenticated = useMemo(() => {
+    return Boolean(user && isLoggedIn())
+  }, [user])
 
-  const hasAllPermissions = (permissions: string[]): boolean => {
-    return permissions.every(permission => userPermissions.includes(permission))
-  }
-
-  const hasRole = (roleName: string): boolean => {
-    return userRoles.some(role => role.name === roleName)
-  }
-
-  const hasAnyRole = (roleNames: string[]): boolean => {
-    return roleNames.some(roleName => hasRole(roleName))
-  }
-
-  const isAdmin = (): boolean => {
-    return hasAnyPermission(["manage_users", "system_admin"]) || currentUser?.is_superuser || false
-  }
-
-  const isSuperAdmin = (): boolean => {
-    return hasPermission("system_admin") || currentUser?.is_superuser || false
-  }
-
-  const isEmployer = (): boolean => {
-    return hasAnyPermission(["create_jobs", "edit_jobs", "delete_jobs"])
-  }
-
-  const isCandidate = (): boolean => {
-    return hasPermission("view_jobs") && !isEmployer() && !isAdmin()
-  }
-
-  const getPrimaryRole = (): string => {
-    return currentUser?.primary_role || "user"
-  }
-
-  const getAccessLevel = (): "super_admin" | "admin" | "employer" | "candidate" | "limited" => {
-    if (isSuperAdmin()) return "super_admin"
-    if (isAdmin()) return "admin"  
-    if (isEmployer()) return "employer"
-    if (isCandidate()) return "candidate"
-    return "limited"
-  }
-
-  const canAccess = (feature: string): boolean => {
-    const featurePermissions: Record<string, string[]> = {
-      job_posting: ["create_jobs", "edit_jobs"],
-      candidate_management: ["view_candidates", "create_candidates"],
-      application_tracking: ["view_applications", "edit_applications"],
-      user_management: ["manage_users"],
-      system_admin: ["system_admin"],
-      analytics: ["view_analytics"],
-      ats_management: ["manage_users", "system_admin"],
+  // Permission checking functions
+  const hasPermission = useMemo(() => {
+    return (permission: string): boolean => {
+      if (!enhancedUser) return false
+      if (enhancedUser.is_superuser) return true
+      return enhancedUser.permissions?.includes(permission) || false
     }
+  }, [enhancedUser])
 
-    const requiredPermissions = featurePermissions[feature]
-    if (!requiredPermissions) return false
+  const hasAnyPermission = useMemo(() => {
+    return (permissions: string[]): boolean => {
+      if (!enhancedUser) return false
+      if (enhancedUser.is_superuser) return true
+      return permissions.some(permission => 
+        enhancedUser.permissions?.includes(permission)
+      )
+    }
+  }, [enhancedUser])
 
-    return hasAnyPermission(requiredPermissions)
+  const hasAllPermissions = useMemo(() => {
+    return (permissions: string[]): boolean => {
+      if (!enhancedUser) return false
+      if (enhancedUser.is_superuser) return true
+      return permissions.every(permission => 
+        enhancedUser.permissions?.includes(permission)
+      )
+    }
+  }, [enhancedUser])
+
+  const hasRole = useMemo(() => {
+    return (roleName: string): boolean => {
+      if (!enhancedUser) return false
+      if (enhancedUser.is_superuser && roleName === "super_admin") return true
+      return enhancedUser.roles?.some(role => 
+        role.name.toLowerCase() === roleName.toLowerCase()
+      ) || false
+    }
+  }, [enhancedUser])
+
+  const hasAnyRole = useMemo(() => {
+    return (roleNames: string[]): boolean => {
+      if (!enhancedUser) return false
+      return roleNames.some(roleName => hasRole(roleName))
+    }
+  }, [enhancedUser, hasRole])
+
+  const isAdmin = useMemo(() => {
+    return hasRole("admin") || hasRole("super_admin") || Boolean(enhancedUser?.is_superuser)
+  }, [hasRole, enhancedUser])
+
+  const canAccess = useMemo(() => {
+    return (resource: string): boolean => {
+      // Define resource-to-permission mapping
+      const resourcePermissions: Record<string, string[]> = {
+        "user_management": ["manage_users", "system_admin"],
+        "admin_panel": ["system_admin"],
+        "ats_management": ["manage_users", "system_admin"],
+        "create_jobs": ["create_jobs"],
+        "view_jobs": ["view_jobs"],
+        "manage_applications": ["manage_applications"],
+      }
+
+      const requiredPermissions = resourcePermissions[resource]
+      if (!requiredPermissions) return true // No specific permissions required
+
+      return hasAnyPermission(requiredPermissions)
+    }
+  }, [hasAnyPermission])
+
+  // Logout function
+  const logout = () => {
+    localStorage.removeItem("access_token")
+    queryClient.clear()
+    navigate({ to: "/login" })
+  }
+
+  // Reset error function
+  const resetError = () => {
+    setError(null)
   }
 
   return {
-    currentUser,
-    userPermissions,
-    userRoles,
+    // Core auth data
+    user: enhancedUser,
+    loginMutation,
+    error,
+    resetError,
+    logout,
+    isLoading,
+    
+    // Authentication status
+    isAuthenticated,
+    
+    // Permission functions
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
     hasRole,
     hasAnyRole,
     isAdmin,
-    isSuperAdmin,
-    isEmployer,
-    isCandidate,
-    getPrimaryRole,
-    getAccessLevel,
     canAccess,
-  // Legacy support
-  isAuthenticated: !!currentUser,
-  isLoading: false, // You might want to implement proper loading state
   }
 }
 
@@ -117,10 +177,9 @@ export const useAuth = () => {
  * This can be used outside of React components (e.g., in route loaders).
  */
 export function isLoggedIn(): boolean {
-  return Boolean(localStorage.getItem('access_token'));
+  return Boolean(localStorage.getItem('access_token'))
 }
 
-/**
- * React hook providing authentication state and helpers.
- */
-export default useAuth;
+// Export as both default and named export for compatibility
+export { useAuth }
+export default useAuth
